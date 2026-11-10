@@ -1,0 +1,295 @@
+/* Shared interaction rhythm. Layout and meaning never depend on motion. */
+:root {
+  --motion-fast: 260ms;
+  --motion-normal: 320ms;
+  --motion-slow: 420ms;
+  --motion-menu: 230ms;
+  --motion-section: 740ms;
+  --motion-image: 960ms;
+  --motion-ease: cubic-bezier(.22, 1, .36, 1);
+}
+
+.btn {
+  transition: background-color var(--motion-normal) var(--motion-ease),
+    border-color var(--motion-normal) var(--motion-ease),
+    color var(--motion-normal) var(--motion-ease),
+    box-shadow var(--motion-normal) var(--motion-ease),
+    transform var(--motion-normal) var(--motion-ease);
+}
+.btn .lucide-arrow-right,
+.text-link .lucide-arrow-right,
+.card-link .lucide-arrow-right,
+.maintenance-links .lucide-arrow-right {
+  transition: transform var(--motion-normal) var(--motion-ease);
+}
+.btn:active { transform: translateY(0); box-shadow: none; }
+.btn:disabled { cursor: not-allowed; opacity: .58; }
+
+.site-header {
+  --frame-stroke: #72a9e1;
+  --frame-fill: rgb(7 87 200 / 6%);
+  --frame-depth: rgb(7 87 200 / 14%);
+  transition: box-shadow var(--motion-normal) var(--motion-ease),
+    border-color var(--motion-normal) var(--motion-ease);
+  animation: header-enter 540ms var(--motion-ease) both;
+}
+.utility-inner { animation: header-copy-enter 420ms 50ms var(--motion-ease) both; }
+.site-header.is-scrolled {
+  border-bottom-color: #ccdbe9;
+  box-shadow: 0 5px 18px #0b1f4415;
+}
+.primary-nav > a, .nav-service-group > a {
+  position: relative;
+  text-decoration: none;
+  transition: color var(--motion-fast) var(--motion-ease);
+}
+.primary-nav > a::after, .nav-service-group > a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 3px;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--motion-normal) var(--motion-ease);
+}
+.primary-nav > a.active::after, .nav-service-group > a.active::after {
+  transform: scaleX(1);
+}
+.submenu-toggle svg { transition: transform var(--motion-normal) var(--motion-ease); }
+.site-header .icon-button {
+  transition: background-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease);
+}
+.site-header .icon-button:focus-visible { background: #eaf4ff; color: #0757c8; }
+.site-header .nav-cta .btn:focus-visible { transform: none; }
+.service-submenu {
+  animation: submenu-reveal var(--motion-menu) var(--motion-ease) both;
+}
+.service-submenu a, .nav-emergency, .footer-grid a, .footer-bottom button {
+  transition: color var(--motion-fast) var(--motion-ease),
+    background-color var(--motion-fast) var(--motion-ease);
+}
+.site-header .nav-emergency {
+  transition: color var(--motion-fast) var(--motion-ease);
+}
+.nav-emergency:hover, .nav-emergency:focus-visible { color: #851d25; }
+.footer-grid > div:not(.footer-brand) > a,
+.footer-brand .brand,
+.footer-bottom button {
+  transition: color var(--motion-fast) var(--motion-ease);
+}
+.footer-grid > div:not(.footer-brand) > a,
+.footer-bottom button { position: relative; width: fit-content; max-width: 100%; }
+.site-header :is(.brand, .nav-emergency, .nav-cta .btn, .icon-button),
+.footer-brand .brand { position: relative; }
+.site-header :is(.brand, .primary-nav > a, .nav-service-group > a, .nav-emergency, .nav-cta .btn, .icon-button),
+.footer-brand .brand,
+.footer-grid > div:not(.footer-brand) > a,
+.footer-bottom button { isolation: isolate; }
+.footer {
+  --frame-stroke: #c4e2ff;
+  --frame-fill: rgb(255 255 255 / 7%);
+  --frame-depth: rgb(164 211 255 / 17%);
+}
+.site-header :is(.brand, .primary-nav > a, .nav-service-group > a, .nav-emergency, .nav-cta .btn, .icon-button)::before,
+.footer-brand .brand::before,
+.footer-grid > div:not(.footer-brand) > a::before,
+.footer-bottom button::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -6px -9px;
+  border: 1px solid var(--frame-stroke);
+  border-radius: 0;
+  background: var(--frame-fill);
+  box-shadow: 3px 3px 0 var(--frame-depth);
+  opacity: 0;
+  transform: translate(-3px, 3px) scale(.88, .82);
+  transform-origin: top left;
+  pointer-events: none;
+  transition: opacity 240ms var(--motion-ease),
+    transform 360ms var(--motion-ease);
+}
+.site-header .nav-cta .btn::before {
+  inset: -5px;
+  --frame-stroke: #0757c8;
+  --frame-fill: transparent;
+}
+.site-header .icon-button::before { inset: 2px; --frame-stroke: #0757c8; }
+.footer-brand .brand::before { inset: -8px -10px; }
+[data-contrast=high] .footer { --frame-stroke: #fff; --frame-fill: transparent; --frame-depth: transparent; }
+.site-header :is(.brand, .primary-nav > a, .nav-service-group > a, .nav-emergency, .nav-cta .btn, .icon-button):focus-visible::before,
+.footer-brand .brand:focus-visible::before,
+.footer-grid > div:not(.footer-brand) > a:focus-visible::before,
+.footer-bottom button:focus-visible::before { opacity: 1; transform: none; }
+.footer-grid > div:not(.footer-brand) > a:focus-visible,
+.footer-bottom button:focus-visible { color: #fff; text-decoration: none; }
+.service-card .card-link .lucide-arrow-right { transition: transform var(--motion-normal) var(--motion-ease); }
+.chat-launcher, .access-launcher, .chat-actions button, .chat-header button,
+.chat-form button, .gallery-filter button {
+  transition: background-color var(--motion-fast) var(--motion-ease),
+    border-color var(--motion-fast) var(--motion-ease),
+    color var(--motion-fast) var(--motion-ease),
+    transform var(--motion-normal) var(--motion-ease);
+}
+.chat-launcher:hover, .chat-launcher:focus-visible { background: #064798; border-color: #064798; }
+.chat-panel.is-closing { animation: chat-exit 300ms var(--motion-ease) both; pointer-events: none; }
+.chat-form button:not(:disabled):hover, .chat-form button:not(:disabled):focus-visible { background: #064798; }
+.chat-actions button:hover, .chat-actions button:focus-visible { border-color: #0757c8; background: #e2f0fb; }
+.chat-header button:hover, .chat-header button:focus-visible { background: #ffffff25; }
+.gallery-filter button:hover, .gallery-filter button:focus-visible { border-color: #0757c8; }
+
+.service-card {
+  transition: transform var(--motion-slow) var(--motion-ease),
+    border-color var(--motion-slow) var(--motion-ease),
+    box-shadow var(--motion-slow) var(--motion-ease);
+}
+.service-card-image img { transition: transform var(--motion-slow) var(--motion-ease); }
+.audience-card img { transition: transform var(--motion-slow) var(--motion-ease); }
+.text-link svg, .card-link svg { transition: transform var(--motion-fast) var(--motion-ease); }
+.faq-list summary svg { transition: transform 380ms var(--motion-ease); }
+.animated-icon svg { transition: transform var(--motion-fast) var(--motion-ease), color var(--motion-fast) var(--motion-ease); }
+.route-surface { animation: page-enter 420ms var(--motion-ease) both; }
+.reveal, .motion-section {
+  opacity: 1;
+  transform: none;
+  transition: opacity var(--motion-section) var(--motion-ease),
+    transform var(--motion-section) var(--motion-ease);
+}
+.js-motion .reveal:not(.is-visible) { opacity: 0; transform: translateY(18px); }
+.js-motion .motion-section:not(.is-visible) { opacity: 0; transform: translateY(22px); }
+.motion-section.is-visible .section-heading h2,
+.motion-section.is-visible .section-intro h2 { animation: motion-copy-in 680ms 90ms var(--motion-ease) backwards; }
+.motion-section.is-visible .section-heading p,
+.motion-section.is-visible .section-intro p { animation: motion-copy-in 700ms 160ms var(--motion-ease) backwards; }
+.motion-section.is-visible :is(.split-image, .why-photo, .about-van) img {
+  animation: motion-image-in var(--motion-image) 80ms var(--motion-ease) backwards;
+}
+.js-motion .service-grid.reveal.is-visible .service-card,
+.js-motion .motion-section.is-visible :is(.gallery-card, .maintenance-card, .audience-card) {
+  animation: motion-card-in 620ms var(--motion-ease) backwards;
+}
+.js-motion .service-grid.reveal.is-visible .service-card:nth-child(2),
+.js-motion .motion-section.is-visible :is(.gallery-card, .maintenance-card, .audience-card):nth-child(2) { animation-delay: 90ms; }
+.js-motion .service-grid.reveal.is-visible .service-card:nth-child(3),
+.js-motion .motion-section.is-visible :is(.gallery-card, .maintenance-card, .audience-card):nth-child(3) { animation-delay: 180ms; }
+.js-motion .service-grid.reveal.is-visible .service-card:nth-child(n+4),
+.js-motion .motion-section.is-visible :is(.gallery-card, .maintenance-card, .audience-card):nth-child(n+4) { animation-delay: 240ms; }
+.motion-section.is-visible .contact-info > span,
+.motion-section.is-visible .about-signals > div { animation: motion-copy-in 620ms var(--motion-ease) backwards; }
+.motion-section.is-visible .contact-info > span:nth-child(2),
+.motion-section.is-visible .about-signals > div:nth-child(2) { animation-delay: 90ms; }
+.motion-section.is-visible .contact-info > span:nth-child(3),
+.motion-section.is-visible .about-signals > div:nth-child(3) { animation-delay: 180ms; }
+.motion-section.is-visible .about-signals > div:nth-child(4) { animation-delay: 240ms; }
+.faq-list details[open] p { animation: faq-enter 380ms var(--motion-ease) both; }
+.wizard-step, .tool-step { animation: motion-copy-in 430ms var(--motion-ease) both; }
+.chat-panel { animation: chat-enter 360ms var(--motion-ease) both; }
+.chat-bubble { animation: message-enter 280ms var(--motion-ease) both; }
+
+@keyframes motion-copy-in {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes motion-image-in {
+  from { opacity: .35; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes motion-card-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes header-enter {
+  from { opacity: .65; transform: translateY(-9px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes header-copy-enter {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes submenu-reveal {
+  from { opacity: 0; transform: translateY(-7px); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes mobile-menu-out {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateY(-7px); }
+}
+@keyframes chat-exit {
+  from { opacity: 1; transform: none; }
+  to { opacity: 0; transform: translateY(7px); }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:not(:disabled):hover { transform: translateY(-2px); }
+  .site-header .icon-button:hover { background: #eaf4ff; color: #0757c8; }
+  .site-header .nav-cta .btn:hover { transform: none; }
+  .footer-grid > div:not(.footer-brand) > a:hover,
+  .footer-bottom button:hover { color: #fff; text-decoration: none; }
+  .site-header :is(.brand, .primary-nav > a, .nav-service-group > a, .nav-emergency, .nav-cta .btn, .icon-button):hover::before,
+  .footer-brand .brand:hover::before,
+  .footer-grid > div:not(.footer-brand) > a:hover::before,
+  .footer-bottom button:hover::before { opacity: 1; transform: none; }
+  .btn:not(:disabled):hover .lucide-arrow-right,
+  .text-link:hover .lucide-arrow-right,
+  .card-link:hover .lucide-arrow-right,
+  .maintenance-links a:hover .lucide-arrow-right { transform: translateX(3px); }
+  .service-card:hover .card-link .lucide-arrow-right { transform: translateX(3px); }
+}
+@media (hover: none) {
+  .btn:hover, .service-card:hover, .floating-tools > button:hover { transform: none; }
+  .service-card:hover .service-card-image img { transform: none; }
+}
+@media (max-width: 900px) {
+  .primary-nav.is-closing { display: flex; animation: mobile-menu-out var(--motion-menu) var(--motion-ease) both; pointer-events: none; }
+  .primary-nav.is-open { animation: submenu-reveal var(--motion-menu) var(--motion-ease) both; }
+  .primary-nav > a::after, .nav-service-group > a::after { left: 5px; right: auto; width: 28px; bottom: 6px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header, .utility-inner { animation: none !important; }
+  .site-header .brand img { transition: none !important; transform: none !important; }
+  .site-header :is(.primary-nav > a, .nav-service-group > a, .nav-emergency, .nav-cta .btn, .icon-button),
+  .footer-grid a, .footer-bottom button { transition-duration: 0ms !important; transform: none !important; }
+  .site-header :is(.brand, .primary-nav > a, .nav-service-group > a, .nav-emergency, .nav-cta .btn, .icon-button)::before,
+  .footer-brand .brand::before,
+  .footer-grid > div:not(.footer-brand) > a::before,
+  .footer-bottom button::before { transition-duration: 0ms !important; }
+  .primary-nav.is-open, .primary-nav.is-closing, .service-submenu, .chat-panel.is-closing { animation: none !important; }
+  .btn:hover, .service-card:hover, .service-card:focus-within,
+  .floating-tools > button:hover { transform: none !important; }
+  .btn:hover .lucide-arrow-right, .card-link:hover .lucide-arrow-right,
+  .service-card:hover .service-card-image img { transform: none !important; }
+  .js-motion .reveal:not(.is-visible), .js-motion .motion-section:not(.is-visible) { opacity: 1 !important; transform: none !important; }
+  .motion-section.is-visible *, .js-motion .service-grid.reveal.is-visible .service-card,
+  .wizard-step, .tool-step, .chat-panel, .chat-bubble { animation: none !important; }
+}
+html[data-reduce-motion=yes] .primary-nav.is-open,
+html[data-reduce-motion=yes] .primary-nav.is-closing,
+html[data-reduce-motion=yes] .service-submenu,
+html[data-reduce-motion=yes] .chat-panel.is-closing { animation: none !important; }
+html[data-reduce-motion=yes] .site-header,
+html[data-reduce-motion=yes] .utility-inner { animation: none !important; }
+html[data-reduce-motion=yes] .site-header .brand img { transition: none !important; transform: none !important; }
+html[data-reduce-motion=yes] .site-header :is(.primary-nav > a, .nav-service-group > a, .nav-emergency, .nav-cta .btn, .icon-button),
+html[data-reduce-motion=yes] .footer-grid a,
+html[data-reduce-motion=yes] .footer-bottom button { transition-duration: 0ms !important; transform: none !important; }
+html[data-reduce-motion=yes] .site-header :is(.brand, .primary-nav > a, .nav-service-group > a, .nav-emergency, .nav-cta .btn, .icon-button)::before,
+html[data-reduce-motion=yes] .footer-brand .brand::before,
+html[data-reduce-motion=yes] .footer-grid > div:not(.footer-brand) > a::before,
+html[data-reduce-motion=yes] .footer-bottom button::before { transition-duration: 0ms !important; }
+html[data-reduce-motion=yes] .btn:hover,
+html[data-reduce-motion=yes] .service-card:hover,
+html[data-reduce-motion=yes] .service-card:focus-within,
+html[data-reduce-motion=yes] .floating-tools > button:hover { transform: none !important; }
+html[data-reduce-motion=yes].js-motion .reveal:not(.is-visible),
+html[data-reduce-motion=yes].js-motion .motion-section:not(.is-visible) { opacity: 1 !important; transform: none !important; }
+html[data-reduce-motion=yes] .motion-section.is-visible *,
+html[data-reduce-motion=yes] .js-motion .service-grid.reveal.is-visible .service-card,
+html[data-reduce-motion=yes] .wizard-step,
+html[data-reduce-motion=yes] .tool-step,
+html[data-reduce-motion=yes] .chat-panel,
+html[data-reduce-motion=yes] .chat-bubble { animation: none !important; }

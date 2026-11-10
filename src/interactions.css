@@ -1,0 +1,177 @@
+/* Small state changes for the finder, request flow, filters, and cards. */
+:root {
+  --detail-fast: 240ms;
+  --detail-normal: 340ms;
+  --detail-slow: 420ms;
+}
+
+.problem-choice {
+  transition: border-color var(--detail-fast) var(--motion-ease),
+    background-color var(--detail-fast) var(--motion-ease),
+    box-shadow var(--detail-fast) var(--motion-ease);
+}
+.problem-choice:is(:hover, :focus-within) { box-shadow: 0 5px 17px rgb(11 31 68 / 10%); }
+.problem-choice.is-selected {
+  border-color: #0757c8;
+  background: #eaf4ff;
+  box-shadow: inset 3px 0 #0757c8, 0 5px 17px rgb(11 31 68 / 9%);
+}
+.problem-choice-check {
+  flex: none;
+  margin-left: auto;
+  color: #0757c8;
+  opacity: 0;
+  transform: scale(.78);
+  transition: opacity var(--detail-fast) var(--motion-ease),
+    transform var(--detail-fast) var(--motion-ease);
+}
+.problem-choice.is-selected .problem-choice-check { opacity: 1; transform: none; }
+
+.booking-progress li {
+  position: relative;
+  transition: color var(--detail-normal) var(--motion-ease);
+}
+.booking-progress li::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -2px;
+  height: 2px;
+  background: #0757c8;
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform var(--detail-normal) var(--motion-ease);
+  pointer-events: none;
+}
+.booking-progress li:is(.current, .done)::after { transform: scaleX(1); }
+.booking-progress li > span {
+  transition: color var(--detail-normal) var(--motion-ease),
+    background-color var(--detail-normal) var(--motion-ease),
+    border-color var(--detail-normal) var(--motion-ease);
+}
+.booking-progress li.current > span { color: #fff; background: #0757c8; border-color: #0757c8; }
+.booking-progress li.done > span {
+  color: #0757c8;
+  background: #e8f3ff;
+  border-color: #0757c8;
+  animation: progress-check-in var(--detail-normal) var(--motion-ease) both;
+}
+@keyframes progress-check-in {
+  from { opacity: .4; transform: scale(.82); }
+  to { opacity: 1; transform: none; }
+}
+
+.gallery-grid[data-filtered="true"] .gallery-card,
+.js-motion .motion-section.is-visible .gallery-grid[data-filtered="true"] .gallery-card {
+  animation: gallery-filter-in var(--detail-normal) var(--motion-ease) both;
+}
+.gallery-grid[data-filtered="true"] .gallery-card:nth-child(2),
+.js-motion .motion-section.is-visible .gallery-grid[data-filtered="true"] .gallery-card:nth-child(2) { animation-delay: 45ms; }
+.gallery-grid[data-filtered="true"] .gallery-card:nth-child(3),
+.js-motion .motion-section.is-visible .gallery-grid[data-filtered="true"] .gallery-card:nth-child(3) { animation-delay: 90ms; }
+.gallery-grid[data-filtered="true"] .gallery-card:nth-child(n+4),
+.js-motion .motion-section.is-visible .gallery-grid[data-filtered="true"] .gallery-card:nth-child(n+4) { animation-delay: 135ms; }
+@keyframes gallery-filter-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.form-card .field :is(input, select, textarea) {
+  transition: border-color var(--detail-fast) var(--motion-ease),
+    box-shadow var(--detail-fast) var(--motion-ease);
+}
+.form-card .field :is(input, select, textarea):focus {
+  border-color: #0757c8;
+  box-shadow: 0 0 0 3px rgb(7 87 200 / 12%);
+}
+.form-card .field :is(input, select, textarea)[aria-invalid="true"]:focus {
+  border-color: #aa2630;
+  box-shadow: 0 0 0 3px rgb(170 38 48 / 13%);
+}
+.field-error:not(:empty), .error-summary, .demo-status {
+  animation: form-feedback-in var(--detail-fast) var(--motion-ease) both;
+}
+@keyframes form-feedback-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* Linked cards respond to hover and keyboard focus; gallery cards remain informational. */
+.service-card, .gallery-card, .maintenance-card {
+  border-color: #d4e1ed;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 7px 22px rgb(11 31 68 / 7%);
+}
+.service-card, .maintenance-card, .audience-card {
+  transition: transform var(--detail-normal) var(--motion-ease),
+    border-color var(--detail-normal) var(--motion-ease),
+    box-shadow var(--detail-normal) var(--motion-ease);
+}
+.service-card { display: flex; flex-direction: column; }
+.service-card-body { position: relative; z-index: 1; display: flex; flex: 1; flex-direction: column; }
+.service-card-body .card-link { margin-top: auto; }
+.audience-card { border-radius: 12px; box-shadow: 0 8px 23px rgb(11 31 68 / 12%); }
+.service-card-image img, .audience-card img { transition: transform var(--detail-slow) var(--motion-ease); }
+.service-card:focus-within, .maintenance-card:focus-within, .audience-card:focus-visible {
+  transform: translateY(-4px);
+  border-color: #9bbfe2;
+  box-shadow: 0 15px 35px rgb(11 31 68 / 14%);
+}
+.service-card:focus-within .service-card-image img,
+.audience-card:focus-visible img { transform: scale(1.03); }
+
+@media (hover: hover) and (pointer: fine) {
+  .service-card-details {
+    position: absolute;
+    right: 0;
+    bottom: 100%;
+    left: 0;
+    padding: 20px 22px;
+    border-top: 1px solid rgb(255 255 255 / 22%);
+    background: linear-gradient(180deg, rgb(5 26 55 / 93%), rgb(5 26 55 / 98%));
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(10px);
+    transition: opacity var(--detail-normal) var(--motion-ease), transform var(--detail-normal) var(--motion-ease);
+  }
+  .service-card-details p { min-height: 0; margin: 0; color: #fff; line-height: 1.5; }
+  .service-card:is(:hover, :focus-within) .service-card-details { opacity: 1; transform: none; }
+  .service-card:hover, .maintenance-card:hover, .audience-card:hover {
+    transform: translateY(-4px);
+    border-color: #9bbfe2;
+    box-shadow: 0 15px 35px rgb(11 31 68 / 14%);
+  }
+  .service-card:hover .service-card-image img,
+  .audience-card:hover img { transform: scale(1.03); }
+}
+@media (hover: none) {
+  .audience-card:hover img { transform: none; }
+}
+[data-contrast=high] :is(.service-card, .gallery-card, .maintenance-card) { border: 2px solid #203a57; }
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --detail-fast: 0ms; --detail-normal: 0ms; --detail-slow: 0ms; }
+  .service-card-details { transition: none !important; }
+  .booking-progress li.done > span,
+  .gallery-grid[data-filtered="true"] .gallery-card,
+  .js-motion .motion-section.is-visible .gallery-grid[data-filtered="true"] .gallery-card,
+  .field-error:not(:empty), .error-summary, .demo-status { animation: none !important; }
+  .service-card:is(:hover, :focus-within), .maintenance-card:is(:hover, :focus-within),
+  .audience-card:is(:hover, :focus-visible), .service-card:is(:hover, :focus-within) .service-card-image img,
+  .audience-card:is(:hover, :focus-visible) img { transform: none !important; }
+}
+html[data-reduce-motion=yes] { --detail-fast: 0ms; --detail-normal: 0ms; --detail-slow: 0ms; }
+html[data-reduce-motion=yes] .service-card-details { transition: none !important; }
+html[data-reduce-motion=yes] .booking-progress li.done > span,
+html[data-reduce-motion=yes] .gallery-grid[data-filtered="true"] .gallery-card,
+html[data-reduce-motion=yes].js-motion .motion-section.is-visible .gallery-grid[data-filtered="true"] .gallery-card,
+html[data-reduce-motion=yes] .field-error:not(:empty),
+html[data-reduce-motion=yes] .error-summary,
+html[data-reduce-motion=yes] .demo-status { animation: none !important; }
+html[data-reduce-motion=yes] .service-card:is(:hover, :focus-within),
+html[data-reduce-motion=yes] .maintenance-card:is(:hover, :focus-within),
+html[data-reduce-motion=yes] .audience-card:is(:hover, :focus-visible),
+html[data-reduce-motion=yes] .service-card:is(:hover, :focus-within) .service-card-image img,
+html[data-reduce-motion=yes] .audience-card:is(:hover, :focus-visible) img { transform: none !important; }
