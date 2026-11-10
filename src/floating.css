@@ -54,46 +54,7 @@ main [id] { scroll-margin-top: 116px; }
   box-shadow: 0 18px 38px rgb(5 22 48 / 20%);
 }
 
-/* One reusable cursor-origin bubble for the header and footer CTAs. */
-.bubble-button {
-  --bubble-x: 50%;
-  --bubble-y: 50%;
-  --bubble-fill: #06408e;
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  border-radius: 10px;
-}
-.bubble-button::before { display: none; }
-.bubble-button::after {
-  content: "";
-  position: absolute;
-  z-index: 0;
-  top: var(--bubble-y);
-  left: var(--bubble-x);
-  width: 260%;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background: var(--bubble-fill);
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, -50%) scale(0);
-  transition: opacity 560ms cubic-bezier(.22, 1, .36, 1),
-    transform 560ms cubic-bezier(.22, 1, .36, 1);
-}
-.bubble-button:hover::after { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-.bubble-button-content {
-  position: relative;
-  z-index: 1;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 9px;
-  white-space: nowrap;
-}
-.site-header .nav-cta .bubble-button:hover { background: #0757c8; color: #fff; }
 .footer .footer-grid > div:not(.footer-brand) > a.footer-cta {
-  --bubble-fill: #d6eaff;
   display: inline-flex;
   width: fit-content;
   min-height: 46px;
@@ -108,7 +69,7 @@ main [id] { scroll-margin-top: 116px; }
 }
 .footer .footer-grid > div:not(.footer-brand) > a.footer-cta:is(:hover, :focus-visible) {
   background: #fff;
-  color: #073c7e;
+  color: var(--paint-foreground);
   text-decoration: none;
   transform: none;
 }
@@ -145,18 +106,13 @@ main [id] { scroll-margin-top: 116px; }
 @media (max-width: 390px) {
   .hero-banner-inner { padding-top: 114px; }
 }
-@media (hover: none) {
-  .bubble-button::after { display: none; }
-}
 @media (prefers-reduced-motion: reduce) {
-  .site-header, .bubble-button, .bubble-button::after,
+  .site-header,
   .site-header .primary-nav > a::before,
   .site-header .nav-service-group > a::before,
   .site-header .nav-emergency::before { transition: none !important; }
 }
 html[data-reduce-motion=yes] .site-header,
-html[data-reduce-motion=yes] .bubble-button,
-html[data-reduce-motion=yes] .bubble-button::after,
 html[data-reduce-motion=yes] .site-header .primary-nav > a::before,
 html[data-reduce-motion=yes] .site-header .nav-service-group > a::before,
 html[data-reduce-motion=yes] .site-header .nav-emergency::before { transition: none !important; }

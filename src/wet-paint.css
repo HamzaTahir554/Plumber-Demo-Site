@@ -1,0 +1,108 @@
+/* A clipped, pointer-origin paint layer shared by navigational and form CTAs. */
+.wet-paint-button {
+  --paint-x: 50%;
+  --paint-y: 50%;
+  --paint-fill: #063a83;
+  --paint-glaze: rgb(67 132 210 / 26%);
+  --paint-foreground: #f5faff;
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  transition: color 300ms cubic-bezier(.22, 1, .36, 1),
+    box-shadow 350ms cubic-bezier(.22, 1, .36, 1),
+    transform 350ms cubic-bezier(.22, 1, .36, 1);
+}
+.site-header .nav-cta .wet-paint-button,
+.footer .footer-grid .wet-paint-button {
+  transition: color 300ms cubic-bezier(.22, 1, .36, 1),
+    box-shadow 350ms cubic-bezier(.22, 1, .36, 1),
+    transform 350ms cubic-bezier(.22, 1, .36, 1);
+}
+.wet-paint-button.btn-white,
+.wet-paint-button.btn-outline {
+  --paint-fill: #cfe6ff;
+  --paint-glaze: rgb(255 255 255 / 45%);
+  --paint-foreground: #092e62;
+}
+.wet-paint-button.btn-primary:hover { background: var(--blue); }
+.wet-paint-button.btn-white:hover,
+.wet-paint-button.btn-outline:hover { background: #fff; }
+.wet-paint-button:is(:hover, :focus-visible) { color: var(--paint-foreground); }
+
+.wet-paint-button::before,
+:is(.site-header .nav-cta, .footer .footer-grid) .wet-paint-button::before,
+.wet-paint-button::after {
+  content: "";
+  position: absolute;
+  inset: auto;
+  top: var(--paint-y);
+  left: var(--paint-x);
+  width: var(--paint-diameter, 640px);
+  height: var(--paint-diameter, 640px);
+  border: 0;
+  box-shadow: none;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(-50%, -50%, 0) scale(.015);
+  transform-origin: center;
+}
+.wet-paint-button::before,
+:is(.site-header .nav-cta, .footer .footer-grid) .wet-paint-button::before {
+  z-index: 0;
+  border-radius: 43% 57% 51% 49% / 47% 42% 58% 53%;
+  background: var(--paint-fill);
+  transition: transform 520ms cubic-bezier(.22, 1, .36, 1),
+    opacity 500ms ease-out;
+}
+.wet-paint-button::after {
+  z-index: 0;
+  width: calc(var(--paint-diameter, 640px) * .68);
+  height: calc(var(--paint-diameter, 640px) * .68);
+  border-radius: 56% 44% 39% 61% / 61% 49% 51% 39%;
+  background: var(--paint-glaze);
+  transition: transform 500ms cubic-bezier(.22, 1, .36, 1),
+    opacity 480ms ease-out;
+}
+.wet-paint-button:hover::before,
+:is(.site-header .nav-cta, .footer .footer-grid) .wet-paint-button:hover::before {
+  opacity: 1;
+  transform: translate3d(-50%, -50%, 0) scale(1);
+  transition: transform 680ms cubic-bezier(.22, 1, .36, 1),
+    opacity 260ms ease-out;
+}
+.wet-paint-button:hover::after {
+  opacity: .7;
+  transform: translate3d(-50%, -50%, 0) scale(1);
+  transition: transform 620ms 60ms cubic-bezier(.22, 1, .36, 1),
+    opacity 260ms ease-out;
+}
+.wet-paint-content {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+}
+.wet-paint-button:focus-visible::before,
+:is(.site-header .nav-cta, .footer .footer-grid) .wet-paint-button:focus-visible::before {
+  opacity: 1;
+  transform: translate3d(-50%, -50%, 0) scale(1);
+  transition: none;
+}
+.wet-paint-button:focus-visible::after { display: none; }
+
+@media (hover: none) {
+  .wet-paint-button:not(:focus-visible)::before,
+  .wet-paint-button::after { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wet-paint-button,
+  .wet-paint-button::before,
+  .wet-paint-button::after { transition: none !important; }
+  .wet-paint-button::after { display: none; }
+}
+html[data-reduce-motion=yes] .wet-paint-button,
+html[data-reduce-motion=yes] .wet-paint-button::before,
+html[data-reduce-motion=yes] .wet-paint-button::after { transition: none !important; }
+html[data-reduce-motion=yes] .wet-paint-button::after { display: none; }

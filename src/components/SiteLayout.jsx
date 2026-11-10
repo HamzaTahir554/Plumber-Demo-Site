@@ -4,7 +4,7 @@ import { ArrowRight, ChevronDown, Clock3, Mail, Menu, MessageCircle, Phone, X } 
 import { brand, email, image, phone, services } from '../data/site.js';
 import Chatbot from './Chatbot.jsx';
 import AccessibilitySettings from './AccessibilitySettings.jsx';
-import BubbleLink from './BubbleLink.jsx';
+import WetPaintButton from './WetPaintButton.jsx';
 import ScrollTool from './ScrollTool.jsx';
 import { AccessibilityActionsContext } from './AccessibilityActions.jsx';
 
@@ -169,7 +169,7 @@ export default function SiteLayout({ children }) {
           </div>
           <NavLink to="/residential">Residential</NavLink><NavLink to="/commercial">Commercial</NavLink><NavLink to="/about">About</NavLink><NavLink to="/contact">Contact</NavLink><NavLink className="nav-mobile-emergency" to="/emergency"><Phone size={17} aria-hidden="true" /> Emergency info</NavLink>
         </nav>
-        <div className="nav-cta"><Link className="nav-emergency" to="/emergency"><Phone size={17} aria-hidden="true" /> Emergency info</Link><BubbleLink className="btn btn-primary" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></BubbleLink></div>
+        <div className="nav-cta"><Link className="nav-emergency" to="/emergency"><Phone size={17} aria-hidden="true" /> Emergency info</Link><WetPaintButton className="btn btn-primary" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></WetPaintButton></div>
       </div>
       <ScrollTool />
     </header>
@@ -179,7 +179,7 @@ export default function SiteLayout({ children }) {
       <div className="footer-brand"><Link to="/" className="brand"><img src={image('company-logo')} alt="" width="46" height="52" /><span className="brand-label"><strong>{brand}</strong><small>PLUMBING SERVICES</small></span></Link><p>Clear information and practical plumbing service paths for homes and businesses.</p><span className="footer-demo">Demo site · Replace placeholder business details before launch.</span></div>
       <div><h2>Explore</h2><Link to="/services">All services</Link><Link to="/residential">Residential</Link><Link to="/commercial">Commercial</Link><Link to="/about">About</Link></div>
       <div><h2>Helpful links</h2><Link to="/problem-finder">Problem finder</Link><Link to="/service-area">Service area</Link><Link to="/maintenance">Maintenance hub</Link><Link to="/projects">Project gallery</Link><Link to="/emergency">Emergency guidance</Link><Link to="/reviews">Reviews</Link><Link to="/accessibility">Accessibility</Link><Link to="/privacy">Privacy template</Link></div>
-      <div><h2>Get in touch</h2><BubbleLink className="btn btn-white footer-cta" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></BubbleLink><span className="footer-contact"><Phone size={16} aria-hidden="true" /> {phone} (demo)</span><span className="footer-contact"><Mail size={16} aria-hidden="true" /> {email} (demo)</span><span className="footer-contact"><Clock3 size={16} aria-hidden="true" /> Hours to be confirmed</span></div>
+      <div><h2>Get in touch</h2><WetPaintButton className="btn btn-white footer-cta" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></WetPaintButton><span className="footer-contact"><Phone size={16} aria-hidden="true" /> {phone} (demo)</span><span className="footer-contact"><Mail size={16} aria-hidden="true" /> {email} (demo)</span><span className="footer-contact"><Clock3 size={16} aria-hidden="true" /> Hours to be confirmed</span></div>
     </div><div className="container footer-bottom"><span>© {new Date().getFullYear()} {brand} Plumbing Services · Demo website</span><button type="button" onClick={openAccess}>Accessibility options</button></div></footer>
     </div>
     <div className="floating-tools"><Chatbot /></div>

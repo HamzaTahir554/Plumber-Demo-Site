@@ -3,6 +3,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight, Check, Phone, Plus } from 'lucide-react';
 import { image, services } from '../data/site.js';
 import AnimatedIcon from './AnimatedIcon.jsx';
+import WetPaintButton from './WetPaintButton.jsx';
 
 const serviceIcons = { 'leak-repair': 'droplets', 'drain-cleaning': 'waves', 'water-heaters': 'thermometer', 'toilet-fixture-repair': 'wrench', 'pipe-repair': 'pipe', 'sump-pumps': 'gauge' };
 const bannerPositions = { services: '54% top', residential: 'center center', commercial: 'center 38%', emergency: 'left center', about: 'center center', contact: '35% top', reviews: 'center center', document: 'center center' };
@@ -55,5 +56,5 @@ export function ServiceGrid({ limit }) {
 export function FaqList({ items }) { return <div className="faq-list">{items.map(item => <details key={item.q}><summary>{item.q}<Plus size={18} aria-hidden="true" /></summary><p>{item.a}</p></details>)}</div>; }
 export function CheckList({ items }) { return <ul className="check-list">{items.map(item => <li key={item}><span><Check size={16} aria-hidden="true" /></span>{item}</li>)}</ul>; }
 export function RequestCta({ title = 'Ready to talk through your plumbing project?', text = 'Share the details through the demo request form, then connect a real booking service before launch.' }) {
-  return <section className="request-cta"><div className="container request-cta-inner"><div><span className="eyebrow">NEXT STEP</span><h2>{title}</h2><p>{text}</p></div><div className="cta-buttons"><Link className="btn btn-white" to="/contact">Prepare a request <ArrowRight size={17} aria-hidden="true" /></Link><Link className="btn btn-ghost" to="/emergency"><Phone size={17} aria-hidden="true" /> Emergency guidance</Link></div></div></section>;
+  return <section className="request-cta"><div className="container request-cta-inner"><div><span className="eyebrow">NEXT STEP</span><h2>{title}</h2><p>{text}</p></div><div className="cta-buttons"><WetPaintButton className="btn btn-white" to="/contact">Prepare a request <ArrowRight size={17} aria-hidden="true" /></WetPaintButton><Link className="btn btn-ghost" to="/emergency"><Phone size={17} aria-hidden="true" /> Emergency guidance</Link></div></div></section>;
 }

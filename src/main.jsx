@@ -13,6 +13,7 @@ import './interactions.css';
 import './floating.css';
 import './polish.css';
 import './outro.css';
+import './wet-paint.css';
 
 const Services = lazy(() => import('./pages/Services.jsx'));
 const ServiceDetail = lazy(() => import('./pages/ServiceDetail.jsx'));

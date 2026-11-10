@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { AlertCircle, ArrowRight, Info } from 'lucide-react';
 import { services } from '../data/site.js';
 import BookingWizard from './BookingWizard.jsx';
+import WetPaintButton from './WetPaintButton.jsx';
 
 const labels = { name: 'Full name', email: 'Email address', phone: 'Phone number', service: 'Service type', date: 'Preferred date', time: 'Preferred time', location: 'Service address or ZIP code', message: 'Problem description' };
 const initial = { name: '', email: '', phone: '', service: '', date: '', time: '', location: '', message: '' };
@@ -53,7 +54,7 @@ function GeneralRequestForm({ variant }) {
       <div className="form-row">{field('phone', <input {...attrs('phone')} type="tel" autoComplete="tel" maxLength="30" inputMode="tel" />)}{variant === 'appointment' && field('service', <select {...attrs('service')}><option value="">Select a service</option>{services.map(s => <option value={s.slug} key={s.slug}>{s.title}</option>)}<option value="other">Other / not sure</option></select>)}</div>
       {variant === 'appointment' && <><div className="form-row">{field('date', <input {...attrs('date')} type="date" />)}{field('time', <select {...attrs('time')}><option value="">Select a time window</option><option value="morning">Morning</option><option value="afternoon">Afternoon</option><option value="evening">Evening</option></select>)}</div>{field('location', <input {...attrs('location')} autoComplete="street-address" maxLength="160" placeholder="Address or ZIP code" />)}</>}
       {field('message', <textarea {...attrs('message')} rows="5" maxLength="2000" placeholder="Tell us what is happening and when it started." />)}
-      <button type="submit" className="btn btn-primary">Check request details <ArrowRight size={17} aria-hidden="true" /></button>
+      <WetPaintButton as="button" type="submit" className="btn btn-primary">Check request details <ArrowRight size={17} aria-hidden="true" /></WetPaintButton>
       <p className="form-privacy"><AlertCircle size={16} aria-hidden="true" /> Demo only. Do not enter sensitive information. No data is sent or stored.</p>
     </form>
   </div>;
