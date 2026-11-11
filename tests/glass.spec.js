@@ -27,7 +27,7 @@ test('glass header and ordered process cards fit all requested widths', async ({
     expect(header.right).toBeLessThan(width);
     expect(header.blur).toContain('blur(14px)');
     expect(header.alpha).toBeLessThanOrEqual(.2);
-    await expect(page.locator('.brand-label strong').first()).not.toHaveCSS('text-shadow', 'none');
+    await expect(page.locator('.brand-label strong').first()).toHaveCSS('text-shadow', 'none');
     if (width > 900) {
       const cta = await page.locator('.nav-cta').boundingBox();
       expect(cta.x + cta.width).toBeLessThan(header.right - 10);
@@ -128,7 +128,8 @@ test('emergency buttons stay readable, stable, and functional across layouts', a
     if (width < 901) await page.getByRole('button', { name: 'Open navigation menu' }).click();
     const emergency = page.locator(width < 901 ? '.nav-mobile-emergency' : '.nav-emergency');
     await expect(emergency).toBeVisible();
-    await expect(emergency).toHaveCSS('color', 'rgb(11, 53, 102)');
+    await expect(emergency).toHaveCSS('color', 'rgb(255, 255, 255)');
+    await expect(emergency).toHaveCSS('background-color', 'rgb(7, 87, 200)');
     const bounds = await header.boundingBox();
     await emergency.hover();
     await expect(emergency).toHaveCSS('background-color', 'rgb(198, 40, 40)');

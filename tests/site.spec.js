@@ -64,7 +64,7 @@ test('navigation and button motion preserve keyboard and reduced-motion behavior
   await expect(servicesToggle).toBeFocused();
   await expect(page.locator('#service-submenu')).toHaveCount(0);
   await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About' }).hover();
-  await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About' })).toHaveCSS('color', 'rgb(11, 53, 102)');
+  await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About' })).toHaveCSS('color', 'rgb(255, 255, 255)');
   await page.evaluate(() => window.scrollTo(0, 400));
   await expect(page.locator('.site-header')).toHaveClass(/is-scrolled/);
   await page.setViewportSize({ width: 375, height: 812 });
