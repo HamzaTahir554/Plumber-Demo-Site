@@ -16,15 +16,19 @@
     transform: translateY(3px);
     box-shadow: 0 5px 15px rgb(5 22 48 / 21%);
   }
-  .site-header .nav-emergency:hover { background: #c62828; color: #fff; animation: emergency-nudge 310ms ease-out 1; }
+  .site-header .emergency-button:hover { background: #c62828; color: #fff; animation: emergency-nudge 310ms ease-out 1; }
 }
-.site-header .nav-emergency {
+.site-header .emergency-button {
+  min-height: 42px;
   padding: 8px 10px;
+  border: 1px solid #bed7f0;
   border-radius: 9px;
+  background: #e5f1ff;
+  color: #0b3566;
   transition: background-color 350ms var(--motion-ease), color 350ms var(--motion-ease);
 }
-.site-header .nav-emergency:focus-visible { background: #c62828; color: #fff; }
-.site-header .nav-emergency:is(:hover, :focus-visible)::before { opacity: 0; }
+.site-header .emergency-button:focus-visible { background: #c62828; color: #fff; }
+.site-header .emergency-button::before, .site-header .emergency-button::after { display: none; }
 .site-header .nav-mobile-emergency { display: none; }
 @media (max-width: 900px) {
   .site-header .nav-mobile-emergency {
@@ -33,10 +37,10 @@
     gap: 8px;
     margin-top: 10px;
     padding: 11px 13px;
-    border: 1px solid #e2b6b2;
+    border: 1px solid #bed7f0;
     border-radius: 9px;
-    background: #fff4f3;
-    color: #8f2525;
+    background: #e5f1ff;
+    color: #0b3566;
   }
   .site-header .nav-mobile-emergency:is(:hover, :focus-visible, [aria-current=page]) { background: #c62828; border-color: #c62828; color: #fff; }
   .site-header .nav-mobile-emergency::before, .site-header .nav-mobile-emergency::after { display: none; }
@@ -238,13 +242,13 @@
 
 @media (prefers-reduced-motion: reduce) {
   .site-header .brand img { animation: none !important; transition: none !important; transform: none !important; filter: none !important; }
-  .site-header .nav-emergency:hover { animation: none !important; }
+  .site-header .emergency-button:hover { animation: none !important; }
   .site-header .nav-cta .wet-paint-button,
   .footer .footer-grid > div:not(.footer-brand) > a.footer-cta { transition-duration: 0ms !important; }
   .scroll-tool-track { display: none; }
 }
 html[data-reduce-motion=yes] .site-header .brand img { animation: none !important; transition: none !important; transform: none !important; filter: none !important; }
-html[data-reduce-motion=yes] .site-header .nav-emergency:hover { animation: none !important; }
+html[data-reduce-motion=yes] .site-header .emergency-button:hover { animation: none !important; }
 html[data-reduce-motion=yes] .site-header .nav-cta .wet-paint-button,
 html[data-reduce-motion=yes] .footer .footer-grid > div:not(.footer-brand) > a.footer-cta { transition-duration: 0ms !important; }
 html[data-reduce-motion=yes] .scroll-tool-track { display: none; }

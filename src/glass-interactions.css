@@ -1,25 +1,49 @@
 /* The opaque base also serves browsers without backdrop-filter. */
 .site-header {
   background: #deedfb;
-  border-color: rgb(245 251 255 / 75%);
-  box-shadow: 0 8px 32px rgb(10 42 85 / 16%), inset 0 1px 0 rgb(255 255 255 / 45%);
+  border-color: rgb(220 240 255 / 45%);
+  box-shadow: 0 8px 30px rgb(8 40 85 / 12%), inset 0 1px 0 rgb(255 255 255 / 20%);
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
 }
-.site-header.is-scrolled { background: #e5f1fc; border-color: #bdd4ea; box-shadow: 0 12px 36px rgb(10 42 85 / 19%); }
+.site-header.is-scrolled { background: #e5f1fc; border-color: rgb(220 240 255 / 60%); box-shadow: 0 12px 36px rgb(10 42 85 / 16%); }
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .site-header {
-    background: rgb(220 237 255 / 88%);
-    -webkit-backdrop-filter: blur(18px) saturate(145%);
-    backdrop-filter: blur(18px) saturate(145%);
+    background: rgb(190 222 255 / 30%);
+    -webkit-backdrop-filter: blur(16px) saturate(140%);
+    backdrop-filter: blur(16px) saturate(140%);
   }
-  .site-header.is-scrolled { background: rgb(225 240 255 / 94%); }
+  .site-header.is-scrolled { background: rgb(190 222 255 / 44%); }
+}
+/* Small reading surfaces keep dark navigation legible over any photograph. */
+.site-header .brand::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -6px -9px;
+  border-radius: 12px;
+  background: rgb(239 248 255 / 86%);
+  pointer-events: none;
+}
+.site-header .nav-toggle { background: rgb(239 248 255 / 90%); color: #0b1f44; }
+@media (min-width: 901px) {
+  .site-header .primary-nav { position: relative; isolation: isolate; }
+  .site-header .primary-nav::before { content: ""; position: absolute; z-index: -1; inset: -4px -10px; border-radius: 12px; background: rgb(239 248 255 / 82%); pointer-events: none; }
+}
+@media (min-width: 901px) and (max-width: 1200px) {
+  .site-header .nav-cta .nav-emergency { display: inline-flex; width: 42px; justify-content: center; padding: 0; }
+  .site-header .nav-cta .emergency-button-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}
+@media (min-width: 901px) and (max-width: 960px) {
+  .site-header .nav-shell { gap: 13px; }
+  .site-header .primary-nav { gap: 9px; }
+  .site-header .nav-cta { gap: 8px; }
 }
 .site-header .nav-shell .primary-nav > a::before,
 .site-header .nav-shell .nav-service-group > a::before { background: rgb(255 255 255 / 62%); }
 .site-header .service-submenu { background: #f5faff; border-color: #bfd5e9; }
-.site-header .scroll-tool-track::before { background: #89aed2; }
-.site-header .scroll-tool-icon { background: #dceeff; color: #064799; }
+.site-header .scroll-tool-track::before { background: #bddbff; }
+.site-header .scroll-tool-icon { background: #e8f4ff; color: #064799; }
 [data-contrast=high] .site-header { background: #eaf4ff; border-color: #1f4d79; -webkit-backdrop-filter: none; backdrop-filter: none; }
 @media (prefers-reduced-transparency: reduce) {
   .site-header, .site-header.is-scrolled { background: #e2effc; -webkit-backdrop-filter: none; backdrop-filter: none; }
@@ -201,3 +225,27 @@ html[data-reduce-motion=yes] .process-card:hover .animated-icon svg { transform:
 html[data-reduce-motion=yes] .process-step-progress::after { animation: none !important; }
 html[data-reduce-motion=yes] .footer a::after,
 html[data-reduce-motion=yes] .footer button::after { transition: none !important; }
+
+/* Shade existing text without replacing its light/dark palette. Individual
+   translate composes with entrance transforms and never changes text layout. */
+:root { --text-hover-time: 360ms; --text-heading-lift: -1px; --text-hover-shade: .94; }
+:where(main, .footer) :is(h1, h2, h3, h4, h5, h6, p, label, legend, dt, dd, small, .eyebrow, .footer-demo, .footer-contact, .footer-bottom > span, .review-meta > strong, .review-meta > time, .review-sample-label, .field-error, .small-note, .check-list > li, .simple-list > li, .safety-card li, .contact-info > span, .accessibility-symbol > span, .hero-trust span, .text-hover):not(a, button, [contenteditable], [contenteditable] *, a *, button *, label:has(input, textarea, select), :is(h1, h2, h3, h4, h5, h6, p, label, dt, dd, .contact-info > span) *) {
+  transition: filter var(--text-hover-time) var(--motion-ease), translate var(--text-hover-time) var(--motion-ease);
+}
+:where(.prose, .form-card) { --text-heading-lift: 0px; }
+@media (hover: hover) and (pointer: fine) {
+  :where(main, .footer) :is(h1, h2, h3, h4, h5, h6, p, label, legend, dt, dd, small, .eyebrow, .footer-demo, .footer-contact, .footer-bottom > span, .review-meta > strong, .review-meta > time, .review-sample-label, .field-error, .small-note, .check-list > li, .simple-list > li, .safety-card li, .contact-info > span, .accessibility-symbol > span, .hero-trust span, .text-hover):not(a, button, [contenteditable], [contenteditable] *, a *, button *, label:has(input, textarea, select), :is(h1, h2, h3, h4, h5, h6, p, label, dt, dd, .contact-info > span) *):hover:not(:active) { filter: brightness(var(--text-hover-shade, .94)); }
+  :where(main, .footer) :is(h1, h2, h3, h4, h5, h6):not(a *, button *, [contenteditable], [contenteditable] *):hover:not(:active) { translate: 0 var(--text-heading-lift); }
+  :where(.prose, .form-card) :is(p, label, legend, small, h2, h3) { --text-hover-shade: .98; }
+  :is(.service-card, .process-card, .maintenance-card, .review-card):hover :is(h2, h3, h4, p) { filter: brightness(.96); }
+}
+/* Native selection and editing take precedence over decorative text feedback. */
+html[data-text-selection=yes] :where(main, .footer) :is(h1, h2, h3, h4, h5, h6, p, label, legend, dt, dd, small, span, li),
+:where(main, .footer) :is([contenteditable], [contenteditable] *) { filter: none !important; translate: none !important; transition: none !important; }
+@media (prefers-reduced-motion: reduce) { :root { --text-hover-time: 0ms; --text-heading-lift: 0px; } }
+html[data-reduce-motion=yes] { --text-hover-time: 0ms; --text-heading-lift: 0px; }
+
+/* Emergency treatment is isolated from paint, text shade, and phone tilts. */
+.site-header .emergency-button :is(span, svg) { color: inherit; filter: none; translate: none; }
+.site-header .emergency-button svg { transform: none !important; }
+.site-header .emergency-button:is(:hover, :focus-visible, [aria-current=page]) { background: #c62828; border-color: #c62828; color: #fff; text-decoration: none; }

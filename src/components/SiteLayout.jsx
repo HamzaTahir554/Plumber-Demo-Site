@@ -55,6 +55,15 @@ export default function SiteLayout({ children }) {
   useEffect(() => () => window.clearTimeout(menuTimer.current), []);
 
   useEffect(() => {
+    function updateSelection() {
+      const value = document.getSelection()?.isCollapsed === false ? 'yes' : 'no';
+      if (document.documentElement.dataset.textSelection !== value) document.documentElement.dataset.textSelection = value;
+    }
+    document.addEventListener('selectionchange', updateSelection);
+    return () => { document.removeEventListener('selectionchange', updateSelection); delete document.documentElement.dataset.textSelection; };
+  }, []);
+
+  useEffect(() => {
     let previous = window.scrollY > 12;
     setHeaderScrolled(previous);
     const update = () => {
@@ -167,9 +176,9 @@ export default function SiteLayout({ children }) {
             <button className="submenu-toggle icon-button" type="button" ref={serviceButton} aria-label="Show service pages" aria-expanded={servicesOpen} aria-controls="service-submenu" onClick={toggleServices}><ChevronDown size={16} aria-hidden="true" /></button>
             {servicesOpen && <div className="service-submenu" id="service-submenu"><Link className="submenu-feature" to="/problem-finder">Find the right service</Link>{services.map(s => <Link key={s.slug} to={`/services/${s.slug}`}>{s.title}</Link>)}</div>}
           </div>
-          <NavLink to="/residential">Residential</NavLink><NavLink to="/commercial">Commercial</NavLink><NavLink to="/about">About</NavLink><NavLink to="/contact">Contact</NavLink><NavLink className="nav-mobile-emergency" to="/emergency"><Phone size={17} aria-hidden="true" /> Emergency info</NavLink>
+          <NavLink to="/residential">Residential</NavLink><NavLink to="/commercial">Commercial</NavLink><NavLink to="/about">About</NavLink><NavLink to="/contact">Contact</NavLink><NavLink className="nav-mobile-emergency emergency-button" to="/emergency"><Phone size={17} aria-hidden="true" /><span className="emergency-button-label">Emergency info</span></NavLink>
         </nav>
-        <div className="nav-cta"><Link className="nav-emergency" to="/emergency"><Phone size={17} aria-hidden="true" /> Emergency info</Link><WetPaintButton className="btn btn-primary" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></WetPaintButton></div>
+        <div className="nav-cta"><Link className="nav-emergency emergency-button" to="/emergency" title="Emergency info"><Phone size={17} aria-hidden="true" /><span className="emergency-button-label">Emergency info</span></Link><WetPaintButton className="btn btn-primary" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></WetPaintButton></div>
       </div>
       <ScrollTool />
     </header>
