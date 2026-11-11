@@ -269,3 +269,36 @@ html[data-reduce-motion=yes] .site-header .brand-label { animation: none; }
 html[data-reduce-motion=yes] .site-header .brand-label strong { transition: none; translate: none !important; }
 @media (prefers-reduced-transparency: reduce) { .site-header, .site-header.is-scrolled { background: #deedfb; } }
 [data-contrast=high] .site-header { background: #deedfb; }
+/* Expanded interactions share the existing motion and accessibility system. */
+:root { --text-hover-time: 460ms; --text-heading-lift: -2px; --motion-card: 480ms; --motion-icon: 450ms; }
+@supports (backdrop-filter: blur(1px)) {
+ .site-header, .site-header.is-scrolled { background: rgb(185 220 255 / 12%); backdrop-filter: blur(12px) saturate(125%); -webkit-backdrop-filter: blur(12px) saturate(125%); border-color: rgb(225 240 255 / 28%); box-shadow: 0 8px 28px rgb(8 35 75 / 8%); }
+}
+/* Text-sized contrast backing leaves the glass and photograph exposed. */
+.site-header .brand-label { background: rgb(5 22 48 / 88%); border-radius: 3px; box-shadow: 0 0 6px 3px rgb(5 22 48 / 40%); }
+.site-header .brand-label :is(strong,small), .site-header .brand:is(:hover,:focus-visible) .brand-label strong { color: #fff; }
+@media (min-width: 901px) {
+ .site-header .primary-nav > a, .site-header .nav-service-group > a { color: #fff; text-shadow: 0 1px 2px #051630; background: rgb(5 22 48 / 88%); background-clip: content-box; }
+ .site-header .primary-nav > a::before, .site-header .nav-service-group > a::before { display: none; }
+ .site-header .submenu-toggle { color: #fff; background: #0b1f44; }
+}
+:is(.service-card-image,.gallery-card,.maintenance-card-image) { overflow: hidden; }
+:is(.service-card-image,.gallery-card,.maintenance-card-image) img { transition: transform 650ms var(--motion-ease); }
+:is(.review-card,.info-card,.safety-card) { transition: transform var(--motion-card) var(--motion-ease), box-shadow var(--motion-card) var(--motion-ease), border-color var(--motion-card) var(--motion-ease); }
+@media (hover:hover) and (pointer:fine) {
+ :is(.service-card,.gallery-card,.maintenance-card):hover img { transform: scale(1.03); }
+ :is(.review-card,.info-card,.safety-card):hover { transform: translateY(-4px); border-color: #81b1dc; box-shadow: 0 16px 32px rgb(11 31 68 / 12%); }
+ main :is(h2,h3,h4,h5,h6):hover { text-decoration: underline; text-decoration-color: #86b9e5; text-decoration-thickness: 1px; text-underline-offset: 6px; }
+ :is(.process-card,.service-card,.review-card):hover { border-color: #81b1dc; }
+ main .animated-icon:hover svg { transform: translateY(-2px) rotate(-3deg) scale(1.04); }
+ main .lead:hover { text-shadow: 0 0 1px currentColor; }
+}
+@media (prefers-reduced-motion:reduce) {
+ :root { --text-hover-time: 0ms; --text-heading-lift: 0px; }
+ :is(.review-card,.info-card,.safety-card):hover, :is(.service-card,.gallery-card,.maintenance-card):hover img, main .animated-icon:hover svg { transform: none !important; transition: none !important; }
+}
+html[data-reduce-motion=yes] :is(.review-card,.info-card,.safety-card):hover,
+html[data-reduce-motion=yes] :is(.service-card,.gallery-card,.maintenance-card):hover img,
+html[data-reduce-motion=yes] main .animated-icon:hover svg { transform: none !important; transition: none !important; }
+@media (prefers-reduced-transparency:reduce) { .site-header,.site-header.is-scrolled { background: #deedfb; } }
+[data-contrast=high] .site-header { background: #deedfb; }

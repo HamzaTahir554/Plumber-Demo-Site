@@ -17,7 +17,7 @@ test('glass header and ordered process cards fit all requested widths', async ({
       const contrast = ['.brand-label strong', '.primary-nav > a', '.nav-emergency'].map(selector => {
         const target = element.querySelector(selector);
         const foreground = luminance(rgb(getComputedStyle(target).color));
-        const surface = selector.startsWith('.brand') ? getComputedStyle(element.querySelector('.brand'), '::after') : selector.startsWith('.primary') ? getComputedStyle(element.querySelector('.primary-nav'), innerWidth > 900 ? '::before' : null) : getComputedStyle(target);
+        const surface = selector.startsWith('.brand') ? getComputedStyle(element.querySelector('.brand-label')) : selector.startsWith('.primary') ? (innerWidth > 900 ? getComputedStyle(target) : getComputedStyle(element.querySelector('.primary-nav'))) : getComputedStyle(target);
         const background = luminance(composite(rgb(surface.backgroundColor), glass));
         return (Math.max(background, foreground) + .05) / (Math.min(background, foreground) + .05);
       });
@@ -25,8 +25,8 @@ test('glass header and ordered process cards fit all requested widths', async ({
     });
     expect(header.left).toBeGreaterThan(0);
     expect(header.right).toBeLessThan(width);
-    expect(header.blur).toContain('blur(16px)');
-    expect(header.alpha).toBeLessThanOrEqual(.85);
+    expect(header.blur).toContain('blur(12px)');
+    expect(header.alpha).toBeLessThanOrEqual(.15);
     header.contrast.forEach(ratio => expect(ratio).toBeGreaterThanOrEqual(4.5));
     if (width > 900) {
       const cta = await page.locator('.nav-cta').boundingBox();
@@ -93,7 +93,7 @@ test('text hover preserves layout, selection, and editable controls', async ({ p
   const hovered = await paragraph.boundingBox();
   for (const key of ['x', 'y', 'width', 'height']) expect(Math.abs(hovered[key] - original[key])).toBeLessThan(.1);
   await heading.hover();
-  await expect(heading).toHaveCSS('translate', '0px -1px');
+  await expect(heading).toHaveCSS('translate', '0px -2px');
   await expect(paragraph).toHaveCSS('filter', 'none');
   await paragraph.evaluate(element => {
     const range = document.createRange(); range.selectNodeContents(element);
