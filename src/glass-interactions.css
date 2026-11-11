@@ -249,3 +249,23 @@ html[data-reduce-motion=yes] { --text-hover-time: 0ms; --text-heading-lift: 0px;
 .site-header .emergency-button :is(span, svg) { color: inherit; filter: none; translate: none; }
 .site-header .emergency-button svg { transform: none !important; }
 .site-header .emergency-button:is(:hover, :focus-visible, [aria-current=page]) { background: #c62828; border-color: #c62828; color: #fff; text-decoration: none; }
+/* Unified glass and branding; no separate reading panels. */
+.site-header .brand::after, .site-header .primary-nav::before { display: none; }
+@supports (backdrop-filter: blur(1px)) {
+  .site-header, .site-header.is-scrolled { background: rgb(185 220 255 / 82%); backdrop-filter: blur(16px) saturate(145%); -webkit-backdrop-filter: blur(16px) saturate(145%); }
+}
+.site-header .brand-label { animation: brand-name-arrive 780ms 180ms var(--motion-ease) backwards; }
+.site-header .brand-label strong { display: inline-block; background: linear-gradient(currentColor,currentColor) left bottom / 0% 1px no-repeat; transition: color 360ms var(--motion-ease), translate 360ms var(--motion-ease), background-size 360ms var(--motion-ease); }
+.site-header .brand:is(:hover,:focus-visible) .brand-label strong { color: #0757c8; translate: 0 -1px; background-size: 100% 1px; }
+.site-header .brand:is(:hover,:focus-visible) img { transform: translateY(-1px) rotate(-3deg); }
+@keyframes brand-name-arrive { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+.site-header .scroll-tool-track { top: 100%; bottom: auto; }
+.site-header .scroll-tool-track::before { left: 0; right: 18px; height: 2px; background: #0757c8; transform-origin: left; transform: scaleX(var(--tool-progress, 0)); }
+@media (prefers-reduced-motion: reduce) {
+ .site-header .brand-label { animation: none; }
+ .site-header .brand-label strong { transition: none; translate: none !important; }
+}
+html[data-reduce-motion=yes] .site-header .brand-label { animation: none; }
+html[data-reduce-motion=yes] .site-header .brand-label strong { transition: none; translate: none !important; }
+@media (prefers-reduced-transparency: reduce) { .site-header, .site-header.is-scrolled { background: #deedfb; } }
+[data-contrast=high] .site-header { background: #deedfb; }

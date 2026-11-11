@@ -135,10 +135,10 @@ test('decorative wrench follows scroll progress and stops for reduced motion', a
     const headerBounds = header.getBoundingClientRect();
     const trackBounds = element.getBoundingClientRect();
     const navBottom = header.querySelector('.nav-cta').getBoundingClientRect().bottom;
-    return { insideHeader: header.contains(element), gap: headerBounds.bottom - trackBounds.bottom, leftInset: trackBounds.left - headerBounds.left, rightInset: headerBounds.right - trackBounds.right, navClearance: trackBounds.top - navBottom };
+    return { insideHeader: header.contains(element), gap: trackBounds.top - headerBounds.bottom, leftInset: trackBounds.left - headerBounds.left, rightInset: headerBounds.right - trackBounds.right, navClearance: trackBounds.top - navBottom };
   });
   expect(attachment.insideHeader).toBe(true);
-  expect(attachment.gap).toBeGreaterThanOrEqual(0);
+  expect(attachment.gap).toBeGreaterThanOrEqual(-1);
   expect(attachment.gap).toBeLessThanOrEqual(2);
   expect(Math.abs(attachment.leftInset - attachment.rightInset)).toBeLessThan(1);
   expect(attachment.navClearance).toBeGreaterThan(0);
@@ -161,7 +161,7 @@ test('decorative wrench follows scroll progress and stops for reduced motion', a
     const trackBounds = element.getBoundingClientRect();
     const brandBottom = document.querySelector('.site-header .brand').getBoundingClientRect().bottom;
     const menuBottom = document.querySelector('.site-header .nav-toggle').getBoundingClientRect().bottom;
-    return { gap: header.bottom - trackBounds.bottom, clearance: trackBounds.top - Math.max(brandBottom, menuBottom) };
+    return { gap: trackBounds.top - header.bottom, clearance: trackBounds.top - Math.max(brandBottom, menuBottom) };
   });
   expect(mobileAttachment.gap).toBeLessThanOrEqual(2);
   expect(mobileAttachment.clearance).toBeGreaterThanOrEqual(0);

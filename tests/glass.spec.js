@@ -26,7 +26,7 @@ test('glass header and ordered process cards fit all requested widths', async ({
     expect(header.left).toBeGreaterThan(0);
     expect(header.right).toBeLessThan(width);
     expect(header.blur).toContain('blur(16px)');
-    expect(header.alpha).toBeLessThanOrEqual(.45);
+    expect(header.alpha).toBeLessThanOrEqual(.85);
     header.contrast.forEach(ratio => expect(ratio).toBeGreaterThanOrEqual(4.5));
     if (width > 900) {
       const cta = await page.locator('.nav-cta').boundingBox();

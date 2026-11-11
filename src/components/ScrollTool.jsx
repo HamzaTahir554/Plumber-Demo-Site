@@ -19,6 +19,7 @@ export default function ScrollTool() {
       }
       const scrollable = Math.max(0, document.documentElement.scrollHeight - window.innerHeight);
       const progress = scrollable ? Math.min(1, Math.max(0, window.scrollY / scrollable)) : 0;
+      track.style.setProperty('--tool-progress', progress);
       const distance = Math.max(0, track.clientWidth - icon.offsetWidth);
       track.style.setProperty('--tool-travel', `${Math.round(distance * progress)}px`);
     };
