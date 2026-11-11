@@ -35,8 +35,8 @@ for (const route of routes) {
         heroHeadingOutside: Boolean(hero && heading && (headingBounds.left < heroBounds.left - 1 || headingBounds.right > heroBounds.right + 1 || headingBounds.top < heroBounds.top - 1 || headingBounds.bottom > heroBounds.bottom + 1)),
         heroButtonOutside: Boolean(hero && buttons.some(button => { const bounds = button.getBoundingClientRect(); return bounds.left < heroBounds.left - 1 || bounds.right > heroBounds.right + 1 || bounds.top < heroBounds.top - 1 || bounds.bottom > heroBounds.bottom + 1; })),
         heroOverlayMissing: Boolean(hero && !getComputedStyle(hero, '::before').backgroundImage.includes('gradient')),
-        heroHeadingWrongColor: Boolean(heading && getComputedStyle(heading).color !== 'rgb(255, 255, 255)'),
-        heroDescriptionWrongColor: Boolean(hero && getComputedStyle(hero.querySelector('.lead')).color !== 'rgb(241, 247, 253)')
+        heroHeadingWrongColor: Boolean(heading && getComputedStyle(heading).color !== (hero.classList.contains('page-hero--commercial') ? 'rgb(7, 87, 200)' : 'rgb(255, 255, 255)')),
+        heroDescriptionWrongColor: Boolean(hero && getComputedStyle(hero.querySelector('.lead')).color !== (hero.classList.contains('page-hero--commercial') ? 'rgb(11, 31, 68)' : 'rgb(241, 247, 253)'))
       };
     });
     if (layout.overflow > 1 || layout.headingClipped || layout.brokenImages.length || layout.heroMissing || layout.heroImageDoesNotCover || layout.heroHeadingOutside || layout.heroButtonOutside || layout.heroOverlayMissing || layout.heroHeadingWrongColor || layout.heroDescriptionWrongColor) problems.push({ route, width, ...layout });

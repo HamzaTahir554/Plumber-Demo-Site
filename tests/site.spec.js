@@ -317,10 +317,10 @@ test('footer copy stays readable and header motion respects display settings', a
   await expect.poll(() => serviceToggle.evaluate(element => getComputedStyle(element, '::before').display)).toBe('none');
   const footerLink = page.locator('.footer-grid > div:nth-child(2) > a').first();
   await footerLink.hover();
-  await expect(footerLink).toHaveCSS('text-decoration-line', 'underline');
+  await expect.poll(() => footerLink.evaluate(element => new DOMMatrixReadOnly(getComputedStyle(element, '::after').transform).a)).toBe(1);
   const footerButton = page.locator('.footer-bottom button');
   await footerButton.hover();
-  await expect(footerButton).toHaveCSS('text-decoration-line', 'underline');
+  await expect.poll(() => footerButton.evaluate(element => new DOMMatrixReadOnly(getComputedStyle(element, '::after').transform).a)).toBe(1);
   const footerCta = page.locator('.footer-cta');
   await footerCta.hover({ position: { x: 12, y: 12 } });
   await expect.poll(() => footerCta.evaluate(element => getComputedStyle(element, '::before').opacity)).toBe('1');
@@ -563,7 +563,7 @@ test('full-width hero keeps its image, copy, and CTAs usable at target widths', 
   await expect(page.locator('.hero-banner h1')).toHaveCSS('animation-name', 'none');
 });
 
-test('all routes share hero geometry and white text', async ({ page }) => {
+test('all routes share hero geometry and the intended text colors', async ({ page }) => {
   for (const width of [390, 1440]) {
     await page.setViewportSize({ width, height: 900 });
     for (const route of routes) {
@@ -581,8 +581,8 @@ test('all routes share hero geometry and white text', async ({ page }) => {
       }, { message: `${route} at ${width}px clears floating header` }).toBeGreaterThan(8);
       if (width === 1440) await expect(hero.locator('.hero-banner-inner')).toHaveCSS('min-height', '720px');
       await expect(hero).toHaveCSS('background-color', 'rgb(6, 26, 52)');
-      await expect(hero.locator('h1')).toHaveCSS('color', 'rgb(255, 255, 255)');
-      await expect(hero.locator('.lead')).toHaveCSS('color', 'rgb(241, 247, 253)');
+      await expect(hero.locator('h1')).toHaveCSS('color', route === '/commercial' ? 'rgb(7, 87, 200)' : 'rgb(255, 255, 255)');
+      await expect(hero.locator('.lead')).toHaveCSS('color', route === '/commercial' ? 'rgb(11, 31, 68)' : 'rgb(241, 247, 253)');
     }
   }
 });

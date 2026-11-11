@@ -6,6 +6,10 @@
   --motion-menu: 230ms;
   --motion-section: 740ms;
   --motion-image: 960ms;
+  --motion-micro: 300ms;
+  --motion-icon: 400ms;
+  --motion-card: 420ms;
+  --motion-hero: 1000ms;
   --motion-ease: cubic-bezier(.22, 1, .36, 1);
 }
 
