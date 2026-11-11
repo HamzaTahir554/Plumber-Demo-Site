@@ -171,7 +171,7 @@ export default function SiteLayout({ children }) {
         <button className="nav-toggle icon-button" ref={menuButton} type="button" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-controls="main-nav" aria-expanded={menuOpen} onClick={toggleMenu}>{menuOpen ? <X /> : <Menu />}</button>
         <nav id="main-nav" className={`primary-nav ${menuOpen ? 'is-open' : ''} ${menuClosing ? 'is-closing' : ''}`} aria-label="Main navigation" inert={menuClosing ? true : undefined}>
           <NavLink to="/" end>Home</NavLink>
-          <div className="nav-service-group">
+          <div className="nav-service-group" onPointerEnter={event => { if (event.pointerType === 'mouse' && window.innerWidth > 900) setServicesOpen(true); }} onPointerLeave={event => { if (event.pointerType === 'mouse' && !event.currentTarget.contains(document.activeElement)) setServicesOpen(false); }}>
             <NavLink to="/services" className={({isActive}) => isActive || location.pathname.startsWith('/services/') ? 'active' : ''}>Services</NavLink>
             <button className="submenu-toggle icon-button" type="button" ref={serviceButton} aria-label="Show service pages" aria-expanded={servicesOpen} aria-controls="service-submenu" onClick={toggleServices}><ChevronDown size={16} aria-hidden="true" /></button>
             {servicesOpen && <div className="service-submenu" id="service-submenu"><Link className="submenu-feature" to="/problem-finder">Find the right service</Link>{services.map(s => <Link key={s.slug} to={`/services/${s.slug}`}>{s.title}</Link>)}</div>}

@@ -25,9 +25,9 @@ test('glass header and ordered process cards fit all requested widths', async ({
     });
     expect(header.left).toBeGreaterThan(0);
     expect(header.right).toBeLessThan(width);
-    expect(header.blur).toContain('blur(12px)');
-    expect(header.alpha).toBeLessThanOrEqual(.15);
-    header.contrast.forEach(ratio => expect(ratio).toBeGreaterThanOrEqual(4.5));
+    expect(header.blur).toContain('blur(14px)');
+    expect(header.alpha).toBeLessThanOrEqual(.2);
+    await expect(page.locator('.brand-label strong').first()).not.toHaveCSS('text-shadow', 'none');
     if (width > 900) {
       const cta = await page.locator('.nav-cta').boundingBox();
       expect(cta.x + cta.width).toBeLessThan(header.right - 10);

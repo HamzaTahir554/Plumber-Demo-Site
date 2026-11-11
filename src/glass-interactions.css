@@ -302,3 +302,32 @@ html[data-reduce-motion=yes] :is(.service-card,.gallery-card,.maintenance-card):
 html[data-reduce-motion=yes] main .animated-icon:hover svg { transform: none !important; transition: none !important; }
 @media (prefers-reduced-transparency:reduce) { .site-header,.site-header.is-scrolled { background: #deedfb; } }
 [data-contrast=high] .site-header { background: #deedfb; }
+/* Cohesive header glass, including dropdowns and default button surfaces. */
+@supports (backdrop-filter: blur(1px)) {
+ .site-header, .site-header.is-scrolled { background: rgb(125 190 255 / 16%); backdrop-filter: blur(14px) saturate(135%); -webkit-backdrop-filter: blur(14px) saturate(135%); border-color: rgb(185 220 255 / 30%); }
+ .site-header .service-submenu { background: rgb(165 210 255 / 22%); backdrop-filter: blur(20px) saturate(145%); -webkit-backdrop-filter: blur(20px) saturate(145%); }
+}
+.site-header .brand-label { background: transparent; box-shadow: none; }
+.site-header .brand-label :is(strong,small),
+.site-header .brand:is(:hover,:focus-visible) .brand-label strong,
+.site-header .primary-nav > a, .site-header .nav-service-group > a,
+.site-header .service-submenu a, .site-header .nav-cta .wet-paint-button,
+.site-header .emergency-button, .site-header .icon-button {
+ color: #0b3566; background-color: transparent;
+ text-shadow: 0 0 2px #fff, 0 0 4px #fff, 0 1px 1px #fff;
+}
+.site-header .brand-label strong { -webkit-text-stroke: .15px rgb(240 248 255 / 65%); }
+.site-header .nav-cta .wet-paint-button, .site-header .emergency-button, .site-header .icon-button { border: 1px solid rgb(185 220 255 / 65%); }
+.site-header .nav-cta .wet-paint-button:is(:hover,:focus-visible) { color: #fff; background: transparent; text-shadow: none; }
+.site-header .emergency-button:is(:hover,:focus-visible,[aria-current=page]) { background: #c62828; border-color: #c62828; color: #fff; text-shadow: none; }
+.site-header .service-submenu { border: 1px solid rgb(200 230 255 / 35%); box-shadow: 0 12px 35px rgb(10 40 85 / 14%); }
+.site-header .service-submenu a { transition: color 360ms var(--motion-ease), background-color 360ms var(--motion-ease), translate 360ms var(--motion-ease); }
+.site-header .service-submenu a:is(:hover,:focus-visible) { background: rgb(120 185 255 / 24%); color: #052853; translate: 3px 0; }
+@media(min-width:901px) { .site-header .service-submenu::before { content: ''; position: absolute; left: 0; right: 0; top: -22px; height: 22px; } }
+@media(prefers-reduced-motion:reduce) { .site-header .service-submenu a { transition: none; translate: none !important; } }
+html[data-reduce-motion=yes] .site-header .service-submenu a { transition: none; translate: none !important; }
+@media(prefers-reduced-transparency:reduce) { .site-header,.site-header.is-scrolled,.site-header .service-submenu { background: #deedfb; } }
+[data-contrast=high] .site-header, [data-contrast=high] .site-header .service-submenu { background: #deedfb; }
+.site-header .icon-button svg, .site-header .nav-cta svg { filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 2px #fff); }
+.site-header .emergency-button:is(:hover,:focus-visible) svg,
+.site-header .wet-paint-button:is(:hover,:focus-visible) svg { filter: none; }
