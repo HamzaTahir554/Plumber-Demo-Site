@@ -10,10 +10,29 @@
 .js-motion .service-grid.is-visible .service-card-image img { animation:story-photo 1000ms 100ms var(--motion-ease) backwards; }
 .js-motion .service-grid.is-visible .service-card h3 { animation:story-copy 800ms 180ms var(--motion-ease) backwards; }
 .motion-section.is-visible :is(.split-image,.why-photo,.about-van) img { animation:story-photo 1000ms 100ms var(--motion-ease) backwards; }
-.footer.motion-section.is-visible .footer-grid > div { animation:story-copy 850ms var(--motion-ease) backwards; }
-.footer.motion-section.is-visible .footer-grid > div:nth-child(2) { animation-delay:80ms; }
-.footer.motion-section.is-visible .footer-grid > div:nth-child(3) { animation-delay:160ms; }
-.footer.motion-section.is-visible .footer-grid > div:nth-child(4) { animation-delay:240ms; }
+/* Observe each footer column independently so mobile rows reveal on arrival. */
+.footer-grid > .motion-section.is-visible > *,
+.footer-bottom.motion-section.is-visible > * {
+ animation:footer-item-enter 720ms var(--motion-ease) backwards;
+ animation-delay:calc(var(--footer-order, 0) * 55ms);
+}
+.footer-grid > div > :nth-child(2) { --footer-order:1; }
+.footer-grid > div > :nth-child(3) { --footer-order:2; }
+.footer-grid > div > :nth-child(4) { --footer-order:3; }
+.footer-grid > div > :nth-child(5) { --footer-order:4; }
+.footer-grid > div > :nth-child(6) { --footer-order:5; }
+.footer-grid > div > :nth-child(7) { --footer-order:6; }
+.footer-grid > div > :nth-child(n+8) { --footer-order:7; }
+@keyframes footer-item-enter { from { opacity:0; translate:0 10px; } to { opacity:1; translate:0 0; } }
+/* Keyboard navigation must never wait for an entrance animation. */
+.footer-grid > div:focus-within > *, .footer-bottom:focus-within > * { animation:none; }
+@media(max-width:680px) {
+ .footer-grid > .motion-section.is-visible > * { animation-duration:550ms; animation-delay:calc(var(--footer-order, 0) * 35ms); }
+}
+@media(prefers-reduced-motion:reduce) {
+ .footer-grid > .motion-section.is-visible > *, .footer-bottom.motion-section.is-visible > * { animation:none !important; }
+}
+html[data-reduce-motion=yes] .footer :is(.footer-grid > div, .footer-bottom) > * { animation:none !important; }
 @keyframes story-copy { from { opacity:0; translate:0 var(--story-distance); } to { opacity:1; translate:0 0; } }
 @keyframes story-mask { from { opacity:0; clip-path:inset(0 0 100% 0); translate:0 var(--story-distance); } to { opacity:1; clip-path:inset(0); translate:0 0; } }
 @keyframes story-photo { from { opacity:.25; clip-path:inset(0 0 8% 0); } to { opacity:1; clip-path:inset(0); } }
@@ -31,3 +50,8 @@
  .js-motion .service-grid.is-visible .service-card :is(img,h3) { animation:none !important; clip-path:none; translate:none; }
 }
 html[data-reduce-motion=yes] :is(.hero-trust,.hero-footnote,.footer-grid > div,.section-heading h2,.section-heading p,.section-intro h2,.section-intro p,.service-card img,.service-card h3) { animation:none !important; clip-path:none; translate:none; }
+
+/* Keep link hit areas stationary while their content fades into view. */
+.js-motion .footer :is(.footer-grid > .motion-section, .footer-bottom.motion-section) { transform:none; }
+.footer-grid > .motion-section.is-visible > a { animation-name:footer-link-enter; }
+@keyframes footer-link-enter { from { opacity:0; } to { opacity:1; } }

@@ -3,7 +3,7 @@ import { useLayoutEffect } from 'react';
 export default function useReveal() {
   useLayoutEffect(() => {
     if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.reduceMotion === 'yes') return;
-    const sections = [...document.querySelectorAll('main .section > .container, main .request-cta-inner, .footer')];
+    const sections = [...document.querySelectorAll('main .section > .container, main .request-cta-inner, .footer-grid > div, .footer-bottom')];
 
     const elements = [...new Set([...sections, ...document.querySelectorAll('main .reveal')])];
     if (!elements.length) return;
