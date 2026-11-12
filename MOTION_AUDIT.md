@@ -79,3 +79,9 @@ All measured CLS results are below the 0.1 target. No field performance, Safari 
 - New effects use CSS transforms/opacity, with no event listeners or dependencies. Keyboard focus decoration is immediate; OS and site reduced-motion preferences disable decorative transitions.
 - Chrome viewport checks passed at 320, 390, 768, 1024 and 1440px: no horizontal overflow, hover layers visible, rapid exits reset, keyboard outline visible, and reduced-motion transitions disabled. Desktop/mobile screenshots reviewed. Emulated touch navigation to Maintenance passed.
 - Five existing tests in glass.spec.js and green-actions.spec.js passed. Production build passed. This footer follow-up was not separately verified in Firefox, Edge, Safari or on physical devices; the earlier broader results above predate this change.
+
+### Shared header/footer hover revision — November 13, 2026
+
+Supersedes the curved footer trace/valve treatment above. Header navigation and footer links now share a center-out fine underline, soft blue highlight, and existing restrained text movement. Logo hover uses a gentle scale in both locations; footer headings have a simple accent. The previous valve decoration and logo tilt are removed. Mobile navigation uses a short underline, active routes remain marked, and CTA paint/colors are unchanged.
+
+Styles are consolidated in src/chrome-hover.css (replacing footer-hover.css), with no new JavaScript or dependencies. Keyboard decorations appear immediately; reduced-motion preferences preserve static feedback. Chrome checks passed at 320, 390, 768, 1024 and 1440px, including screenshots, overflow, hover reset, keyboard outline, reduced motion and emulated touch navigation. Eight selected existing tests passed (five glass/CTA tests and three navigation tests). Production build passed. This revision was not tested on physical devices or in other browsers.

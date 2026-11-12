@@ -17,7 +17,7 @@ import './wet-paint.css';
 import './glass-interactions.css';
 import './story-motion.css';
 import './service-cards.css';
-import './footer-hover.css';
+import './chrome-hover.css';
 
 import Services from './pages/Services.jsx';
 import ServiceDetail from './pages/ServiceDetail.jsx';

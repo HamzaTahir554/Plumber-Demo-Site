@@ -1,0 +1,128 @@
+/* Shared header/footer interaction styling; decorative layers never intercept input. */
+.footer {
+  --footer-flow: #b9ddff;
+  --footer-flow-time: 620ms;
+}
+.footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta),
+.footer .footer-bottom button {
+  width: fit-content;
+  max-width: 100%;
+}
+
+/* Shared center-out underline with a quiet glass highlight. CTA paint is excluded. */
+:is(.site-header .primary-nav > a:not(.emergency-button):not(.wet-paint-button), .footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta), .footer .footer-bottom button) {
+  --chrome-accent: #b9ddff;
+  position: relative;
+  isolation: isolate;
+}
+:is(.site-header .primary-nav > a:not(.emergency-button):not(.wet-paint-button), .footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta), .footer .footer-bottom button)::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: auto;
+  bottom: -3px;
+  height: 1px;
+  background: var(--chrome-accent);
+  border-radius: 1px;
+  transform: scaleX(0);
+  transform-origin: center;
+  opacity: .65;
+  pointer-events: none;
+  transition: transform 480ms var(--motion-ease), opacity 300ms ease;
+}
+:is(.site-header .primary-nav > a:not(.emergency-button):not(.wet-paint-button), .footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta), .footer .footer-bottom button)::before {
+  content: '';
+  display: block;
+  position: absolute;
+  z-index: -1;
+  inset: -5px -7px;
+  width: auto;
+  height: auto;
+  border: 0;
+  border-radius: 10px;
+  background: rgb(185 221 255 / 8%);
+  box-shadow: none;
+  opacity: 0;
+  transform: none;
+  pointer-events: none;
+  transition: opacity 400ms var(--motion-ease);
+}
+:is(.site-header .primary-nav > a:not(.emergency-button):not(.wet-paint-button), .footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta), .footer .footer-bottom button):is(:hover, :focus-visible)::after { transform: scaleX(1); opacity: 1; }
+:is(.site-header .primary-nav > a:not(.emergency-button):not(.wet-paint-button), .footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta), .footer .footer-bottom button):is(:hover, :focus-visible)::before { opacity: 1; transform: none; }
+:is(.site-header .primary-nav > a:not(.emergency-button):not(.wet-paint-button), .footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta), .footer .footer-bottom button):focus-visible::before,
+:is(.site-header .primary-nav > a:not(.emergency-button):not(.wet-paint-button), .footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta), .footer .footer-bottom button):focus-visible::after { transition: none; }
+.site-header .nav-shell nav.primary-nav > a:not(.emergency-button):not(.wet-paint-button)::after { bottom: 5px; }
+.site-header .nav-shell nav.primary-nav > a:not(.emergency-button):not(.wet-paint-button)::before { inset: 1px -7px; }
+.site-header .nav-shell nav.primary-nav > a:not(.emergency-button):not(.wet-paint-button).active::after { transform: scaleX(1); }
+/* Keep active routes marked without leaving their hover surface switched on. */
+.site-header .nav-shell .primary-nav > a:not(.emergency-button):not(.wet-paint-button).active:not(:hover):not(:focus-visible)::before { opacity: 0; }
+@media(max-width:900px) {
+  .site-header .nav-shell nav.primary-nav > a:not(.emergency-button):not(.wet-paint-button)::after { right: auto; width: 28px; transform-origin: left; }
+}
+/* A small scale replaces the previous logo tilt in both locations. */
+:is(.site-header, .footer) .brand img { transition: transform 480ms var(--motion-ease); }
+:is(.site-header, .footer) .brand:is(:hover, :focus-visible) img { transform: scale(1.04); filter: none; }
+:is(.site-header, .footer) .brand:is(:hover, :focus-visible) .brand-label strong { text-decoration: none; }
+
+/* Quiet heading accents stay separate from link affordances. */
+.footer .footer-grid h2 {
+  position: relative;
+  width: fit-content;
+  cursor: auto;
+  filter: none;
+  --text-heading-lift: 0px;
+}
+.footer .footer-grid h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -9px;
+  width: 26px;
+  height: 2px;
+  background: var(--footer-flow);
+  opacity: .45;
+  transform-origin: left;
+  pointer-events: none;
+  transition: transform var(--footer-flow-time) var(--motion-ease), opacity 350ms ease;
+}
+.footer .footer-grid > div:focus-within h2::after {
+  opacity: 1;
+  transform: scaleX(1.4);
+}
+.footer .footer-brand p,
+.footer .footer-demo,
+.footer span.footer-contact,
+.footer .footer-bottom > span {
+  filter: none;
+  transition: color 400ms var(--motion-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .footer .footer-grid > div:hover h2::after { opacity: 1; transform: scaleX(1.4); }
+  .footer .footer-brand p:hover,
+  .footer .footer-demo:hover,
+  .footer span.footer-contact:hover,
+  .footer .footer-bottom > span:hover { color: #fff; filter: none; }
+
+}
+.footer span.footer-contact svg { transition: transform 500ms var(--motion-ease); }
+
+/* Static, immediate feedback for either reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  .footer :is(a, button, h2)::before,
+  .footer :is(a, button, h2)::after,
+  .footer :is(p, span), .footer span.footer-contact svg { transition: none !important; }
+  .footer span.footer-contact:hover svg { transform: none !important; }
+}
+html[data-reduce-motion=yes] .footer :is(a, button, h2)::before,
+html[data-reduce-motion=yes] .footer :is(a, button, h2)::after,
+html[data-reduce-motion=yes] .footer :is(p, span),
+html[data-reduce-motion=yes] .footer span.footer-contact svg { transition: none !important; }
+html[data-reduce-motion=yes] .footer span.footer-contact:hover svg { transform: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  .site-header .primary-nav > a::after { transition: none !important; }
+  :is(.site-header, .footer) .brand:is(:hover, :focus-visible) img { transform: none !important; }
+}
+html[data-reduce-motion=yes] .site-header .primary-nav > a::after { transition: none !important; }
+html[data-reduce-motion=yes] :is(.site-header, .footer) .brand:is(:hover, :focus-visible) img { transform: none !important; }
