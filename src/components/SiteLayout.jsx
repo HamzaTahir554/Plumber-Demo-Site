@@ -53,6 +53,12 @@ export default function SiteLayout({ children }) {
   }, [location.pathname]);
 
   useEffect(() => () => window.clearTimeout(menuTimer.current), []);
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 900px)');
+    const update = () => { document.documentElement.dataset.mobileMenuOpen = menuOpen && query.matches ? 'yes' : 'no'; };
+    update(); query.addEventListener('change', update);
+    return () => { query.removeEventListener('change', update); delete document.documentElement.dataset.mobileMenuOpen; };
+  }, [menuOpen]);
 
   useEffect(() => {
     function updateSelection() {
@@ -177,6 +183,7 @@ export default function SiteLayout({ children }) {
             {servicesOpen && <div className="service-submenu" id="service-submenu"><Link className="submenu-feature" to="/problem-finder">Find the right service</Link>{services.map(s => <Link key={s.slug} to={`/services/${s.slug}`}>{s.title}</Link>)}</div>}
           </div>
           <NavLink to="/residential">Residential</NavLink><NavLink to="/commercial">Commercial</NavLink><NavLink to="/about">About</NavLink><NavLink to="/contact">Contact</NavLink><NavLink className="nav-mobile-emergency emergency-button" to="/emergency"><Phone size={17} aria-hidden="true" /><span className="emergency-button-label">Emergency info</span></NavLink>
+          <WetPaintButton className="btn btn-primary nav-mobile-request" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></WetPaintButton>
         </nav>
         <div className="nav-cta"><Link className="nav-emergency emergency-button" to="/emergency" title="Emergency info"><Phone size={17} aria-hidden="true" /><span className="emergency-button-label">Emergency info</span></Link><WetPaintButton className="btn btn-primary" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></WetPaintButton></div>
       </div>

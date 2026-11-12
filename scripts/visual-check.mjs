@@ -7,7 +7,7 @@ const browser = await chromium.launch(existsSync(chrome) ? { executablePath: chr
 const page = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: 'reduce' });
 const origin = process.env.SITE_ORIGIN || 'http://127.0.0.1:4173';
 const routes = ['/', '/services', '/services/leak-repair', '/services/drain-cleaning', '/services/water-heaters', '/services/toilet-fixture-repair', '/services/pipe-repair', '/services/sump-pumps', '/problem-finder', '/service-area', '/projects', '/maintenance', '/residential', '/commercial', '/emergency', '/about', '/contact', '/reviews', '/accessibility', '/privacy'];
-const widths = [320, 375, 390, 430, 768, 1024, 1440, 1920];
+const widths = [320, 360, 375, 390, 430, 768, 1024, 1440, 1920];
 const folder = join('reports', 'visual');
 mkdirSync(folder, { recursive: true });
 const problems = [];
