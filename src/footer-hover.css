@@ -1,0 +1,110 @@
+/* Plumbing-inspired flow traces. Decorative layers never intercept input. */
+.footer {
+  --footer-flow: #84d5f4;
+  --footer-flow-time: 620ms;
+}
+.footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta),
+.footer .footer-bottom button {
+  width: fit-content;
+  max-width: 100%;
+}
+
+/* Replace the straight underline with a line that bends into a small valve. */
+.footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta)::after,
+.footer .footer-bottom button::after {
+  bottom: -7px;
+  height: 7px;
+  right: 5px;
+  background: linear-gradient(90deg, #5c9fe8, var(--footer-flow));
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 7' preserveAspectRatio='none'%3E%3Cpath d='M0 6H142Q148 6 148 3T154 1H160' fill='none' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 160 7' preserveAspectRatio='none'%3E%3Cpath d='M0 6H142Q148 6 148 3T154 1H160' fill='none' stroke='white' stroke-width='1.5'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  opacity: 0;
+  transition: transform var(--footer-flow-time) var(--motion-ease), opacity 250ms ease;
+}
+.footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta)::before,
+.footer .footer-bottom button::before {
+  content: '';
+  display: block;
+  position: absolute;
+  inset: auto 0 -3px auto;
+  width: 5px;
+  height: 5px;
+  border: 1px solid var(--footer-flow);
+  border-radius: 1px;
+  background: transparent;
+  box-shadow: none;
+  pointer-events: none;
+  opacity: 0;
+  transform: rotate(-90deg) scale(.5);
+  transition: transform 480ms var(--motion-ease), opacity 220ms ease;
+}
+.footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta):is(:hover, :focus-visible)::after,
+.footer .footer-bottom button:is(:hover, :focus-visible)::after {
+  opacity: 1;
+  transform: scaleX(1);
+}
+.footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta):is(:hover, :focus-visible)::before,
+.footer .footer-bottom button:is(:hover, :focus-visible)::before {
+  opacity: 1;
+  transform: rotate(45deg) scale(1);
+  transition-delay: 120ms;
+}
+.footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta):focus-visible::before,
+.footer .footer-grid > div:not(.footer-brand) > a:not(.footer-cta):focus-visible::after,
+.footer .footer-bottom button:focus-visible::before,
+.footer .footer-bottom button:focus-visible::after { transition: none; }
+
+/* Headings have a two-part accent, not a link underline or a pointer cursor. */
+.footer .footer-grid h2 {
+  position: relative;
+  width: fit-content;
+  cursor: auto;
+  filter: none;
+  --text-heading-lift: 0px;
+}
+.footer .footer-grid h2::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -9px;
+  width: 26px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--footer-flow) 0 65%, transparent 65% 78%, #fff 78%);
+  opacity: .45;
+  transform-origin: left;
+  pointer-events: none;
+  transition: transform var(--footer-flow-time) var(--motion-ease), opacity 350ms ease;
+}
+.footer .footer-grid > div:focus-within h2::after {
+  opacity: 1;
+  transform: scaleX(1.8);
+}
+.footer .footer-brand p,
+.footer .footer-demo,
+.footer span.footer-contact,
+.footer .footer-bottom > span {
+  filter: none;
+  transition: color 400ms var(--motion-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .footer .footer-grid > div:hover h2::after { opacity: 1; transform: scaleX(1.8); }
+  .footer .footer-brand p:hover,
+  .footer .footer-demo:hover,
+  .footer span.footer-contact:hover,
+  .footer .footer-bottom > span:hover { color: #fff; filter: none; }
+  .footer span.footer-contact:hover .lucide-clock-3 { transform: rotate(12deg); }
+}
+.footer span.footer-contact svg { transition: transform 500ms var(--motion-ease); }
+
+/* Static, immediate feedback for either reduced-motion preference. */
+@media (prefers-reduced-motion: reduce) {
+  .footer :is(a, button, h2)::before,
+  .footer :is(a, button, h2)::after,
+  .footer :is(p, span), .footer span.footer-contact svg { transition: none !important; }
+  .footer span.footer-contact:hover svg { transform: none !important; }
+}
+html[data-reduce-motion=yes] .footer :is(a, button, h2)::before,
+html[data-reduce-motion=yes] .footer :is(a, button, h2)::after,
+html[data-reduce-motion=yes] .footer :is(p, span),
+html[data-reduce-motion=yes] .footer span.footer-contact svg { transition: none !important; }
+html[data-reduce-motion=yes] .footer span.footer-contact:hover svg { transform: none !important; }

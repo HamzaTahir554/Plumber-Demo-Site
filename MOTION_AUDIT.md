@@ -71,3 +71,11 @@ Each run covered all 20 routes at 320, 390, 768, 1024 and 1440 CSS pixels (100 c
 The full functional suite ran in Chrome (29 existing tests plus one new regression test passed); the other engines ran the route/layout and navigation smoke checks described above, not the complete functional suite. Physical devices were unavailable. Screenshots, metrics and browser reports are local ignored artifacts in reports/. Reproduce with a production preview on port 4174 and node scripts/cross-browser-check.mjs; BROWSER_FILTER optionally selects Chrome, Edge, Firefox or WebKit.
 
 All measured CLS results are below the 0.1 target. No field performance, Safari compatibility, or physical-device smoothness claim is made. Earlier notes about remaining lazy-route shifts describe the pre-fix baseline and are superseded by this follow-up.
+
+### Footer hover refinement — November 13, 2026
+
+- Ordinary footer links now reveal a curved blue flow trace ending in a small rotating valve accent. This replaces their straight underline without changing destinations.
+- Column headings use a two-part accent; descriptive text gently brightens and the hours icon tilts. Noninteractive text remains selectable with its normal cursor. Existing CTA wet paint and footer entrance choreography are preserved.
+- New effects use CSS transforms/opacity, with no event listeners or dependencies. Keyboard focus decoration is immediate; OS and site reduced-motion preferences disable decorative transitions.
+- Chrome viewport checks passed at 320, 390, 768, 1024 and 1440px: no horizontal overflow, hover layers visible, rapid exits reset, keyboard outline visible, and reduced-motion transitions disabled. Desktop/mobile screenshots reviewed. Emulated touch navigation to Maintenance passed.
+- Five existing tests in glass.spec.js and green-actions.spec.js passed. Production build passed. This footer follow-up was not separately verified in Firefox, Edge, Safari or on physical devices; the earlier broader results above predate this change.
