@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import SiteLayout from './components/SiteLayout.jsx';
@@ -17,16 +17,16 @@ import './wet-paint.css';
 import './glass-interactions.css';
 import './story-motion.css';
 
-const Services = lazy(() => import('./pages/Services.jsx'));
-const ServiceDetail = lazy(() => import('./pages/ServiceDetail.jsx'));
-const InfoPages = lazy(() => import('./pages/InfoPages.jsx'));
-const ProblemFinder = lazy(() => import('./pages/ProblemFinder.jsx'));
-const ServiceArea = lazy(() => import('./pages/ServiceArea.jsx'));
-const ProjectGallery = lazy(() => import('./pages/ProjectGallery.jsx'));
-const MaintenanceHub = lazy(() => import('./pages/MaintenanceHub.jsx'));
+import Services from './pages/Services.jsx';
+import ServiceDetail from './pages/ServiceDetail.jsx';
+import InfoPages from './pages/InfoPages.jsx';
+import ProblemFinder from './pages/ProblemFinder.jsx';
+import ServiceArea from './pages/ServiceArea.jsx';
+import ProjectGallery from './pages/ProjectGallery.jsx';
+import MaintenanceHub from './pages/MaintenanceHub.jsx';
 
 function App() {
-  return <BrowserRouter><SiteLayout><Suspense fallback={<div className="page-loading container" role="status">Loading page…</div>}><Routes>
+  return <BrowserRouter><SiteLayout><Routes>
     <Route path="/" element={<Home />} />
     <Route path="/services" element={<Services />} />
     <Route path="/services/:slug" element={<ServiceDetail />} />
@@ -35,7 +35,7 @@ function App() {
     <Route path="/projects" element={<ProjectGallery />} />
     <Route path="/maintenance" element={<MaintenanceHub />} />
     <Route path="/:page" element={<InfoPages />} />
-  </Routes></Suspense></SiteLayout></BrowserRouter>;
+  </Routes></SiteLayout></BrowserRouter>;
 }
 
 createRoot(document.getElementById('root')).render(<App />);

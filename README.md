@@ -56,7 +56,7 @@ For visual checks, run `npm run build` and `npm run preview -- --port 4174`, the
 
 ## Project layout
 
-- `src/main.jsx` — routing with an eager home route and lazy secondary routes
+- `src/main.jsx` — routing with eager page modules that avoid transient route-loading layouts
 - `src/components/` — layout, chat, forms, settings, shared UI
 - `src/glass-interactions.css` — blue glass header, process cards, Commercial hero colors, and shared text/icon interactions
 - `src/pages/` — homepage, services, and informational pages
