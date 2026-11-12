@@ -19,39 +19,3 @@
 [data-contrast=high] .site-outro-shell::before {
   background-image: linear-gradient(rgb(2 9 24 / 96%), rgb(2 9 24 / 96%)), url('/assets/images/enhanced/water-wave-banner.jpg');
 }
-
-/* The decorative tool sits within the header's bottom band. */
-.site-header .nav-shell { min-height: 88px; padding-bottom: 12px; }
-.site-header .scroll-tool-track {
-  position: absolute;
-  z-index: 0;
-  top: auto;
-  right: 15px;
-  bottom: 0;
-  left: 15px;
-  width: auto;
-  height: 18px;
-  transform: none;
-}
-.site-header .scroll-tool-track::before {
-  top: 8px;
-  right: 7px;
-  left: 7px;
-  background: #c8ddf0;
-}
-.site-header .scroll-tool-icon {
-  width: 18px;
-  height: 18px;
-  border: 0;
-  background: #fff;
-  box-shadow: none;
-}
-.site-header .scroll-tool-icon svg { width: 15px; height: 15px; }
-@media (max-width: 680px) {
-  .site-header .nav-shell { min-height: 82px; padding-bottom: 14px; }
-  .site-header .scroll-tool-track { display: block; }
-}
-@media (prefers-reduced-motion: reduce) {
-  .site-header .scroll-tool-track { display: none; }
-}
-html[data-reduce-motion=yes] .site-header .scroll-tool-track { display: none; }

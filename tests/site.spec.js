@@ -91,7 +91,7 @@ test('floating header stays centered, clears hero copy, and keeps mobile navigat
     expect(layout.headerTop, `${width}px header top`).toBe(width <= 680 ? 14 : 16);
     expect(Math.abs(layout.left - layout.rightGap), `${width}px centered header`).toBeLessThan(1);
     expect(layout.width, `${width}px header width`).toBeLessThanOrEqual(1320);
-    expect(layout.heroTop).toBe(0);
+    expect(layout.heroTop).toBeGreaterThanOrEqual(layout.headerBottom);
     expect(layout.headingTop, `${width}px hero copy`).toBeGreaterThan(layout.headerBottom + 8);
     expect(layout.overflow, `${width}px overflow`).toBeLessThanOrEqual(1);
     await page.evaluate(() => window.scrollTo(0, 500));
@@ -115,52 +115,8 @@ test('floating header stays centered, clears hero copy, and keeps mobile navigat
   await expect.poll(() => page.locator('#booking-wizard').evaluate(target => target.getBoundingClientRect().top)).toBeGreaterThan(90);
 });
 
-test('decorative wrench follows scroll progress and stops for reduced motion', async ({ page }) => {
-  await page.goto('/');
-  const track = page.locator('.scroll-tool-track');
-  await expect(track).toBeVisible();
-  const attachment = await track.evaluate(element => {
-    const header = element.closest('.site-header');
-    const headerBounds = header.getBoundingClientRect();
-    const trackBounds = element.getBoundingClientRect();
-    const navBottom = header.querySelector('.nav-cta').getBoundingClientRect().bottom;
-    return { insideHeader: header.contains(element), gap: trackBounds.top - headerBounds.bottom, leftInset: trackBounds.left - headerBounds.left, rightInset: headerBounds.right - trackBounds.right, navClearance: trackBounds.top - navBottom };
-  });
-  expect(attachment.insideHeader).toBe(true);
-  expect(attachment.gap).toBeGreaterThanOrEqual(-1);
-  expect(attachment.gap).toBeLessThanOrEqual(2);
-  expect(Math.abs(attachment.leftInset - attachment.rightInset)).toBeLessThan(1);
-  expect(attachment.navClearance).toBeGreaterThan(0);
-  const read = () => track.evaluate(element => ({
-    travel: parseFloat(element.style.getPropertyValue('--tool-travel')) || 0,
-    distance: element.clientWidth - element.querySelector('.scroll-tool-icon').offsetWidth
-  }));
-  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
-  await expect.poll(async () => (await read()).travel).toBe(0);
-  await page.evaluate(() => window.scrollTo({ top: (document.documentElement.scrollHeight - innerHeight) / 2, behavior: 'instant' }));
-  await expect.poll(async () => { const { travel, distance } = await read(); return travel / distance; }).toBeGreaterThan(.45);
-  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: 'instant' }));
-  await expect.poll(async () => { const { travel, distance } = await read(); return Math.abs(travel - distance); }).toBeLessThan(2);
-  await page.evaluate(() => window.scrollTo({ top: 0, behavior: 'instant' }));
-  await expect.poll(async () => (await read()).travel).toBe(0);
-  await page.setViewportSize({ width: 390, height: 844 });
-  await expect(track).toBeVisible();
-  const mobileAttachment = await track.evaluate(element => {
-    const header = element.closest('.site-header').getBoundingClientRect();
-    const trackBounds = element.getBoundingClientRect();
-    const brandBottom = document.querySelector('.site-header .brand').getBoundingClientRect().bottom;
-    const menuBottom = document.querySelector('.site-header .nav-toggle').getBoundingClientRect().bottom;
-    return { gap: trackBounds.top - header.bottom, clearance: trackBounds.top - Math.max(brandBottom, menuBottom) };
-  });
-  expect(mobileAttachment.gap).toBeLessThanOrEqual(2);
-  expect(mobileAttachment.clearance).toBeGreaterThanOrEqual(0);
-  await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight / 2, behavior: 'instant' }));
-  await expect.poll(async () => (await read()).travel).toBeGreaterThan(50);
-  await page.screenshot({ path: 'test-results/attached-header-mobile.png' });
-  await page.emulateMedia({ reducedMotion: 'reduce' });
-  await expect(track).toHaveCSS('display', 'none');
-  await page.setViewportSize({ width: 1440, height: 900 });
-  await expect(track).toHaveCSS('display', 'none');
+test('scroll tool is removed', async ({ page }) => {
+ await page.goto('/'); await expect(page.locator('.scroll-tool-track, .scroll-tool-icon')).toHaveCount(0);
 });
 
 test('NEXT STEP and footer share one continuous photo layer', async ({ page }) => {
@@ -293,7 +249,7 @@ test('footer copy stays readable and header motion respects display settings', a
   await expect.poll(() => headerCta.evaluate(element => getComputedStyle(element, '::before').pointerEvents)).toBe('none');
   await expect(headerCta.locator('.wet-paint-content')).toHaveCSS('z-index', '1');
   await expect(headerCta.locator('.lucide-arrow-right')).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 3, 0)');
-  await expect(headerCta).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 3)');
+  await expect(headerCta).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 2)');
   await headerCta.screenshot({ path: 'test-results/header-wet-paint.png' });
   const emergencyLink = page.locator('.nav-emergency');
   await emergencyLink.hover();
@@ -312,8 +268,8 @@ test('footer copy stays readable and header motion respects display settings', a
   await footerCta.hover({ position: { x: 12, y: 12 } });
   await expect.poll(() => footerCta.evaluate(element => getComputedStyle(element, '::before').opacity)).toBe('1');
   await expect.poll(() => footerCta.evaluate(element => new DOMMatrixReadOnly(getComputedStyle(element, '::before').transform).a)).toBeGreaterThan(.98);
-  await expect(footerCta).toHaveCSS('color', 'rgb(9, 46, 98)');
-  await expect(footerCta).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 3)');
+  await expect(footerCta).toHaveCSS('color', 'rgb(255, 255, 255)');
+  await expect(footerCta).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, 2)');
   await footerCta.screenshot({ path: 'test-results/footer-wet-paint.png' });
   await page.locator('.footer').screenshot({ path: 'test-results/footer-wet-paint-layout.png' });
   await page.emulateMedia({ reducedMotion: 'reduce' });

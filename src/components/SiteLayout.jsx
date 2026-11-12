@@ -5,7 +5,7 @@ import { brand, email, image, phone, services } from '../data/site.js';
 import Chatbot from './Chatbot.jsx';
 import AccessibilitySettings from './AccessibilitySettings.jsx';
 import WetPaintButton from './WetPaintButton.jsx';
-import ScrollTool from './ScrollTool.jsx';
+
 import { AccessibilityActionsContext } from './AccessibilityActions.jsx';
 
 const pageTitles = { '/': 'Plumbing services for home & business', '/services': 'Plumbing services', '/problem-finder': 'Plumbing problem finder', '/service-area': 'Service area checker', '/projects': 'Project gallery', '/maintenance': 'Plumbing maintenance', '/residential': 'Residential plumbing', '/commercial': 'Commercial plumbing', '/emergency': 'Emergency plumbing guidance', '/about': 'About us', '/contact': 'Contact & request service', '/reviews': 'Reviews', '/accessibility': 'Accessibility statement', '/privacy': 'Privacy policy template' };
@@ -60,6 +60,13 @@ export default function SiteLayout({ children }) {
     return () => window.clearTimeout(id);
   }, [location.pathname]);
 
+  useLayoutEffect(() => {
+    const header = navRef.current;
+    const update = () => document.documentElement.style.setProperty('--header-clearance', Math.ceil(header.offsetHeight + parseFloat(getComputedStyle(header).top) + 8) + 'px');
+    const observer = new ResizeObserver(update); observer.observe(header);
+    window.addEventListener('resize', update); update();
+    return () => { observer.disconnect(); window.removeEventListener('resize', update); document.documentElement.style.removeProperty('--header-clearance'); };
+  }, []);
   useEffect(() => () => window.clearTimeout(menuTimer.current), []);
   useEffect(() => {
     const query = window.matchMedia('(max-width: 900px)');
@@ -181,11 +188,11 @@ export default function SiteLayout({ children }) {
           <NavLink to="/" end>Home</NavLink>
           <NavLink to="/services">Services</NavLink>
           <NavLink to="/residential">Residential</NavLink><NavLink to="/commercial">Commercial</NavLink><NavLink to="/about">About</NavLink><NavLink to="/contact">Contact</NavLink><NavLink className="nav-mobile-emergency emergency-button" to="/emergency"><Phone size={17} aria-hidden="true" /><span className="emergency-button-label">Emergency info</span></NavLink>
-          <WetPaintButton className="btn btn-primary nav-mobile-request" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></WetPaintButton>
+          <WetPaintButton className="btn btn-primary green-action nav-mobile-request" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></WetPaintButton>
         </nav>
-        <div className="nav-cta"><Link className="nav-emergency emergency-button" to="/emergency" title="Emergency info"><Phone size={17} aria-hidden="true" /><span className="emergency-button-label">Emergency info</span></Link><WetPaintButton className="btn btn-primary" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></WetPaintButton></div>
+        <div className="nav-cta"><Link className="nav-emergency emergency-button" to="/emergency" title="Emergency info"><Phone size={17} aria-hidden="true" /><span className="emergency-button-label">Emergency info</span></Link><WetPaintButton className="btn btn-primary green-action" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></WetPaintButton></div>
       </div>
-      <ScrollTool />
+
     </header>
     <div className="site-outro-shell" ref={outroRef}>
     <main id="main" tabIndex="-1"><div className="route-surface" key={location.pathname}>{children}</div></main>
@@ -193,7 +200,7 @@ export default function SiteLayout({ children }) {
       <div className="footer-brand"><Link to="/" className="brand"><img src={image('company-logo')} alt="" width="46" height="52" /><span className="brand-label"><strong>{brand}</strong><small>PLUMBING SERVICES</small></span></Link><p>Clear information and practical plumbing service paths for homes and businesses.</p><span className="footer-demo">Demo site · Replace placeholder business details before launch.</span></div>
       <div><h2>Explore</h2><Link to="/services">All services</Link><Link to="/residential">Residential</Link><Link to="/commercial">Commercial</Link><Link to="/about">About</Link></div>
       <div><h2>Helpful links</h2><Link to="/problem-finder">Problem finder</Link><Link to="/service-area">Service area</Link><Link to="/maintenance">Maintenance hub</Link><Link to="/projects">Project gallery</Link><Link to="/emergency">Emergency guidance</Link><Link to="/reviews">Reviews</Link><Link to="/accessibility">Accessibility</Link><Link to="/privacy">Privacy template</Link></div>
-      <div><h2>Get in touch</h2><WetPaintButton className="btn btn-white footer-cta" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></WetPaintButton><Link className="footer-contact footer-contact-link" to="/contact#contact-details" aria-label={`${phone} (demo) — view contact details`}><Phone size={16} aria-hidden="true" /> {phone} (demo)</Link><Link className="footer-contact footer-contact-link" to="/contact#contact-details" aria-label={`${email} (demo) — view contact details`}><Mail size={16} aria-hidden="true" /> {email} (demo)</Link><span className="footer-contact"><Clock3 size={16} aria-hidden="true" /> Hours to be confirmed</span></div>
+      <div><h2>Get in touch</h2><WetPaintButton className="btn btn-primary green-action footer-cta" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></WetPaintButton><Link className="footer-contact footer-contact-link" to="/contact#contact-details" aria-label={`${phone} (demo) — view contact details`}><Phone size={16} aria-hidden="true" /> {phone} (demo)</Link><Link className="footer-contact footer-contact-link" to="/contact#contact-details" aria-label={`${email} (demo) — view contact details`}><Mail size={16} aria-hidden="true" /> {email} (demo)</Link><span className="footer-contact"><Clock3 size={16} aria-hidden="true" /> Hours to be confirmed</span></div>
     </div><div className="container footer-bottom"><span>© {new Date().getFullYear()} {brand} Plumbing Services · Demo website</span><button type="button" onClick={openAccess}>Accessibility options</button></div></footer>
     </div>
     <div className="floating-tools"><Chatbot /></div>

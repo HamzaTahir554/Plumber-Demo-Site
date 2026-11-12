@@ -42,8 +42,6 @@
 .site-header .nav-shell .primary-nav > a::before,
 .site-header .nav-shell .nav-service-group > a::before { background: rgb(255 255 255 / 62%); }
 .site-header .service-submenu { background: #f5faff; border-color: #bfd5e9; }
-.site-header .scroll-tool-track::before { background: #bddbff; }
-.site-header .scroll-tool-icon { background: #e8f4ff; color: #064799; }
 [data-contrast=high] .site-header { background: #eaf4ff; border-color: #1f4d79; -webkit-backdrop-filter: none; backdrop-filter: none; }
 @media (prefers-reduced-transparency: reduce) {
   .site-header, .site-header.is-scrolled { background: #e2effc; -webkit-backdrop-filter: none; backdrop-filter: none; }
@@ -259,8 +257,6 @@ html[data-reduce-motion=yes] { --text-hover-time: 0ms; --text-heading-lift: 0px;
 .site-header .brand:is(:hover,:focus-visible) .brand-label strong { color: #0757c8; translate: 0 -1px; background-size: 100% 1px; }
 .site-header .brand:is(:hover,:focus-visible) img { transform: translateY(-1px) rotate(-3deg); }
 @keyframes brand-name-arrive { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
-.site-header .scroll-tool-track { top: 100%; bottom: auto; }
-.site-header .scroll-tool-track::before { left: 0; right: 18px; height: 2px; background: #0757c8; transform-origin: left; transform: scaleX(var(--tool-progress, 0)); }
 @media (prefers-reduced-motion: reduce) {
  .site-header .brand-label { animation: none; }
  .site-header .brand-label strong { transition: none; translate: none !important; }
@@ -416,3 +412,25 @@ html[data-reduce-motion=yes] .site-header .nav-toggle svg { animation:none; }
 @media(max-width:680px) { .hero-banner-image { object-position:var(--banner-mobile-position); height:calc(100% + 8px); top:-8px; translate:0 5px; } }
 @media(prefers-reduced-motion:reduce) { .site-header .primary-nav > a,.site-header .nav-cta { animation:none; translate:none !important; } }
 html[data-reduce-motion=yes] .site-header .primary-nav > a,html[data-reduce-motion=yes] .site-header .nav-cta { animation:none; translate:none !important; }
+/* One measured offset separates every hero from the fixed floating header. */
+:root { --header-clearance:102px; }
+.site-outro-shell { padding-top:var(--header-clearance); background:linear-gradient(#0b1f44 0 var(--header-clearance),transparent var(--header-clearance)); }
+.hero-banner-inner { padding-top:0; }
+@media(max-width:680px) { .hero-banner-inner { padding-top:32px; padding-bottom:48px; } }
+@media(max-width:900px) and (max-height:500px) { .hero-banner-inner { padding-top:32px; } }
+.site-header .nav-cta .green-action, .site-header .primary-nav > .green-action,
+.footer .footer-grid > div:not(.footer-brand) > a.footer-cta.green-action, .hero-banner .hero-actions .green-action {
+ --paint-fill:#16803c; --paint-glaze:rgb(76 175 110 / 24%); --paint-foreground:#fff;
+ background:#0757c8; border-color:#0757c8; color:#fff;
+}
+.site-header .nav-cta .green-action:is(:hover,:focus-visible), .site-header .primary-nav > .green-action:is(:hover,:focus-visible),
+.footer .footer-grid > div:not(.footer-brand) > a.footer-cta.green-action:is(:hover,:focus-visible), .hero-banner .hero-actions .green-action:is(:hover,:focus-visible) { background:#0757c8; color:#fff; }
+.green-action svg { color:inherit; }
+@media(hover:hover) and (pointer:fine) {
+ .site-header .nav-cta .green-action:hover, .site-header .primary-nav > .green-action:hover,
+ .footer .footer-grid > div:not(.footer-brand) > a.footer-cta.green-action:hover, .hero-banner .hero-actions .green-action:hover { transform:translateY(2px); }
+}
+.site-header .nav-cta .green-action:active, .site-header .primary-nav > .green-action:active,
+.footer .footer-grid > div:not(.footer-brand) > a.footer-cta.green-action:active, .hero-banner .hero-actions .green-action:active { background:#16803c; border-color:#16803c; color:#fff; transform:translateY(3px); }
+@media(prefers-reduced-motion:reduce) { .green-action:is(:hover,:active) { transform:none !important; } }
+html[data-reduce-motion=yes] .green-action:is(:hover,:active) { transform:none !important; }
