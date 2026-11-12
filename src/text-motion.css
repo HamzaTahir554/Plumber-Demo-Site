@@ -1,0 +1,80 @@
+/* Context-aware typography: readable blue on light surfaces, pale blue on photos. */
+:root {
+  --motion-text: 400ms;
+  --motion-icon: 450ms;
+  --motion-card: 480ms;
+  --copy-hover: #25496d;
+  --heading-hover: #0757c8;
+}
+:is(.hero-banner, .request-cta, .footer, .home-tools-links, .audience-card) {
+  --copy-hover: #f3f8ff;
+  --heading-hover: #c1e2ff;
+}
+.hero-banner.page-hero--commercial { --copy-hover: #123b6a; --heading-hover: #064aa8; }
+
+/* Small edge accents avoid styling static headings like navigation links. */
+main :is(h1, h2, h3, h4, h5, h6) {
+  background-image: linear-gradient(90deg, #0757c833, #84c5f133);
+  background-repeat: no-repeat;
+  background-position: left bottom;
+  background-size: 0 3px;
+  transition: color var(--motion-text) var(--motion-ease),
+    background-size var(--motion-text) var(--motion-ease),
+    translate var(--motion-text) var(--motion-ease);
+}
+main p {
+  transition: color var(--motion-text) var(--motion-ease);
+}
+main :is(figcaption, .eyebrow, .review-meta, .small-note, .detail-number) {
+  transition: color var(--motion-text) var(--motion-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  main :is(h1, h2, h3, h4, h5, h6):hover {
+    color: var(--heading-hover);
+    text-decoration: none;
+    background-size: 36px 3px;
+    filter: none;
+  }
+  main p:hover, main .hero-banner .lead:hover { color: var(--copy-hover); filter: none; }
+  main .hero-banner h1:hover { color: var(--heading-hover); filter: none; }
+  main :is(figcaption, .eyebrow, .review-meta, .small-note, .detail-number):hover {
+    color: var(--heading-hover); filter: none;
+  }
+}
+/* Do not recolor validation, emergency notices, or nested interactive labels. */
+main :is(.field-error, .error-summary, .finder-urgent, .template-warning) p:hover {
+  color: inherit;
+}
+html[data-text-selection=yes] main :is(h1, h2, h3, h4, h5, h6, p) {
+  background-size: 0 3px;
+  transition: none !important;
+}
+/* An entrance must release its transform so later icon hover can respond. */
+.animated-icon--inView.is-active svg { animation-fill-mode: backwards; }
+
+/* Parent-coordinated feedback for the informational icons previously missed. */
+:is(.hero-trust > div, .about-signals > div, .contact-info > span, .check-list li, .simple-list li) svg {
+  transition: transform var(--motion-icon) var(--motion-ease), color var(--motion-icon) var(--motion-ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hero-trust > div:hover svg { transform: translateY(-2px); }
+  .about-signals > div:hover svg { transform: translateY(-2px); }
+  .about-signals > div:hover .lucide-wrench { transform: rotate(-7deg); }
+  .contact-info > span:hover .lucide-phone { transform: rotate(-8deg); }
+  .contact-info > span:hover .lucide-mail { transform: translateX(3px); }
+  .contact-info > span:hover .lucide-clock-3 { transform: rotate(8deg); }
+  :is(.check-list li, .simple-list li):hover svg { transform: scale(1.08); }
+}
+/* Touch gives immediate pressed feedback; no hover-only requirement to act. */
+main .btn:not(.wet-paint-button):not(:disabled):active {
+  transform: translateY(1px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  main :is(h1, h2, h3, h4, h5, h6, p, figcaption, .eyebrow, .review-meta, .small-note, .detail-number) { transition: none !important; }
+  :is(.hero-trust > div, .about-signals > div, .contact-info > span, .check-list li, .simple-list li):hover svg,
+  main .btn:not(.wet-paint-button):not(:disabled):active { transform: none !important; }
+}
+html[data-reduce-motion=yes] main :is(h1, h2, h3, h4, h5, h6, p, figcaption, .eyebrow, .review-meta, .small-note, .detail-number) { transition: none !important; }
+html[data-reduce-motion=yes] :is(.hero-trust > div, .about-signals > div, .contact-info > span, .check-list li, .simple-list li):hover svg,
+html[data-reduce-motion=yes] main .btn:not(.wet-paint-button):not(:disabled):active { transform: none !important; }

@@ -41,12 +41,13 @@ export default function BookingWizard() {
   const [complete, setComplete] = useState(false);
   const heading = useRef(null);
   const summary = useRef(null);
+  const stepDirection = useRef('forward');
   useEffect(() => {
     if (suggested && services.some(item => item.slug === suggested)) setValues(current => ({ ...current, service: suggested }));
     if (carriedIssue) setValues(current => ({ ...current, issue: carriedIssue }));
   }, [suggested, carriedIssue]);
   function set(key, value) { setValues(current => ({ ...current, [key]: value })); setErrors(current => ({ ...current, [key]: '' })); setComplete(false); }
-  function move(next) { setStep(next); setErrors({}); window.setTimeout(() => heading.current?.focus(), 0); }
+  function move(next) { stepDirection.current = next < step ? 'back' : 'forward'; setStep(next); setErrors({}); window.setTimeout(() => heading.current?.focus(), 0); }
   function next() {
     const found = validate(values, step);
     setErrors(found);
@@ -55,7 +56,7 @@ export default function BookingWizard() {
   }
   const attrs = key => ({ id: `booking-${key}`, value: values[key], 'aria-invalid': Boolean(errors[key]), 'aria-describedby': errors[key] ? `booking-${key}-error` : undefined, onChange: event => set(key, event.target.value) });
   const field = (key, control) => <div className="field" key={key}><label htmlFor={`booking-${key}`}>{labels[key]} <span aria-hidden="true">*</span></label>{control}{errors[key] && <span className="field-error" id={`booking-${key}-error`}>{errors[key]}</span>}</div>;
-  return <div className="form-card booking-wizard" id="booking-wizard">
+  return <div className="form-card booking-wizard" id="booking-wizard" data-step-direction={stepDirection.current}>
     <div className="form-top"><span className="eyebrow">{intent === 'quote' ? 'QUOTE INQUIRY' : 'APPOINTMENT INQUIRY'}</span><h2>Prepare a service request</h2><p>Work through five short steps. This is a demo: no details are transmitted and no visit is booked.</p></div>
     <nav className="booking-progress" aria-label="Request progress"><ol>{steps.map((label, index) => <li key={label} className={`${index === step ? 'current' : ''} ${index < step ? 'done' : ''}`} aria-current={index === step ? 'step' : undefined}><span>{index < step ? <AnimatedIcon name="check" size={16} animation="check" trigger="interaction" active /> : index + 1}</span><small>{label}</small></li>)}</ol></nav>
     {Object.values(errors).some(Boolean) && <div className="error-summary" ref={summary} tabIndex="-1" role="alert"><strong>Check these details:</strong><ul>{Object.entries(errors).filter(([, error]) => error).map(([key, error]) => <li key={key}><a href={`#booking-${key}`}>{error}</a></li>)}</ul></div>}

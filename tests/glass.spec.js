@@ -89,7 +89,7 @@ test('text hover preserves layout, selection, and editable controls', async ({ p
   await paragraph.evaluate(element => Promise.all(element.getAnimations().map(animation => animation.finished)));
   const original = await paragraph.boundingBox();
   await paragraph.hover();
-  await expect(paragraph).toHaveCSS('filter', 'brightness(0.94)');
+  await expect(paragraph).toHaveCSS('color', 'rgb(243, 248, 255)');
   await expect(paragraph).not.toHaveCSS('cursor', 'pointer');
   const hovered = await paragraph.boundingBox();
   for (const key of ['x', 'y', 'width', 'height']) expect(Math.abs(hovered[key] - original[key])).toBeLessThan(.1);
@@ -110,13 +110,13 @@ test('text hover preserves layout, selection, and editable controls', async ({ p
   await page.goto('/contact');
   const label = page.locator('label[for=contact-name]');
   await label.hover();
-  await expect(label).toHaveCSS('filter', 'brightness(0.98)');
+  await expect(label).toHaveCSS('filter', 'none');
   await page.locator('#contact-name').fill('Example name');
   await expect(page.locator('#contact-name')).toHaveCSS('filter', 'none');
   await page.goto('/privacy');
   const legal = page.locator('.prose p').last();
   await legal.hover();
-  await expect(legal).toHaveCSS('filter', 'brightness(0.98)');
+  await expect(legal).toHaveCSS('filter', 'none');
   await expect(legal).toHaveCSS('translate', 'none');
 });
 

@@ -1,0 +1,76 @@
+/* Functional feedback: no artificial loading states or delayed input handling. */
+:root { --motion-field: 360ms; --motion-feedback: 320ms; }
+.field > label, .zip-checker > label, .finder-notes,
+.choice-fieldset label, .finder-consent {
+  transition: color var(--motion-field) var(--motion-ease),
+    border-color var(--motion-field) var(--motion-ease),
+    background-color var(--motion-field) var(--motion-ease);
+}
+.field:focus-within > label,
+.zip-checker:focus-within > label,
+.finder-notes:focus-within { color: #0757c8; }
+.field:has([aria-invalid=true]) > label { color: #a5232b; }
+.zip-checker input, .finder-notes textarea, .chat-form input {
+  transition: border-color var(--motion-field) var(--motion-ease),
+    box-shadow var(--motion-field) var(--motion-ease);
+}
+.zip-checker input:focus, .finder-notes textarea:focus, .chat-form input:focus {
+  border-color: #0757c8;
+  box-shadow: 0 0 0 3px rgb(7 87 200 / 12%);
+}
+.zip-checker input[aria-invalid=true]:focus {
+  border-color: #aa2630;
+  box-shadow: 0 0 0 3px rgb(170 38 48 / 13%);
+}
+.choice-fieldset label:has(input:checked) {
+  color: #064aa8;
+  border-color: #86afd8;
+  background: #edf5ff;
+}
+.choice-fieldset label:focus-within { outline: 2px solid #0757c8; outline-offset: 3px; }
+.finder-consent:has(input:checked) { color: #064aa8; }
+
+/* Direction gives Back and Next distinct feedback without moving the controls. */
+.booking-wizard { --wizard-arrival: 8px; }
+.booking-wizard[data-step-direction=back] { --wizard-arrival: -8px; }
+.booking-wizard .wizard-step { animation: wizard-content-arrive 420ms var(--motion-ease) backwards; }
+@keyframes wizard-content-arrive {
+  from { opacity: .5; transform: translateX(var(--wizard-arrival)); }
+  to { opacity: 1; transform: none; }
+}
+.zip-result, .tool-error, .finder-urgent {
+  animation: control-result-arrive var(--motion-feedback) var(--motion-ease) backwards;
+}
+@keyframes control-result-arrive {
+  from { opacity: .5; transform: translateY(4px); }
+  to { opacity: 1; transform: none; }
+}
+.faq-list details { transition: border-color var(--motion-field) var(--motion-ease); }
+.faq-list details[open] { border-bottom-color: #86afd8; }
+.faq-list details[open] summary { color: #0757c8; }
+.faq-list details[open] summary svg { transform: rotate(45deg); }
+.faq-list details[open] p { animation: faq-enter 420ms var(--motion-ease) backwards; }
+.faq-list summary:focus-visible { outline-offset: 4px; }
+
+/* Touch presses get immediate feedback; form content never shifts on hover. */
+.choice-fieldset label:active { background: #e6f1fc; }
+.problem-choice:active { border-color: #0757c8; background: #eaf4ff; }
+.zip-checker .btn:active, .wizard-actions .btn:active { transform: translateY(1px); }
+.chat-form button:not(:disabled):active { transform: scale(.96); }
+@media (hover:hover) and (pointer:fine) {
+  .choice-fieldset label:hover { border-color: #86afd8; background: #f3f8fd; }
+}
+@media (max-width:680px) {
+  .booking-wizard { --wizard-arrival: 4px; }
+  .booking-wizard[data-step-direction=back] { --wizard-arrival: -4px; }
+}
+@media (prefers-reduced-motion:reduce) {
+  :root { --motion-field: 0ms; --motion-feedback: 0ms; }
+  .booking-wizard .wizard-step, .zip-result, .tool-error, .finder-urgent,
+  .faq-list details[open] p { animation:none !important; }
+  .zip-checker .btn:active, .wizard-actions .btn:active,
+  .chat-form button:not(:disabled):active { transform:none; }
+}
+html[data-reduce-motion=yes] { --motion-field: 0ms; --motion-feedback: 0ms; }
+html[data-reduce-motion=yes] :is(.booking-wizard .wizard-step, .zip-result, .tool-error, .finder-urgent, .faq-list details[open] p) { animation:none !important; }
+html[data-reduce-motion=yes] :is(.zip-checker .btn:active, .wizard-actions .btn:active, .chat-form button:not(:disabled):active) { transform:none; }

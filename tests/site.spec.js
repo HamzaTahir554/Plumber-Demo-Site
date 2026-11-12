@@ -405,7 +405,7 @@ test('finder, booking, gallery, forms, and cards show restrained feedback', asyn
   await page.goto('/services');
   const card = page.locator('.service-card').first();
   await card.hover();
-  await expect(card).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, -4)');
+  await expect(card).toHaveCSS('transform', 'matrix(1, 0, 0, 1, 0, -5)');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect(card).toHaveCSS('transform', 'none');
   await page.goto('/projects');

@@ -11,11 +11,17 @@ export default function AnimatedIcon({ name, size = 28, animation = 'none', trig
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
-    if (trigger !== 'inView' || !ref.current || !('IntersectionObserver' in window)) return;
-    const observer = new IntersectionObserver(entries => {
-      if (entries.some(entry => entry.isIntersecting)) { setInView(true); observer.disconnect(); }
-    }, { threshold: .2 });
-    observer.observe(ref.current);
+    if (trigger !== 'inView' || !ref.current || !('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.reduceMotion === 'yes') return;
+    let observer;
+    try {
+      observer = new IntersectionObserver(entries => {
+        if (entries.some(entry => entry.isIntersecting)) { setInView(true); observer.disconnect(); }
+      }, { threshold: .2 });
+      observer.observe(ref.current);
+    } catch {
+      observer?.disconnect();
+      return;
+    }
     return () => observer.disconnect();
   }, [trigger]);
   const Icon = name === 'pipe' ? PipeIcon : icons[name];

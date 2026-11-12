@@ -228,14 +228,14 @@ html[data-reduce-motion=yes] .footer button::after { transition: none !important
    translate composes with entrance transforms and never changes text layout. */
 :root { --text-hover-time: 360ms; --text-heading-lift: -1px; --text-hover-shade: .94; }
 :where(main, .footer) :is(h1, h2, h3, h4, h5, h6, p, label, legend, dt, dd, small, .eyebrow, .footer-demo, .footer-contact, .footer-bottom > span, .review-meta > strong, .review-meta > time, .review-sample-label, .field-error, .small-note, .check-list > li, .simple-list > li, .safety-card li, .contact-info > span, .accessibility-symbol > span, .hero-trust span, .text-hover):not(a, button, [contenteditable], [contenteditable] *, a *, button *, label:has(input, textarea, select), :is(h1, h2, h3, h4, h5, h6, p, label, dt, dd, .contact-info > span) *) {
-  transition: filter var(--text-hover-time) var(--motion-ease), translate var(--text-hover-time) var(--motion-ease);
+  transition: color var(--text-hover-time) var(--motion-ease), background-size var(--text-hover-time) var(--motion-ease), translate var(--text-hover-time) var(--motion-ease);
 }
 :where(.prose, .form-card) { --text-heading-lift: 0px; }
 @media (hover: hover) and (pointer: fine) {
-  :where(main, .footer) :is(h1, h2, h3, h4, h5, h6, p, label, legend, dt, dd, small, .eyebrow, .footer-demo, .footer-contact, .footer-bottom > span, .review-meta > strong, .review-meta > time, .review-sample-label, .field-error, .small-note, .check-list > li, .simple-list > li, .safety-card li, .contact-info > span, .accessibility-symbol > span, .hero-trust span, .text-hover):not(a, button, [contenteditable], [contenteditable] *, a *, button *, label:has(input, textarea, select), :is(h1, h2, h3, h4, h5, h6, p, label, dt, dd, .contact-info > span) *):hover:not(:active) { filter: brightness(var(--text-hover-shade, .94)); }
+  :where(main, .footer) :is(h1, h2, h3, h4, h5, h6, p, label, legend, dt, dd, small, .eyebrow, .footer-demo, .footer-contact, .footer-bottom > span, .review-meta > strong, .review-meta > time, .review-sample-label, .field-error, .small-note, .check-list > li, .simple-list > li, .safety-card li, .contact-info > span, .accessibility-symbol > span, .hero-trust span, .text-hover):not(a, button, [contenteditable], [contenteditable] *, a *, button *, label:has(input, textarea, select), :is(h1, h2, h3, h4, h5, h6, p, label, dt, dd, .contact-info > span) *):hover:not(:active) { filter: none; }
   :where(main, .footer) :is(h1, h2, h3, h4, h5, h6):not(a *, button *, [contenteditable], [contenteditable] *):hover:not(:active) { translate: 0 var(--text-heading-lift); }
   :where(.prose, .form-card) :is(p, label, legend, small, h2, h3) { --text-hover-shade: .98; }
-  :is(.service-card, .process-card, .maintenance-card, .review-card):hover :is(h2, h3, h4, p) { filter: brightness(.96); }
+  :is(.service-card, .process-card, .maintenance-card, .review-card):hover :is(h2, h3, h4, p) { filter: none; }
 }
 /* Native selection and editing take precedence over decorative text feedback. */
 html[data-text-selection=yes] :where(main, .footer) :is(h1, h2, h3, h4, h5, h6, p, label, legend, dt, dd, small, span, li),

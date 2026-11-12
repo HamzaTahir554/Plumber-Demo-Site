@@ -18,6 +18,9 @@ import './glass-interactions.css';
 import './story-motion.css';
 import './service-cards.css';
 import './chrome-hover.css';
+import './text-motion.css';
+import './content-motion.css';
+import './form-motion.css';
 
 import Services from './pages/Services.jsx';
 import ServiceDetail from './pages/ServiceDetail.jsx';
