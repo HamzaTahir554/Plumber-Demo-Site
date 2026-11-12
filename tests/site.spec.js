@@ -32,9 +32,8 @@ test('mobile navigation, chat, form errors, and display settings work', async ({
   await page.screenshot({ path: 'test-results/floating-menu-mobile.png' });
   await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
   await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Emergency info' })).toBeVisible();
-  await page.getByRole('button', { name: 'Show service pages' }).click();
-  await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Sump pump service' }).click();
-  await expect(page.locator('main h1')).toHaveText('Sump pump service');
+  await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Services', exact: true }).click();
+  await expect(page).toHaveURL(/\/services$/);
   await expect(page.locator('main h1')).toBeFocused();
   await page.getByRole('button', { name: 'Open demo chat' }).click();
   await page.getByLabel('Ask the demo plumbing guide').fill('I smell gas');
@@ -56,15 +55,9 @@ test('mobile navigation, chat, form errors, and display settings work', async ({
 
 test('navigation and button motion preserve keyboard and reduced-motion behavior', async ({ page }) => {
   await page.goto('/');
-  const servicesToggle = page.getByRole('button', { name: 'Show service pages' });
-  await servicesToggle.focus();
-  await page.keyboard.press('Enter');
-  await expect(page.getByRole('link', { name: 'Find the right service' })).toBeFocused();
-  await page.keyboard.press('Escape');
-  await expect(servicesToggle).toBeFocused();
   await expect(page.locator('#service-submenu')).toHaveCount(0);
   await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About' }).hover();
-  await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About' })).toHaveCSS('color', 'rgb(255, 255, 255)');
+  await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About' })).toHaveCSS('color', 'rgb(185, 221, 255)');
   await page.evaluate(() => window.scrollTo(0, 400));
   await expect(page.locator('.site-header')).toHaveClass(/is-scrolled/);
   await page.setViewportSize({ width: 375, height: 812 });
@@ -72,11 +65,7 @@ test('navigation and button motion preserve keyboard and reduced-motion behavior
   await menuToggle.focus();
   await page.keyboard.press('Enter');
   await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'Home' })).toBeFocused();
-  await servicesToggle.focus();
-  await page.keyboard.press('Enter');
-  await expect(page.getByRole('link', { name: 'Find the right service' })).toBeFocused();
-  await page.keyboard.press('Escape');
-  await expect(servicesToggle).toBeFocused();
+
   await expect(page.getByRole('navigation', { name: 'Main navigation' })).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('button', { name: 'Open navigation menu' })).toBeFocused();
@@ -312,9 +301,7 @@ test('footer copy stays readable and header motion respects display settings', a
   await expect(emergencyLink).toHaveCSS('background-color', 'rgb(198, 40, 40)');
   await expect(emergencyLink).toHaveCSS('color', 'rgb(255, 255, 255)');
   await expect(emergencyLink).toHaveCSS('animation-name', 'emergency-nudge');
-  const serviceToggle = page.getByRole('button', { name: 'Show service pages' });
-  await serviceToggle.hover();
-  await expect.poll(() => serviceToggle.evaluate(element => getComputedStyle(element, '::before').display)).toBe('none');
+
   const footerLink = page.locator('.footer-grid > div:nth-child(2) > a').first();
   await footerLink.hover();
   await expect.poll(() => footerLink.evaluate(element => new DOMMatrixReadOnly(getComputedStyle(element, '::after').transform).a)).toBe(1);
@@ -543,7 +530,7 @@ test('full-width hero keeps its image, copy, and CTAs usable at target widths', 
     expect(layout.overflow, `${width}px overflow`).toBeLessThanOrEqual(1);
     expect(layout.heroWidth).toBe(width);
     expect(layout.imageWidth).toBe(width);
-    expect(layout.imageHeight).toBe(Math.round(layout.heroHeight));
+    expect(layout.imageHeight).toBeGreaterThanOrEqual(Math.round(layout.heroHeight));
     expect(layout.imageCovers, `${width}px image crop`).toBe(true);
     expect(layout.buttonsInside, `${width}px CTA position`).toBe(true);
   }

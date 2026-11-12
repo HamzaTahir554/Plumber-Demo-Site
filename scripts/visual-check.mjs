@@ -31,7 +31,7 @@ for (const route of routes) {
         headingClipped: Boolean(h1 && (h1.left < -1 || h1.right > innerWidth + 1)),
         brokenImages: [...document.images].filter(image => image.complete && image.naturalWidth === 0).map(image => image.src),
         heroMissing: !hero || !heroImage,
-        heroImageDoesNotCover: Boolean(hero && heroImage && (getComputedStyle(heroImage).objectFit !== 'cover' || Math.abs(heroBounds.width - imageBounds.width) > 1 || Math.abs(heroBounds.height - imageBounds.height) > 1)),
+        heroImageDoesNotCover: Boolean(hero && heroImage && (getComputedStyle(heroImage).objectFit !== 'cover' || Math.abs(heroBounds.width - imageBounds.width) > 1 || imageBounds.top > heroBounds.top + 1 || imageBounds.bottom < heroBounds.bottom - 1)),
         heroHeadingOutside: Boolean(hero && heading && (headingBounds.left < heroBounds.left - 1 || headingBounds.right > heroBounds.right + 1 || headingBounds.top < heroBounds.top - 1 || headingBounds.bottom > heroBounds.bottom + 1)),
         heroButtonOutside: Boolean(hero && buttons.some(button => { const bounds = button.getBoundingClientRect(); return bounds.left < heroBounds.left - 1 || bounds.right > heroBounds.right + 1 || bounds.top < heroBounds.top - 1 || bounds.bottom > heroBounds.bottom + 1; })),
         heroOverlayMissing: Boolean(hero && !getComputedStyle(hero, '::before').backgroundImage.includes('gradient')),

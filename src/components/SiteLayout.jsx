@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
-import { ArrowRight, ChevronDown, Clock3, Mail, Menu, MessageCircle, Phone, X } from 'lucide-react';
+import { ArrowRight, Clock3, Mail, Menu, MessageCircle, Phone, X } from 'lucide-react';
 import { brand, email, image, phone, services } from '../data/site.js';
 import Chatbot from './Chatbot.jsx';
 import AccessibilitySettings from './AccessibilitySettings.jsx';
@@ -12,13 +12,22 @@ const pageTitles = { '/': 'Plumbing services for home & business', '/services': 
 
 export default function SiteLayout({ children }) {
   const location = useLocation();
+  useEffect(() => {
+    // Retry a transient asset failure once; retain meaningful alt text if unavailable.
+    const retryImage = event => {
+      const img = event.target;
+      if (!(img instanceof HTMLImageElement) || img.dataset.retried || !img.getAttribute('src')?.startsWith('/assets/images/')) return;
+      img.dataset.retried = 'yes';
+      const url = new URL(img.src); url.searchParams.set('retry', '1'); img.src = url.href;
+    };
+    document.addEventListener('error', retryImage, true);
+    return () => document.removeEventListener('error', retryImage, true);
+  }, []);
   const [menuOpen, setMenuOpen] = useState(false);
   const [menuClosing, setMenuClosing] = useState(false);
-  const [servicesOpen, setServicesOpen] = useState(false);
   const [headerScrolled, setHeaderScrolled] = useState(false);
   const [accessOpen, setAccessOpen] = useState(false);
   const menuButton = useRef(null);
-  const serviceButton = useRef(null);
   const accessTrigger = useRef(null);
   const navRef = useRef(null);
   const outroRef = useRef(null);
@@ -45,7 +54,6 @@ export default function SiteLayout({ children }) {
     setMenuOpen(false);
     setMenuClosing(false);
     window.clearTimeout(menuTimer.current);
-    setServicesOpen(false);
     if (firstRoute.current) { firstRoute.current = false; return; }
     window.scrollTo({ top: 0, behavior: 'instant' });
     const id = window.setTimeout(() => document.querySelector('main h1')?.focus(), 80);
@@ -128,11 +136,6 @@ export default function SiteLayout({ children }) {
     if (event.detail === 0) window.setTimeout(() => document.querySelector('#main-nav > a')?.focus(), 0);
   }
 
-  function toggleServices(event) {
-    if (servicesOpen) { setServicesOpen(false); return; }
-    setServicesOpen(true);
-    if (event.detail === 0) window.setTimeout(() => document.querySelector('#service-submenu a')?.focus(), 0);
-  }
 
   useEffect(() => {
     if (!location.hash) return;
@@ -155,16 +158,15 @@ export default function SiteLayout({ children }) {
     function onKeyDown(event) {
       if (event.key !== 'Escape') return;
       if (event.target instanceof Element && event.target.closest('.chat-panel')) return;
-      if (servicesOpen) { setServicesOpen(false); serviceButton.current?.focus(); return; }
       if (menuOpen) { closeMenu(); menuButton.current?.focus(); }
     }
     function onPointerDown(event) {
-      if (navRef.current && !navRef.current.contains(event.target)) { setServicesOpen(false); closeMenu(); }
+      if (navRef.current && !navRef.current.contains(event.target)) { closeMenu(); }
     }
     document.addEventListener('keydown', onKeyDown);
     document.addEventListener('pointerdown', onPointerDown);
     return () => { document.removeEventListener('keydown', onKeyDown); document.removeEventListener('pointerdown', onPointerDown); };
-  }, [menuOpen, servicesOpen]);
+  }, [menuOpen]);
 
   function openAccess(event) { accessTrigger.current = event.currentTarget; setAccessOpen(true); }
   function closeAccess() { setAccessOpen(false); window.setTimeout(() => accessTrigger.current?.focus(), 0); }
@@ -177,11 +179,7 @@ export default function SiteLayout({ children }) {
         <button className="nav-toggle icon-button" ref={menuButton} type="button" aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'} aria-controls="main-nav" aria-expanded={menuOpen} onClick={toggleMenu}>{menuOpen ? <X /> : <Menu />}</button>
         <nav id="main-nav" className={`primary-nav ${menuOpen ? 'is-open' : ''} ${menuClosing ? 'is-closing' : ''}`} aria-label="Main navigation" inert={menuClosing ? true : undefined}>
           <NavLink to="/" end>Home</NavLink>
-          <div className="nav-service-group" onPointerEnter={event => { if (event.pointerType === 'mouse' && window.innerWidth > 900) setServicesOpen(true); }} onPointerLeave={event => { if (event.pointerType === 'mouse' && !event.currentTarget.contains(document.activeElement)) setServicesOpen(false); }}>
-            <NavLink to="/services" className={({isActive}) => isActive || location.pathname.startsWith('/services/') ? 'active' : ''}>Services</NavLink>
-            <button className="submenu-toggle icon-button" type="button" ref={serviceButton} aria-label="Show service pages" aria-expanded={servicesOpen} aria-controls="service-submenu" onClick={toggleServices}><ChevronDown size={16} aria-hidden="true" /></button>
-            {servicesOpen && <div className="service-submenu" id="service-submenu"><Link className="submenu-feature" to="/problem-finder">Find the right service</Link>{services.map(s => <Link key={s.slug} to={`/services/${s.slug}`}>{s.title}</Link>)}</div>}
-          </div>
+          <NavLink to="/services">Services</NavLink>
           <NavLink to="/residential">Residential</NavLink><NavLink to="/commercial">Commercial</NavLink><NavLink to="/about">About</NavLink><NavLink to="/contact">Contact</NavLink><NavLink className="nav-mobile-emergency emergency-button" to="/emergency"><Phone size={17} aria-hidden="true" /><span className="emergency-button-label">Emergency info</span></NavLink>
           <WetPaintButton className="btn btn-primary nav-mobile-request" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></WetPaintButton>
         </nav>

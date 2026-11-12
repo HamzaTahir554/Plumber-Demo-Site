@@ -86,6 +86,7 @@ test('text hover preserves layout, selection, and editable controls', async ({ p
   const heading = page.locator('.hero-banner h1');
   const paragraph = page.locator('.hero-banner .lead');
   await heading.evaluate(element => Promise.all(element.getAnimations().map(animation => animation.finished)));
+  await paragraph.evaluate(element => Promise.all(element.getAnimations().map(animation => animation.finished)));
   const original = await paragraph.boundingBox();
   await paragraph.hover();
   await expect(paragraph).toHaveCSS('filter', 'brightness(0.94)');

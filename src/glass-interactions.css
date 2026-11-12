@@ -401,3 +401,18 @@ html[data-reduce-motion=yes] .site-header .nav-toggle svg { animation:none; }
  .site-header .nav-shell .primary-nav > a:not(.wet-paint-button)::before,
  .site-header .nav-shell .nav-service-group > a::before { background:rgb(125 190 255 / 12%); }
 }
+/* Compact navigation keeps 44px controls while reducing the surrounding band. */
+.site-header .nav-shell { min-height:76px; padding-bottom:0; }
+@media(max-width:680px) { .site-header .nav-shell { min-height:72px; padding-bottom:0; } }
+.site-header .brand img { max-height:48px; object-fit:contain; }
+.site-header .primary-nav > a:not(.emergency-button):not(.wet-paint-button) { position:relative; text-decoration:none; transition:color 360ms var(--motion-ease),translate 360ms var(--motion-ease); }
+.site-header .primary-nav > a:not(.emergency-button):not(.wet-paint-button)::after { content:''; position:absolute; bottom:5px; left:0; right:0; height:1px; background:currentColor; transform:scaleX(0); transform-origin:left; transition:transform 420ms var(--motion-ease); }
+.site-header .primary-nav > a:not(.emergency-button):not(.wet-paint-button):is(:hover,:focus-visible,.active)::after { transform:scaleX(1); }
+@media(hover:hover) and (pointer:fine) { .site-header .primary-nav > a:not(.emergency-button):not(.wet-paint-button):hover { color:#b9ddff; translate:0 -1px; } }
+@media(min-width:901px) { .site-header .primary-nav > a { animation:nav-link-arrive 650ms var(--motion-ease) backwards; } .site-header .primary-nav > a:nth-child(2n) { animation-delay:50ms; } .site-header .nav-cta { animation:nav-link-arrive 700ms 100ms var(--motion-ease) backwards; } }
+@keyframes nav-link-arrive { from { opacity:.5; translate:0 -4px; } to { opacity:1; translate:0 0; } }
+/* Overscan permits a small downward crop shift without exposing empty pixels. */
+.hero-banner-image { height:calc(100% + 12px); top:-12px; object-position:var(--banner-position); translate:0 8px; }
+@media(max-width:680px) { .hero-banner-image { object-position:var(--banner-mobile-position); height:calc(100% + 8px); top:-8px; translate:0 5px; } }
+@media(prefers-reduced-motion:reduce) { .site-header .primary-nav > a,.site-header .nav-cta { animation:none; translate:none !important; } }
+html[data-reduce-motion=yes] .site-header .primary-nav > a,html[data-reduce-motion=yes] .site-header .nav-cta { animation:none; translate:none !important; }

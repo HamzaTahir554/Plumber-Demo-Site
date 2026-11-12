@@ -5,7 +5,7 @@
 ## Implemented
 
 - Semantic header, navigation, main, footer, one page heading per route, skip link, descriptive page titles, and route descriptions.
-- Keyboard-operable mobile navigation, service submenu, FAQs, chat, forms, and accessibility settings. Opening a menu by keyboard moves focus into it; Escape closes it and returns focus to its trigger. The settings dialog traps focus and restores it when closed.
+- Keyboard-operable mobile navigation, FAQs, chat, forms, and accessibility settings. Opening a menu by keyboard moves focus into it; Escape closes it and returns focus to its trigger. The settings dialog traps focus and restores it when closed.
 - Visible focus outlines, text labels, error summary and field errors, status text for demo form completion, and a screen-reader-announced chat log.
 - Responsive layout from 320 CSS pixels upward, reduced-motion CSS, optional high contrast and text-size controls, and image alt text based on purpose. Scroll reveals run once when their section enters view; content remains visible when the observer is unavailable. Hover motion is decorative; active links, selection, errors, and progress remain understandable without it.
 - Display preferences open from the footer on every route and from a visible Emergency-page control. The decorative scroll wrench stays attached below the floating header on desktop and mobile and hides for reduced motion.
@@ -27,7 +27,7 @@ Automated checks can flag issues, but they cannot prove WCAG conformance.
 ## Manual checks still needed before production
 
 - NVDA with Chrome and VoiceOver with Safari across all routes and interactive controls.
-- Keyboard-only navigation through mobile menu, submenu, chat, forms, and settings.
+- Keyboard-only navigation through mobile menu, chat, forms, and settings.
 - 200% and 400% zoom, 320 px reflow, touch target review on actual devices.
 - Contrast review with verified brand content and any replacement images.
 - Usability review of the real booking flow and real emergency contact path after integration.
