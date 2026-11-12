@@ -422,9 +422,9 @@ test('service card details reveal on hover and focus and remain visible on touch
   const cardHeight = await card.evaluate(element => element.getBoundingClientRect().height);
   await card.hover();
   await expect(details).toHaveCSS('opacity', '1');
-  await expect(details.locator('p')).toHaveCSS('color', 'rgb(255, 255, 255)');
+  await expect(details.locator('p')).toHaveCSS('color', 'rgb(67, 91, 116)');
   await card.screenshot({ path: 'test-results/service-card-hover.png' });
-  expect(Math.abs(await card.evaluate(element => element.getBoundingClientRect().height) - cardHeight)).toBeLessThan(.5);
+  await expect.poll(() => card.evaluate(element => element.getBoundingClientRect().height)).toBeGreaterThan(cardHeight + 20);
 
   await page.mouse.move(0, 0);
   await card.locator('h3 a').focus();
