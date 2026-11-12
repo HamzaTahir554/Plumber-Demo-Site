@@ -73,3 +73,5 @@ The latest loopback measurements are saved in `reports/local-performance.json`; 
 Page titles and descriptions update on client-side navigation. Static social crawlers may need prerendered or server-rendered route content and metadata on the final host.
 
 Vercel uses vercel.json to serve SPA routes from index.html while leaving asset requests outside the route fallback. Live auditing found direct-route 404s, but all 23 image URLs and client-navigated pages loaded their images. Image failures retry their original source once; persistent failures retain alt text.
+
+Motion choreography and verified reference observations are documented in [MOTION_AUDIT.md](MOTION_AUDIT.md). The shared story-motion stylesheet coordinates hero masks, section and photography entrances, process accents, and footer reveals without new dependencies.

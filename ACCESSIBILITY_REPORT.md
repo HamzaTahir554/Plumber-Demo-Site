@@ -20,7 +20,7 @@
 - Axe with WCAG 2 A/AA, 2.1 A/AA, and 2.2 AA tags reported **no violations on the 20 tested routes**. The audit ran after entrance animations finished.
 - No browser console errors were observed in the route test.
 - `npm run build` passed; `npm audit --omit=dev` reported 0 vulnerabilities.
-- A local production preview sampled LCP, CLS, and chat interaction event durations on nine representative routes, including Commercial, at 375 and 1440 pixels. CLS was 0 in all 18 samples. These loopback observations are diagnostic, not field Web Vitals or a complete INP assessment.
+- A local production preview sampled LCP, CLS, and chat interaction event durations on nine representative routes, including Commercial, at 375 and 1440 pixels. The latest motion-refinement run measured CLS from 0 to 0.0156 across 18 samples; early lazy-route loading still produces small shifts. These loopback observations are diagnostic, not field Web Vitals or a complete INP assessment.
 
 Automated checks can flag issues, but they cannot prove WCAG conformance.
 
