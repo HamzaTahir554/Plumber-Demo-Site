@@ -98,14 +98,15 @@ html[data-reduce-motion=yes] .js-motion .motion-section.scroll-linked { translat
   .hero-banner .hero-trust > div:hover svg { scale: 1.05; rotate: -3deg; }
 }
 .request-cta .cta-buttons .btn {
-  --paint-fill: #c62828;
+  --outro-action: #c62828;
+  --paint-fill: var(--outro-action);
   --paint-glaze: transparent;
   --paint-foreground: #fff;
   transition: background-color 450ms var(--motion-ease), color 300ms var(--motion-ease), border-color 450ms var(--motion-ease), transform 400ms var(--motion-ease);
 }
 .request-cta .cta-buttons .btn:is(:hover, :focus-visible) {
-  background: #c62828;
-  border-color: #c62828;
+  background: var(--outro-action);
+  border-color: var(--outro-action);
   color: #fff;
   transform: translateY(-2px);
 }
@@ -116,3 +117,5 @@ html[data-reduce-motion=yes] .js-motion .motion-section.scroll-linked { translat
 }
 html[data-reduce-motion=yes] :is(.booking-wizard .form-top .eyebrow,.booking-wizard .form-top h2,.booking-wizard .form-top p,.booking-progress li > span,.booking-progress li > small,.hero-banner .eyebrow,.hero-banner .lead,.hero-banner .hero-trust svg) { translate: none !important; scale: none !important; rotate: none !important; transition: none !important; }
 html[data-reduce-motion=yes] .request-cta .cta-buttons .btn:is(:hover,:focus-visible) { transform: none; transition: none; }
+
+.request-cta .cta-buttons .btn[href="/contact"] { --outro-action: #16803c; }

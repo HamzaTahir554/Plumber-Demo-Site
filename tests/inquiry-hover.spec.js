@@ -33,16 +33,17 @@ test('shared banners keep hover distinct from entrance and reduced motion', asyn
   await expect(page.locator('.hero-banner .lead')).toHaveCSS('translate', 'none');
 });
 
-test('both outro CTAs have red pointer and keyboard feedback', async ({ page }) => {
+test('outro CTAs have green request and red emergency feedback', async ({ page }) => {
   await page.goto('/');
   for (const button of await page.locator('.request-cta .btn').all()) {
+    const color = await button.getAttribute('href') === '/contact' ? 'rgb(22, 128, 60)' : 'rgb(198, 40, 40)';
     await button.hover();
-    await expect(button).toHaveCSS('background-color', 'rgb(198, 40, 40)');
-    await expect(button).toHaveCSS('border-top-color', 'rgb(198, 40, 40)');
+    await expect(button).toHaveCSS('background-color', color);
+    await expect(button).toHaveCSS('border-top-color', color);
     await expect(button).toHaveCSS('color', 'rgb(255, 255, 255)');
     await page.mouse.move(0, 0);
     await button.focus();
-    await expect(button).toHaveCSS('background-color', 'rgb(198, 40, 40)');
+    await expect(button).toHaveCSS('background-color', color);
     await expect(button).toHaveCSS('outline-style', 'solid');
     await button.evaluate(e => e.blur());
   }
