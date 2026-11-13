@@ -5,7 +5,7 @@ export default function useScrollMotion(pathname) {
   useEffect(() => {
     const root = document.documentElement;
     const media = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const targets = [...document.querySelectorAll('.split-image, .why-photo, .section-heading, .hero-trust')];
+    const targets = [...document.querySelectorAll('main .section > .container, .request-cta-inner, .footer-grid > div, .footer-bottom, .split-image, .why-photo, .section-heading, .hero-trust')];
     let frame = 0;
     const clamp = value => Math.max(0, Math.min(1, value));
     function update() {
@@ -26,6 +26,7 @@ export default function useScrollMotion(pathname) {
         element.style.setProperty('--scroll-offset', `${banner ? (reduced ? 0 : -4 * clamp(-top / height)) : (1 - entry) * 12}px`);
         element.style.setProperty('--scroll-opacity', .88 + entry * .12);
         element.style.setProperty('--scroll-scale', 1.02 - entry * .02);
+        element.style.setProperty('--section-progress', entry);
         element.classList.add('scroll-linked');
       });
     }

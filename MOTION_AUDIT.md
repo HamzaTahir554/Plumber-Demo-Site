@@ -105,3 +105,11 @@ Added useScrollMotion and scroll-motion.css: selected section headings/photos an
 Chat launcher now uses the existing Lucide Bot icon. Its noninteractive trailing line scales with document progress, sits behind the launcher and retracts upward. Buttons have smaller padding/type with minimum44px targets (hero48px). Both reduced-motion preferences reset scroll decoration. Selected photographs use scale without translation so their crops cannot expose empty edges.
 
 Build passed; four relevant tests passed (two new scroll/responsive tests, existing mobile navigation and green CTA tests). Verified reversal, keyboard chat open/Escape/focus return, system reduced motion, no horizontal overflow and CTA target sizes at320/390/768/1024/1440. Final footer/bot screenshot reviewed in Chrome. No new physical-device or cross-browser performance certification claimed.
+
+### Appointment, banner and outro refinement — November 14, 2026
+
+Added coordinated hover to appointment intro and all five progress markers/labels, preserving the demo disclaimer and noninteractive step semantics. Banner copy gets restrained movement; trust icons scale/rotate independently of entrance transforms and scroll translation. Both NEXT STEP buttons (Prepare a request and Emergency guidance) now use #C62828 backgrounds/borders, white labels, a small lift and visible keyboard focus. Existing paint fills use the same red.
+
+Expanded scroll-progress updates to section containers, outro and footer headings. Content groups and process connectors now follow scroll position instead of one-shot entrance timing. Essential content remains visible, form input stays functional and pointer hit areas in the footer remain stationary. Both reduced-motion modes disable decorative displacement. No dependencies or additional scroll listeners introduced.
+
+Validation: production build passed;12 relevant checks passed across booking/form regressions, new inquiry/banner/red CTA tests, scroll reversal/responsive tests and glass/accessibility tests. Target widths320/390/768/1024/1440 remain free of horizontal overflow in the targeted checks. Rendered inquiry screenshot reviewed. This pass used Chrome and emulated viewport/input preferences; no physical-device or new cross-browser verification claimed.

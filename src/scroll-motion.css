@@ -1,4 +1,36 @@
 /* Scroll position owns these selected reveals; hover still owns transform. */
+.js-motion .motion-section.scroll-linked {
+  opacity: 1;
+  transform: none;
+  translate: 0 var(--scroll-offset, 0px);
+  transition: none;
+}
+/* Footer link hit areas stay stationary during programmatic scroll/focus. */
+.js-motion .footer .motion-section.scroll-linked { translate: none; }
+.footer .motion-section.scroll-linked h2 { translate: 0 var(--scroll-offset, 0px); }
+/* Reveal groups stay usable even before their observer has fired. */
+.js-motion .motion-section.scroll-linked .reveal {
+  opacity: 1;
+  transform: none;
+}
+.js-motion .motion-section.scroll-linked :is(.content-reveal, .section-heading h2, .section-heading p, .section-heading .eyebrow),
+.footer .motion-section.scroll-linked > * {
+  animation: none;
+}
+.js-motion main .motion-section.scroll-linked [data-content-motion].content-reveal { animation: none; }
+.js-motion .motion-section.scroll-linked .process-grid--interactive .process-step {
+  animation: none;
+  opacity: 1;
+  transform: none;
+}
+.js-motion .motion-section.scroll-linked .process-grid--interactive .process-step::before,
+.js-motion .motion-section.scroll-linked .process-step-progress::after {
+  animation: none;
+  transform: scaleX(var(--section-progress, 1));
+}
+@media(max-width:560px) {
+  .js-motion .motion-section.scroll-linked .process-grid--interactive .process-step::before { transform: scaleY(var(--section-progress, 1)); }
+}
 .js-motion .motion-section.is-visible .section-heading.scroll-linked h2 {
   animation: none;
   clip-path: none;
@@ -40,8 +72,47 @@ main .btn-large { min-height: 48px; padding: 12px 18px; font-size: .94rem; }
 @media (min-width:901px) and (max-width:1200px) { .site-header .nav-cta .nav-emergency { padding: 0; } }
 @media (max-width:680px) { .floating-tools::before { height: 60px; } }
 @media (prefers-reduced-motion:reduce) {
+  .js-motion .motion-section.scroll-linked { translate: none; }
   .scroll-linked h2, .scroll-linked img, .hero-trust.scroll-linked .animated-icon { translate: none !important; scale: none !important; opacity: 1 !important; }
   .floating-tools::before { display: none; }
 }
 html[data-reduce-motion=yes] .scroll-linked :is(h2,img,.animated-icon) { translate: none !important; scale: none !important; opacity: 1 !important; }
 html[data-reduce-motion=yes] .floating-tools::before { display: none; }
+html[data-reduce-motion=yes] .js-motion .motion-section.scroll-linked { translate: none; }
+
+/* Hover uses individual scale/translate; entrance transform remains independent. */
+.booking-wizard .form-top :is(.eyebrow, h2, p),
+.booking-progress li > :is(span, small),
+.hero-banner :is(.eyebrow, .lead) {
+  transition: color 400ms var(--motion-ease), translate 400ms var(--motion-ease), scale 400ms var(--motion-ease);
+}
+.booking-wizard .form-top .eyebrow { display: inline-block; }
+.booking-progress li > small { display: block; }
+.hero-banner .hero-trust svg { transition: scale 400ms var(--motion-ease), rotate 400ms var(--motion-ease), transform 400ms var(--motion-ease); }
+@media (hover:hover) and (pointer:fine) {
+  .booking-wizard .form-top :is(.eyebrow, h2, p):hover { translate: 0 -2px; color: #0757c8; }
+  .booking-progress li:hover > :is(span, small) { translate: 0 -2px; }
+  .booking-progress li:hover > span { scale: 1.06; border-color: #0757c8; }
+  .booking-progress li:hover > small { color: #0757c8; }
+  .hero-banner :is(.eyebrow, .lead):hover { translate: 0 -1px; }
+  .hero-banner .hero-trust > div:hover svg { scale: 1.05; rotate: -3deg; }
+}
+.request-cta .cta-buttons .btn {
+  --paint-fill: #c62828;
+  --paint-glaze: transparent;
+  --paint-foreground: #fff;
+  transition: background-color 450ms var(--motion-ease), color 300ms var(--motion-ease), border-color 450ms var(--motion-ease), transform 400ms var(--motion-ease);
+}
+.request-cta .cta-buttons .btn:is(:hover, :focus-visible) {
+  background: #c62828;
+  border-color: #c62828;
+  color: #fff;
+  transform: translateY(-2px);
+}
+.request-cta .cta-buttons .btn:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+@media (prefers-reduced-motion:reduce) {
+  .booking-wizard .form-top :is(.eyebrow,h2,p), .booking-progress li > :is(span,small), .hero-banner :is(.eyebrow,.lead), .hero-banner .hero-trust svg { translate: none !important; scale: none !important; rotate: none !important; transition: none !important; }
+  .request-cta .cta-buttons .btn:is(:hover,:focus-visible) { transform: none; transition: none; }
+}
+html[data-reduce-motion=yes] :is(.booking-wizard .form-top .eyebrow,.booking-wizard .form-top h2,.booking-wizard .form-top p,.booking-progress li > span,.booking-progress li > small,.hero-banner .eyebrow,.hero-banner .lead,.hero-banner .hero-trust svg) { translate: none !important; scale: none !important; rotate: none !important; transition: none !important; }
+html[data-reduce-motion=yes] .request-cta .cta-buttons .btn:is(:hover,:focus-visible) { transform: none; transition: none; }
