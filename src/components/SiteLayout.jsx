@@ -1,3 +1,4 @@
+import useScrollMotion from '../hooks/useScrollMotion.js';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
 import { ArrowRight, Clock3, Mail, Menu, MessageCircle, Phone, X } from 'lucide-react';
@@ -12,6 +13,7 @@ const pageTitles = { '/': 'Plumbing services for home & business', '/services': 
 
 export default function SiteLayout({ children }) {
   const location = useLocation();
+  useScrollMotion(location.pathname);
   useEffect(() => {
     // Retry a transient asset failure once; retain meaningful alt text if unavailable.
     const retryImage = event => {

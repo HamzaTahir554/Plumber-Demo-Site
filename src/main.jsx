@@ -21,6 +21,7 @@ import './chrome-hover.css';
 import './text-motion.css';
 import './content-motion.css';
 import './form-motion.css';
+import './scroll-motion.css';
 
 import Services from './pages/Services.jsx';
 import ServiceDetail from './pages/ServiceDetail.jsx';

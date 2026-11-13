@@ -1,0 +1,47 @@
+/* Scroll position owns these selected reveals; hover still owns transform. */
+.js-motion .motion-section.is-visible .section-heading.scroll-linked h2 {
+  animation: none;
+  clip-path: none;
+  translate: 0 var(--scroll-offset, 0px);
+  opacity: var(--scroll-opacity, 1);
+  transition: color var(--motion-text) var(--motion-ease), background-size var(--motion-text) var(--motion-ease);
+}
+.motion-section.is-visible :is(.split-image, .why-photo).scroll-linked img {
+  animation: none;
+  clip-path: none;
+  translate: none;
+  scale: var(--scroll-scale, 1);
+  opacity: var(--scroll-opacity, 1);
+}
+.hero-trust.scroll-linked .animated-icon { translate: 0 var(--scroll-offset, 0px); }
+.floating-tools::before {
+  content: '';
+  position: absolute;
+  right: 26px;
+  bottom: 27px;
+  width: 2px;
+  height: 90px;
+  border-radius: 2px;
+  background: linear-gradient(0deg, #0757c8, #79b9ea44, transparent);
+  transform: scaleY(var(--page-scroll-progress, 0));
+  transform-origin: bottom;
+  pointer-events: none;
+  z-index: -1;
+}
+.chat-launcher svg { width: 25px; height: 25px; stroke-width: 1.8; }
+/* Compact visual proportions with a minimum 44px touch target. */
+main .btn, .footer .footer-grid > div:not(.footer-brand) > a.footer-cta {
+  min-height: 44px;
+  padding: 10px 16px;
+  font-size: .86rem;
+}
+main .btn-large { min-height: 48px; padding: 12px 18px; font-size: .94rem; }
+.site-header .nav-cta :is(.btn, .nav-emergency) { min-height: 44px; padding: 9px 13px; font-size: .77rem; }
+@media (min-width:901px) and (max-width:1200px) { .site-header .nav-cta .nav-emergency { padding: 0; } }
+@media (max-width:680px) { .floating-tools::before { height: 60px; } }
+@media (prefers-reduced-motion:reduce) {
+  .scroll-linked h2, .scroll-linked img, .hero-trust.scroll-linked .animated-icon { translate: none !important; scale: none !important; opacity: 1 !important; }
+  .floating-tools::before { display: none; }
+}
+html[data-reduce-motion=yes] .scroll-linked :is(h2,img,.animated-icon) { translate: none !important; scale: none !important; opacity: 1 !important; }
+html[data-reduce-motion=yes] .floating-tools::before { display: none; }

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Bot, MessageCircle, Send, Trash2, X } from 'lucide-react';
+import { Bot, Send, Trash2, X } from 'lucide-react';
 import { services } from '../data/site.js';
 import AnimatedIcon from './AnimatedIcon.jsx';
 
@@ -79,7 +79,7 @@ export default function Chatbot() {
   if (carryIssue && lastQuestion) bookingQuery.set('issue', lastQuestion);
   const bookingUrl = `/contact${bookingQuery.size ? `?${bookingQuery}` : ''}#booking-wizard`;
   return <>
-    <button type="button" className="chat-launcher" ref={launcher} aria-label={open ? 'Close demo chat' : 'Open demo chat'} aria-controls="chat-panel" aria-expanded={open} onClick={() => open ? closeChat() : openChat()}>{open ? <X aria-hidden="true" /> : <MessageCircle aria-hidden="true" />}</button>
+    <button type="button" className="chat-launcher" ref={launcher} aria-label={open ? 'Close demo chat' : 'Open demo chat'} aria-controls="chat-panel" aria-expanded={open} onClick={() => open ? closeChat() : openChat()}>{open ? <X aria-hidden="true" /> : <Bot aria-hidden="true" />}</button>
     {(open || closing) && <section className={`chat-panel ${closing ? 'is-closing' : ''}`} id="chat-panel" aria-label="Demo plumbing chat assistant" inert={closing ? true : undefined}>
       <div className="chat-header"><Bot aria-hidden="true" /><div><strong>Plumbing guide</strong><small>Demo · Fixed responses</small></div><button type="button" aria-label="Clear conversation" title="Clear conversation" onClick={clear}><Trash2 size={18} aria-hidden="true" /></button><button type="button" aria-label="Close chat" onClick={closeChat}><X size={20} aria-hidden="true" /></button></div>
       <div className="chat-messages" role="log" aria-live="polite" aria-relevant="additions text" ref={log}>

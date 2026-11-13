@@ -97,3 +97,11 @@ Rechecked ReflexAI in actual Chrome at1440/390: CTA transitions500ms, scrolling 
 Validation: production build passed. All30 existing tests passed across the full run plus corrected stale card-lift assertion rerun; two additional regression tests passed for one-shot hover/entrance independence and observer-failure visibility (32 total). Production Chrome sweep covered20routes at320/390/768/1024/1440:100 checks,0 failures, max sampled CLS0. Separate18 local production performance samples also recorded CLS0. Existing axe route checks passed. Rendered desktop/mobile screenshots and booking/contact, keyboard, touch emulation and both reduced-motion modes were checked.
 
 Additional Edge, Firefox and WebKit smoke results are retained in reports/motion-followup-browser-smoke.json; these are narrower than the full Chrome sweep. Safari and physical Android/iPhone testing remain unavailable. Local CLS diagnostics are not field Core Web Vitals. Manual device checklist above still applies. Build output is about91.72KB gzipped JavaScript and25.96KB CSS.
+
+### Reversible scroll motion — November 14, 2026
+
+Added useScrollMotion and scroll-motion.css: selected section headings/photos and banner trust icons now respond directly to scroll progress and reverse upward. Stable layout offsets exclude entrance transforms. One passive event-driven scroll handler batches reads/writes in requestAnimationFrame; no continuous frame loop or React state updates. Resize and preference observers clean up on route changes. Existing CSS/React motion stack retained.
+
+Chat launcher now uses the existing Lucide Bot icon. Its noninteractive trailing line scales with document progress, sits behind the launcher and retracts upward. Buttons have smaller padding/type with minimum44px targets (hero48px). Both reduced-motion preferences reset scroll decoration. Selected photographs use scale without translation so their crops cannot expose empty edges.
+
+Build passed; four relevant tests passed (two new scroll/responsive tests, existing mobile navigation and green CTA tests). Verified reversal, keyboard chat open/Escape/focus return, system reduced motion, no horizontal overflow and CTA target sizes at320/390/768/1024/1440. Final footer/bot screenshot reviewed in Chrome. No new physical-device or cross-browser performance certification claimed.
