@@ -1,5 +1,7 @@
 export const brand = 'Company name';
 export const phone = '555-123-4567';
+// Supply a verified E.164 business number before enabling mobile tel: action.
+export const verifiedPhone = null;
 export const email = 'hello@example.com';
 // Populate only after the business supplies and verifies its coverage list.
 export const serviceAreaZipCodes = [];

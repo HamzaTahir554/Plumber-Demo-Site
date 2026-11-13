@@ -23,6 +23,7 @@ import './content-motion.css';
 import './form-motion.css';
 import './scroll-motion.css';
 import './creative.css';
+import './phase-two.css';
 
 import Services from './pages/Services.jsx';
 import ServiceDetail from './pages/ServiceDetail.jsx';
@@ -33,7 +34,8 @@ import ProjectGallery from './pages/ProjectGallery.jsx';
 import MaintenanceHub from './pages/MaintenanceHub.jsx';
 
 function App() {
-  return <BrowserRouter><SiteLayout><Routes>
+  // Eager routes commit synchronously inside the shared view-transition snapshot.
+  return <BrowserRouter useTransitions={false}><SiteLayout><Routes>
     <Route path="/" element={<Home />} />
     <Route path="/services" element={<Services />} />
     <Route path="/services/:slug" element={<ServiceDetail />} />

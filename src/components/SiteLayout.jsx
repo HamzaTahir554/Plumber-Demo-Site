@@ -1,3 +1,5 @@
+import useRouteMotion from '../hooks/useRouteMotion.js';
+import MobileContactBar from './MobileContactBar.jsx';
 import useScrollMotion from '../hooks/useScrollMotion.js';
 import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Link, NavLink, useLocation } from 'react-router-dom';
@@ -14,6 +16,7 @@ const pageTitles = { '/': 'Plumbing services for home & business', '/services': 
 export default function SiteLayout({ children }) {
   const location = useLocation();
   useScrollMotion(location.pathname);
+  const restoredHistoryScroll = useRouteMotion();
   useEffect(() => {
     // Retry a transient asset failure once; retain meaningful alt text if unavailable.
     const retryImage = event => {
@@ -34,7 +37,6 @@ export default function SiteLayout({ children }) {
   const navRef = useRef(null);
   const outroRef = useRef(null);
   const footerRef = useRef(null);
-  const firstRoute = useRef(true);
   const menuTimer = useRef(null);
 
   useEffect(() => {
@@ -56,10 +58,6 @@ export default function SiteLayout({ children }) {
     setMenuOpen(false);
     setMenuClosing(false);
     window.clearTimeout(menuTimer.current);
-    if (firstRoute.current) { firstRoute.current = false; return; }
-    window.scrollTo({ top: 0, behavior: 'instant' });
-    const id = window.setTimeout(() => document.querySelector('main h1')?.focus(), 80);
-    return () => window.clearTimeout(id);
   }, [location.pathname]);
 
   useLayoutEffect(() => {
@@ -147,13 +145,13 @@ export default function SiteLayout({ children }) {
 
 
   useEffect(() => {
-    if (!location.hash) return;
+    if (!location.hash || restoredHistoryScroll) return;
     const targetId = decodeURIComponent(location.hash.slice(1));
     let timer;
     const scrollToTarget = () => {
       const target = document.getElementById(targetId);
       if (!target) return false;
-      timer = window.setTimeout(() => target.scrollIntoView({ block: 'start', behavior: 'instant' }), 130);
+      timer = window.setTimeout(() => { target.scrollIntoView({ block: 'start', behavior: 'instant' }); target.tabIndex = -1; target.focus({ preventScroll: true }); }, 130);
       return true;
     };
     if (scrollToTarget()) return () => window.clearTimeout(timer);
@@ -161,7 +159,7 @@ export default function SiteLayout({ children }) {
     observer.observe(document.getElementById('main'), { childList: true, subtree: true });
     const timeout = window.setTimeout(() => observer.disconnect(), 2500);
     return () => { observer.disconnect(); window.clearTimeout(timeout); window.clearTimeout(timer); };
-  }, [location.pathname, location.hash]);
+  }, [location.pathname, location.hash, restoredHistoryScroll]);
 
   useEffect(() => {
     function onKeyDown(event) {
@@ -205,6 +203,7 @@ export default function SiteLayout({ children }) {
       <div><h2>Get in touch</h2><WetPaintButton className="btn btn-primary green-action footer-cta" to="/contact">Request service <ArrowRight size={16} aria-hidden="true" /></WetPaintButton><Link className="footer-contact footer-contact-link" to="/contact#contact-details" aria-label={`${phone} (demo) — view contact details`}><Phone size={16} aria-hidden="true" /> {phone} (demo)</Link><Link className="footer-contact footer-contact-link" to="/contact#contact-details" aria-label={`${email} (demo) — view contact details`}><Mail size={16} aria-hidden="true" /> {email} (demo)</Link><span className="footer-contact"><Clock3 size={16} aria-hidden="true" /> Hours to be confirmed</span></div>
     </div><div className="container footer-bottom"><span>© {new Date().getFullYear()} {brand} Plumbing Services · Demo website</span><button type="button" onClick={openAccess}>Accessibility options</button></div></footer>
     </div>
+    <MobileContactBar pathname={location.pathname} menuOpen={menuOpen || menuClosing} accessOpen={accessOpen} />
     <div className="floating-tools"><Chatbot /></div>
     {accessOpen && <AccessibilitySettings onClose={closeAccess} />}
   </AccessibilityActionsContext.Provider>;

@@ -1,0 +1,79 @@
+/* Viewport-sized snapshots avoid interpolating tall pages or their scroll offsets.
+   Persistent floating controls remain independent of the page's 8-10px motion. */
+.site-header { view-transition-name: site-header; }
+.floating-tools { view-transition-name: site-tools; }
+.mobile-contact-bar { view-transition-name: mobile-contact; }
+::view-transition-group(*) { animation: none; }
+::view-transition-old(root) { animation: route-away 180ms var(--motion-ease) both; }
+::view-transition-new(root) { animation: route-arrive 420ms var(--motion-ease) both; }
+::view-transition-old(site-header), ::view-transition-old(site-tools), ::view-transition-old(mobile-contact) { display: none; }
+::view-transition-new(site-header), ::view-transition-new(site-tools), ::view-transition-new(mobile-contact) { animation: none; }
+::view-transition { pointer-events: none; }
+@keyframes route-away { to { opacity: .1; transform: translateY(-8px); } }
+@keyframes route-arrive { from { opacity: .7; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+.route-surface { animation: route-arrive 420ms var(--motion-ease) backwards; }
+html[data-route-transition=native] .route-surface { animation: none; }
+
+.faq-controls { margin-bottom: 20px; }
+.faq-controls > label, .faq-mobile-category { font-size: .85rem; font-weight: 700; }
+.faq-search { display: flex; gap: 10px; align-items: center; margin: 8px 0 16px; border: 1px solid #9eb6cd; background: #fff; border-radius: 8px; padding: 0 12px; }
+.faq-search:focus-within { outline: 2px solid #0757c8; outline-offset: 2px; }
+.faq-search input { min-width: 0; width: 100%; min-height: 46px; border: 0; background: transparent; color: #0b1f44; font: inherit; outline: none; }
+.faq-search button { min-height: 44px; border: 0; color: #0757c8; background: transparent; font-weight: 700; }
+.faq-categories, .craft-categories { display: flex; gap: 8px; flex-wrap: wrap; }
+.faq-categories button, .craft-categories button { min-height: 44px; padding: 9px 12px; border: 1px solid #b9cee0; border-radius: 6px; background: #fff; color: #25496d; font-size: .8rem; font-weight: 650; transition: color 300ms, background-color 300ms, border-color 300ms; }
+.faq-categories button[aria-pressed=true], .craft-categories button[aria-pressed=true] { background: #0757c8; border-color: #0757c8; color: #fff; }
+.faq-mobile-category { display: none; }
+.faq-count { margin: 12px 0 0; font-size: .78rem; color: #435b74; }
+.faq-list summary svg { flex-shrink: 0; }
+.faq-list details[open] summary svg { transform: none; }
+.faq-list details[open] summary svg path:nth-child(2) { opacity: 0; }
+.faq-list summary svg path { transition: opacity 300ms ease; }
+.faq-list details[open] .faq-answer { animation: faq-answer-in 320ms var(--motion-ease) backwards; }
+.faq-list details[open] .faq-answer p { animation: none; }
+.faq-answer { padding-bottom: 18px; }
+.faq-answer p { margin-bottom: 14px; }
+.faq-empty { padding: 20px 0; }
+.faq-empty .text-link { display: block; margin-top: 16px; }
+.finder-faq { margin: 24px 0; }
+@keyframes faq-answer-in { from { opacity: .4; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+
+.craft-categories { margin-bottom: 30px; }
+.craft-editorial { display: grid; grid-template-columns: 1.45fr 1fr; gap: clamp(24px,4vw,64px); align-items: start; }
+.craft-visual { min-width: 0; animation: faq-answer-in 350ms var(--motion-ease); }
+.craft-visual .plumbing-diagram { grid-template-columns: 1fr; gap: 16px; }
+.craft-copy { border-top: 2px solid #0757c8; padding-top: 24px; }
+.craft-copy h3 { font-size: 1.65rem; margin-top: 14px; }
+.craft-copy .text-link { display: block; margin-top: 20px; }
+.craft-asset-note { margin-top: 16px; color: #435b74; font-size: .82rem; }
+.hotspot-image { position: relative; border-radius: 12px; }
+.hotspot-image img { display: block; width: 100%; height: auto; border-radius: inherit; }
+.hotspot { position: absolute; transform: translate(-50%,-50%); width: 44px; height: 44px; border: 2px solid white; border-radius: 50%; background: #0757c8; color: white; font-weight: 800; box-shadow: 0 0 0 5px #0757c820; }
+.hotspot.is-active { background: #0b1f44; box-shadow: 0 0 0 9px #0757c840; }
+.hotspot-panel { padding: 18px 0; min-height: 140px; }
+.hotspot-panel h4 { margin: 0 0 10px; }
+.hotspot-panel .text-link { padding: 8px 0; min-height: 44px; border: 0; background: transparent; }
+
+.mobile-contact-bar { display: none; }
+@media(max-width:680px) {
+  .faq-categories { display: none; }
+  .faq-mobile-category { display: grid; gap: 8px; }
+  .faq-mobile-category select { width: 100%; min-height: 44px; border: 1px solid #9eb6cd; border-radius: 6px; background: #fff; color: #0b1f44; padding: 8px; font: inherit; }
+  .craft-editorial { grid-template-columns: 1fr; }
+  .craft-categories button { flex: 1 1 40%; }
+  .mobile-contact-bar { position: fixed; z-index: 125; display: flex; gap: 8px; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom,0px)); padding: 8px; border: 1px solid #c9dced; border-radius: 14px; background: #f5faff; box-shadow: 0 8px 24px #0b1f4426; opacity: 0; visibility: hidden; transform: translateY(8px); pointer-events: none; transition: opacity 280ms var(--motion-ease), transform 280ms var(--motion-ease), visibility 280ms; }
+  .mobile-contact-bar.is-visible { visibility: visible; opacity: 1; transform: none; pointer-events: auto; }
+  .mobile-contact-bar .btn { flex: 1; min-width: 0; min-height: 46px; padding: 8px 10px; font-size: .78rem; }
+  .mobile-contact-bar small { display: block; font-size: .62rem; font-weight: 500; }
+  body:has(.mobile-contact-bar.is-visible) .floating-tools { bottom: calc(94px + env(safe-area-inset-bottom,0px)); }
+  .footer { padding-bottom: calc(24px + env(safe-area-inset-bottom,0px)); }
+}
+.mobile-contact-bar .green-action { --paint-fill:#16803c; --paint-foreground:#fff; --paint-glaze:transparent; }
+.mobile-contact-bar .green-action:is(:active,:focus-visible) { background:#16803c; border-color:#16803c; color:#fff; }
+@media(prefers-reduced-motion:reduce) {
+  .route-surface, .craft-visual, .faq-list details[open] .faq-answer { animation:none !important; }
+  .mobile-contact-bar { transition:none; transform:none; }
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation:none !important; }
+}
+html[data-reduce-motion=yes] :is(.route-surface,.craft-visual,.faq-list details[open] .faq-answer) { animation:none !important; }
+html[data-reduce-motion=yes] .mobile-contact-bar { transition:none; transform:none; }

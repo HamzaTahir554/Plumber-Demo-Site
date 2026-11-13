@@ -1,3 +1,4 @@
+import { faqItems } from '../data/faqs.js';
 import BeforeAfterSlider from '../components/BeforeAfterSlider.jsx';
 import { featuredComparison } from '../data/projectComparisons.js';
 import { problems } from '../data/problems.js';
@@ -5,7 +6,7 @@ import LiquidSectionDivider from '../components/LiquidSectionDivider.jsx';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, CheckCircle2, House, Phone, Wrench } from 'lucide-react';
-import { homeFaqs, image } from '../data/site.js';
+import { image } from '../data/site.js';
 import { FaqList, HeroBanner, RequestCta, SectionHeading, ServiceGrid } from '../components/Shared.jsx';
 import AnimatedIcon from '../components/AnimatedIcon.jsx';
 import HowItWorks from '../components/HowItWorks.jsx';
@@ -27,7 +28,7 @@ export default function Home() {
     <section className="section process-section"><LiquidSectionDivider /><div className="container"><SectionHeading eyebrow="HOW IT WORKS" title="From first question to next step" text="A clear path to a service inquiry. Booking and dispatch are not connected in this demo." /><HowItWorks /></div></section>
     <section className="section why-section"><div className="container why-grid"><div className="reveal"><span className="eyebrow">A BETTER EXPERIENCE</span><h2>Built around the questions customers actually have.</h2><p>Good service begins with understanding the issue. This site makes it easy to compare service types, learn what details matter, and find the next step.</p><div className="why-points"><div><span>01</span><div><h3>Plain language</h3><p>Useful explanations without unnecessary jargon.</p></div></div><div><span>02</span><div><h3>Respect for the details</h3><p>Room to describe symptoms, timing, and location.</p></div></div><div><span>03</span><div><h3>Clear expectations</h3><p>Demo functions are labeled until a real service is connected.</p></div></div></div></div><div className="why-photo reveal"><img src={image('company-service-van')} width="680" height="560" loading="lazy" alt="Plumbing service van parked outside a home" /></div></div></section>
     <section className="section review-preview"><div className="container"><SectionHeading eyebrow="CUSTOMER FEEDBACK" title="Real words matter." text="Genuine Google reviews will appear when the business provides a verified source and permission to publish them." link="/reviews" linkText="About customer reviews" /><GoogleReviews preview /></div></section>
-    <section className="section faq-section"><div className="container faq-grid"><div><span className="eyebrow">FREQUENTLY ASKED QUESTIONS</span><h2>Good to know before you reach out.</h2><p>Answers about this demo site and the service information it presents.</p></div><FaqList items={homeFaqs} /></div></section>
+    <section className="section faq-section"><div className="container faq-grid"><div><span className="eyebrow">FREQUENTLY ASKED QUESTIONS</span><h2>Good to know before you reach out.</h2><p>Answers about this demo site and the service information it presents.</p></div><FaqList items={faqItems} /></div></section>
     <section className="section"><div className="container"><SectionHeading eyebrow="PROJECT STORIES" title="See the difference, with verified work." text="Approved project comparisons will be published here when available." /><BeforeAfterSlider {...(featuredComparison || {})} /></div></section>
     <RequestCta />
   </>;

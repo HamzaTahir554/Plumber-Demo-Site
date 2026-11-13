@@ -32,3 +32,27 @@ Before launch, supply verified contact details, business information, service co
 - `BeforeAfterSlider`: native named range, pointer capture, keyboard controls, touch pan-y behavior, reset, stable dimensions and asset-failure state.
 
 Existing `useReveal`, `useScrollMotion`, wet-paint buttons and the shared hero/footer structure remain in use. No new runtime dependencies were added.
+
+# Craftsmanship photographs and annotations
+
+The About page's `CraftsmanshipShowcase` reads `src/data/craftsmanship.js`. All four topics currently use clearly labeled educational schematics. They are not photographs of company work or verified descriptions of company procedures.
+
+After verifying publication permission and the accompanying explanation, configure a topic with:
+
+```js
+image: '/assets/images/craftsmanship/approved-fitting.webp',
+imageAlt: 'An accurate description of the approved photograph',
+hotspots: [{
+  id: 'fitting', x: 40, y: 60,
+  title: 'Verified component name',
+  text: 'Approved factual explanation of this visible component.'
+}]
+```
+
+Use optimized 1200-by-800 images for the default reserved dimensions. `HotspotImage` also accepts explicit `width` and `height` for other aspect ratios; pass the actual dimensions when configuring another ratio. Images display uncropped at their native ratio, so x/y percentages stay aligned on desktop and mobile. Keep centers at least 22px from image boundaries at the narrowest supported width. Buttons support mouse, touch, Enter/Space, close, and Escape with focus return. Synthetic hotspot test imagery is excluded from the production build. Existing project comparisons are linked rather than duplicated.
+
+# Floating mobile contact action
+
+`verifiedPhone` in `src/data/site.js` intentionally remains null. The mobile Call Now action is labeled “Demo contact” and opens the existing contact-details section, following the previously approved demo behavior. Supply a verified international-format business number (for example, the actual E.164 value, not the sample 555 number) before enabling `tel:`. Update the displayed phone/email and other placeholder details consistently before launch.
+
+Request Service opens `/contact#booking-wizard`, the existing five-step demo. The bar hides near heroes, final CTAs/footer, interactive tools/FAQs/comparisons/hotspots, while typing, and during navigation, chat, display settings or booking. Below 680px it uses safe-area spacing and at least 46px controls; larger layouts retain the existing page actions.
