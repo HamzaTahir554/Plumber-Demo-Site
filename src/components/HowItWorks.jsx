@@ -1,5 +1,5 @@
 import React from 'react';
-import AnimatedIcon from './AnimatedIcon.jsx';
+import ProcessIcon from './ProcessIcon.jsx';
 
 const steps = [
   { icon: 'message', title: 'Tell us your problem', text: 'Describe what is happening so you can identify a relevant service.' },
@@ -13,7 +13,7 @@ export default function HowItWorks() {
     {steps.map((step, index) => <li className="process-step" key={step.title} style={{ '--step-index': index }}>
       <article className="process-card" data-process-icon={step.icon}>
         <div className="process-card-top">
-          <div className="process-step-icon"><AnimatedIcon name={step.icon} size={28} animation="none" trigger="hover" /></div>
+          <div className="process-step-icon"><ProcessIcon name={step.icon} /></div>
           <span className="process-step-number" aria-hidden="true"><small>STEP</small>0{index + 1}</span>
         </div>
         <h3>{step.title}</h3><p>{step.text}</p>

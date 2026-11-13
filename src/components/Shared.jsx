@@ -1,3 +1,6 @@
+import WaterRipple from './WaterRipple.jsx';
+import LiquidSectionDivider from './LiquidSectionDivider.jsx';
+import AnimatedHeading from './AnimatedHeading.jsx';
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { ArrowRight, Check, Phone, Plus } from 'lucide-react';
@@ -40,8 +43,8 @@ export function HeroBanner({ eyebrow, title, text, imageName = 'water-wave-banne
     <img className="hero-banner-image" src={image(imageName)} width="1600" height="900" alt={imageAlt} fetchpriority="high" decoding="async" />
     <div className="container hero-banner-inner"><div className="hero-banner-copy">
       {prelude}
-      <span className="eyebrow">{eyebrow}</span><h1 tabIndex="-1">{title}</h1><p className="lead">{text}</p>
-      {children && <div className="hero-actions">{children}</div>}
+      <span className="eyebrow">{eyebrow}</span><AnimatedHeading>{title}</AnimatedHeading><p className="lead">{text}</p>
+      {children && <WaterRipple className="hero-actions">{children}</WaterRipple>}
       {afterActions}
     </div></div>
   </section>;
@@ -51,10 +54,10 @@ export function SectionHeading({ eyebrow, title, text, link, linkText }) {
   return <div className="section-heading"><div><span className="eyebrow">{eyebrow}</span><h2>{title}</h2>{text && <p>{text}</p>}</div>{link && <Link className="text-link" to={link}>{linkText || 'Explore more'} <ArrowRight size={18} aria-hidden="true" /></Link>}</div>;
 }
 export function ServiceGrid({ limit }) {
-  return <div className="service-grid">{services.slice(0, limit || services.length).map((service, index) => <article className="service-card" key={service.slug}><Link className="service-card-image" to={`/services/${service.slug}`} tabIndex="-1" aria-hidden="true"><img src={image(service.image)} width="640" height="410" loading="lazy" decoding="async" alt="" /><span className="service-card-index">SERVICE / {String(index + 1).padStart(2, '0')}</span></Link><div className="service-card-body"><div className="service-card-heading"><AnimatedIcon name={serviceIcons[service.slug]} size={25} animation="lift" trigger="hover" /><h3><Link to={`/services/${service.slug}`}>{service.title}</Link></h3></div><div className="service-card-details"><p>{service.short}</p></div><Link className="card-link" to={`/services/${service.slug}`}>View details <ArrowRight size={17} aria-hidden="true" /></Link></div></article>)}</div>;
+  return <div className="service-grid">{services.slice(0, limit || services.length).map((service, index) => <WaterRipple as="article" className="service-card" key={service.slug}><Link className="service-card-image" to={`/services/${service.slug}`} tabIndex="-1" aria-hidden="true"><img src={image(service.image)} width="640" height="410" loading="lazy" decoding="async" alt="" /><span className="service-card-index">SERVICE / {String(index + 1).padStart(2, '0')}</span></Link><div className="service-card-body"><div className="service-card-heading"><AnimatedIcon name={serviceIcons[service.slug]} size={25} animation="lift" trigger="hover" /><h3><Link to={`/services/${service.slug}`}>{service.title}</Link></h3></div><div className="service-card-details"><p>{service.short}</p></div><Link className="card-link" to={`/services/${service.slug}`}>View details <ArrowRight size={17} aria-hidden="true" /></Link></div></WaterRipple>)}</div>;
 }
 export function FaqList({ items }) { return <div className="faq-list">{items.map(item => <details key={item.q}><summary>{item.q}<Plus size={18} aria-hidden="true" /></summary><p>{item.a}</p></details>)}</div>; }
 export function CheckList({ items }) { return <ul className="check-list">{items.map(item => <li key={item}><span><Check size={16} aria-hidden="true" /></span>{item}</li>)}</ul>; }
 export function RequestCta({ title = 'Ready to talk through your plumbing project?', text = 'Share the details through the demo request form, then connect a real booking service before launch.' }) {
-  return <section className="request-cta"><div className="container request-cta-inner"><div><span className="eyebrow">NEXT STEP</span><h2>{title}</h2><p>{text}</p></div><div className="cta-buttons"><WetPaintButton className="btn btn-white" to="/contact">Prepare a request <ArrowRight size={17} aria-hidden="true" /></WetPaintButton><Link className="btn btn-ghost" to="/emergency"><Phone size={17} aria-hidden="true" /> Emergency guidance</Link></div></div></section>;
+  return <section className="request-cta"><LiquidSectionDivider subtle /><div className="container request-cta-inner"><div><span className="eyebrow">NEXT STEP</span><h2>{title}</h2><p>{text}</p></div><div className="cta-buttons"><WetPaintButton className="btn btn-white" to="/contact">Prepare a request <ArrowRight size={17} aria-hidden="true" /></WetPaintButton><Link className="btn btn-ghost" to="/emergency"><Phone size={17} aria-hidden="true" /> Emergency guidance</Link></div></div></section>;
 }

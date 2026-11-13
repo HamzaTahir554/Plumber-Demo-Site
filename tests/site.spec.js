@@ -538,8 +538,8 @@ test('every route has a distinct hero entrance and honors reduced motion', async
     const hero = page.locator('main .hero-banner');
     const motion = await hero.evaluate(element => {
       const styles = getComputedStyle(element);
-      const heading = element.querySelector('h1');
-      const headingEntrance = heading.getAnimations().find(animation => animation.animationName === 'hero-heading-enter');
+      const heading = element.querySelector('h1 .heading-word');
+      const headingEntrance = heading.getAnimations().find(animation => animation.animationName === 'heading-line-enter');
       headingEntrance?.pause();
       if (headingEntrance) headingEntrance.currentTime = 0;
       return {
@@ -556,7 +556,7 @@ test('every route has a distinct hero entrance and honors reduced motion', async
     expect(motion.signature, route).not.toBe('|||');
     expect(signatures.has(motion.signature), `${route} repeats another hero entrance`).toBe(false);
     expect(motion.imageAnimation).toBe('hero-photo-enter');
-    expect(motion.headingAnimation).toBe('hero-heading-enter');
+    expect(motion.headingAnimation).toBe('heading-line-enter');
     expect(motion.bodyAnimation).toBe('hero-body-enter');
     expect(motion.startTransform, route).not.toBe('none');
     expect(startTransforms.has(motion.startTransform), `${route} repeats another heading entrance`).toBe(false);

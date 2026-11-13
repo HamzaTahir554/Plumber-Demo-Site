@@ -1,0 +1,10 @@
+export const problems = [
+  { id: 'leak', title: 'Water leak', service: 'leak-repair', serviceTitle: 'Leak detection & repair', question: 'Where do you notice water?', choices: ['At a faucet or fixture', 'Under a sink', 'On a wall, ceiling, or floor', 'Not sure'], icon: 'droplets' },
+  { id: 'drain', title: 'Clogged drain', service: 'drain-cleaning', serviceTitle: 'Drain cleaning', question: 'How many fixtures are affected?', choices: ['One fixture', 'Several fixtures', 'A recurring backup', 'Not sure'], icon: 'waves' },
+  { id: 'pressure', title: 'Low water pressure', service: 'pipe-repair', serviceTitle: 'Pipe repair assessment', question: 'Where is pressure lower than usual?', choices: ['One fixture', 'Several fixtures', 'Throughout the property', 'Not sure'], icon: 'gauge' },
+  { id: 'heater', title: 'Water heater problem', service: 'water-heaters', serviceTitle: 'Water heater services', question: 'What changed?', choices: ['No hot water', 'Inconsistent temperature', 'Visible moisture or noise', 'Not sure'], icon: 'thermometer' },
+  { id: 'toilet', title: 'Toilet issue', service: 'toilet-fixture-repair', serviceTitle: 'Toilets & fixtures', question: 'What is happening?', choices: ['Running continuously', 'Leaking or overflowing', 'Not flushing well', 'Not sure'], icon: 'wrench' },
+  { id: 'pipe', title: 'Pipe damage', service: 'pipe-repair', serviceTitle: 'Pipe repair', question: 'What can you see?', choices: ['Visible leak', 'Corrosion or damage', 'Frozen line', 'Not sure'], icon: 'pipe' },
+  { id: 'sump', title: 'Sump pump issue', service: 'sump-pumps', serviceTitle: 'Sump pump service', question: 'What is the pump doing?', choices: ['Not starting', 'Cycling or making noise', 'Water is rising', 'Not sure'], icon: 'gauge' },
+  { id: 'other', title: 'Other / not sure', service: '', serviceTitle: 'Service guidance', question: 'Which area is closest?', choices: ['Kitchen', 'Bathroom', 'Basement or utility area', 'Somewhere else'], icon: 'message' }
+];

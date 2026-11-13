@@ -1,0 +1,83 @@
+.water-surface { position: relative; isolation: isolate; }
+.water-ripple { position: absolute; width: min(420px, 90%); aspect-ratio: 1; border: 1px solid #87bef0; border-radius: 50%; background: radial-gradient(circle, transparent 55%, #b8dcf526 68%, transparent 72%); opacity: 0; pointer-events: none; z-index: -1; }
+.service-card.water-surface { overflow: clip; }
+.hero-actions.water-surface { overflow: clip; overflow-clip-margin: 8px; }
+.hero-actions .water-ripple { border-color: #d0e9ff; }
+.liquid-divider { display: block; width: 100%; height: 28px; fill: #f4f8fd; pointer-events: none; }
+.process-section { position: relative; }
+.process-section > .liquid-divider { position: absolute; top: -27px; left: 0; }
+.waterline { fill: none; stroke: #86b9e5; stroke-width: 1; stroke-dasharray: 1; stroke-dashoffset: calc(1 - var(--page-scroll-progress, 0)); }
+.request-cta > .liquid-divider--subtle { position: absolute; top: 0; left: 0; fill: none; opacity: .55; height: 20px; }
+.hero-banner .animated-heading { animation: none; clip-path: none; }
+.heading-word { display: inline-block; vertical-align: top; animation: heading-line-enter 800ms calc(100ms + var(--heading-line, 0) * 100ms) var(--motion-ease) backwards; }
+@keyframes heading-line-enter { from { opacity: 0; clip-path: inset(0 0 100%); transform: var(--hero-heading-from, translateY(12px)); } to { opacity: 1; clip-path: inset(0); transform: none; } }
+.finder-entry { padding-top: 32px; }
+.finder-entry-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 14px; }
+.finder-entry-card { display: flex; align-items: center; gap: 12px; padding: 20px 16px; min-height: 84px; border: 1px solid #cddfed; border-radius: 12px; color: #0b1f44; text-decoration: none; font-weight: 700; background: #f5f9fd; transition: border-color 400ms, transform 400ms var(--motion-ease), background-color 400ms; }
+.finder-entry-card > svg { margin-left: auto; flex-shrink: 0; }
+.finder-entry-card:is(:hover,:focus-visible) { background: #eaf4ff; border-color: #0757c8; transform: translateY(-3px); }
+.finder-entry-card:is(:hover,:focus-visible) .animated-icon svg { transform: translateY(-2px); }
+.comparison-empty { padding: clamp(24px,4vw,48px); border: 1px dashed #9eb8d1; border-radius: 16px; background: #f5f9fd; }
+.comparison-empty h3 { margin: 12px 0; }
+.comparison-empty p { max-width: 65ch; margin: 0; }
+.comparison { margin: 0; }
+.comparison-frame { position: relative; aspect-ratio: 3/2; border-radius: 16px; overflow: hidden; background: #edf4fa; box-shadow: 0 12px 30px #0b1f4410; }
+.comparison-frame > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.comparison-before { clip-path: inset(0 calc(100% - var(--comparison)) 0 0); }
+.comparison-frame > input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; margin: 0; cursor: ew-resize; touch-action: pan-y; }
+.comparison-frame:focus-within { outline: 3px solid #0757c8; outline-offset: 5px; }
+.comparison-label { position: absolute; top: 16px; left: 16px; padding: 6px 12px; background: #0b1f44; border-radius: 6px; color: white; font-size: .8rem; pointer-events: none; }
+.comparison-label--after { left: auto; right: 16px; }
+.comparison-line { position: absolute; top: 0; bottom: 0; left: var(--comparison); width: 2px; background: white; pointer-events: none; }
+.comparison-line span { position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%); display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; background: #0757c8; color: white; border: 2px solid white; }
+.comparison figcaption { display: flex; justify-content: space-between; gap: 16px; padding-top: 16px; }
+.comparison.is-visible .comparison-line span { animation: comparison-handle-enter 550ms 120ms var(--motion-ease) backwards; }
+@keyframes comparison-handle-enter { from { opacity: 0; } to { opacity: 1; } }
+.booking-service-cards { border: 0; margin: 20px 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.booking-service-cards legend { font-size: .85rem; font-weight: 700; margin-bottom: 12px; }
+.booking-service-cards label { display: flex; align-items: start; gap: 10px; padding: 15px; border: 1px solid #ceddea; border-radius: 10px; cursor: pointer; transition: background-color 350ms, border-color 350ms; }
+.booking-service-cards label.is-selected { background: #edf5ff; border-color: #0757c8; }
+.booking-service-cards label:focus-within { outline: 2px solid #0757c8; outline-offset: 2px; }
+.booking-service-cards input { margin-top: 4px; accent-color: #0757c8; }
+.booking-service-cards strong, .booking-service-cards small { display: block; }
+.booking-service-cards strong { font-size: .9rem; }
+.booking-service-cards small { font-size: .78rem; color: #435b74; margin-top: 5px; }
+.plumbing-diagram { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; align-items: center; margin: 0; padding: 28px; border: 1px solid #d2e2ef; border-radius: 16px; background: #f4f9fe; }
+.plumbing-diagram svg { width: 100%; max-height: 260px; overflow: visible; }
+.plumbing-diagram svg text { fill: #315372; font: 11px sans-serif; }
+.plumbing-diagram button.text-link, .comparison button.text-link { border: 0; background-color: transparent; padding: 8px 0; min-height: 44px; font-family: inherit; }
+.diagram-pipe { fill: none; stroke: #8caac5; stroke-width: 14; stroke-linejoin: round; }
+rect.diagram-pipe { fill: #e5f1fc; stroke-width: 3; }
+.diagram-flow { fill: none; stroke: #0757c8; stroke-width: 5; stroke-dasharray: 12 10; }
+.diagram-hot { fill: none; stroke: #b54838; stroke-width: 5; stroke-dasharray: 12 10; }
+.diagram-heat { fill: none; stroke: #b54838; stroke-width: 3; }
+.diagram-inspect { fill: #d9edff; stroke: #0757c8; stroke-width: 2; opacity: .6; }
+.diagram-drop { fill: #0757c8; }
+.diagram-blockage { fill: none; stroke: #695f53; stroke-width: 7; }
+.is-playing :is(.diagram-flow,.diagram-hot) { animation: pipe-flow 1600ms ease-out; }
+.is-playing .diagram-inspect { animation: inspection 1600ms ease; }
+.is-playing .diagram-drop { animation: drop-inspect 1600ms ease; }
+.is-playing .diagram-blockage { animation: clear-restriction 1600ms ease forwards; }
+.is-playing .diagram-heat { animation: inspection 1600ms ease; }
+@keyframes pipe-flow { from { stroke-dashoffset: 66; } to { stroke-dashoffset: 0; } }
+@keyframes inspection { 0%,100% { opacity: .6; } 50% { opacity: 1; } }
+@keyframes drop-inspect { 0% { opacity: 0; transform: translateY(-4px); } 80%,100% { opacity: 1; transform: none; } }
+@keyframes clear-restriction { to { opacity: 0; } }
+@media(max-width:900px) { .finder-entry-grid { grid-template-columns: 1fr 1fr; } }
+@media(max-width:560px) { .finder-entry-card { padding: 16px 12px; font-size: .82rem; gap: 8px; } .booking-service-cards, .plumbing-diagram { grid-template-columns: 1fr; } .plumbing-diagram { gap: 18px; padding: 20px; } .comparison figcaption { flex-direction: column; } }
+@media(prefers-reduced-motion:reduce) { .heading-word, .is-playing * { animation: none !important; } .water-ripple { display: none; } .finder-entry-card:is(:hover,:focus-visible) { transform: none; } }
+html[data-reduce-motion=yes] :is(.heading-word,.is-playing *) { animation: none !important; }
+html[data-reduce-motion=yes] .water-ripple { display: none; }
+html[data-reduce-motion=yes] .finder-entry-card:is(:hover,:focus-visible) { transform: none; }
+
+.footer .footer-brand img { scale: calc(.98 + var(--section-progress, 1) * .02); }
+.process-icon-detail { transition: stroke-dashoffset 450ms var(--motion-ease); stroke-dasharray: 24; stroke-dashoffset: 0; }
+.process-card:hover .process-icon-detail { stroke-dashoffset: -24; }
+@media(prefers-reduced-motion:reduce) { .process-icon-detail { transition:none; } .footer .footer-brand img { scale:none; } }
+html[data-reduce-motion=yes] .process-icon-detail { transition:none; }
+html[data-reduce-motion=yes] .footer .footer-brand img { scale:none; }
+@media(prefers-reduced-motion:reduce) { .comparison .comparison-line span { animation:none; } }
+html[data-reduce-motion=yes] .comparison .comparison-line span { animation:none; }
+
+.finder-actions .green-action { --paint-fill:#16803c; --paint-glaze:transparent; --paint-foreground:#fff; }
+.finder-actions .green-action:is(:active,:focus-visible) { background:#16803c; border-color:#16803c; color:#fff; }

@@ -1,3 +1,5 @@
+import BeforeAfterSlider from '../components/BeforeAfterSlider.jsx';
+import { featuredComparison } from '../data/projectComparisons.js';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
@@ -36,5 +38,5 @@ export default function ProjectGallery() {
       </div>
       <div className="gallery-next"><h2>Have a plumbing question?</h2><p>Explore the service guide or prepare a request with the details you already know.</p><Link className="text-link" to="/services">Browse services <ArrowRight size={17} aria-hidden="true" /></Link></div>
     </div></section>
-  </>;
+  <section className="section"><div className="container"><BeforeAfterSlider {...(featuredComparison || {})} /></div></section></>;
 }
