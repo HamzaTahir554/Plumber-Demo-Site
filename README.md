@@ -18,9 +18,9 @@ npm run build
 npm run preview
 ```
 
-The build output is `dist/`. Configure the host to serve `index.html` for client-side routes such as `/services/leak-repair`. There is no backend.
+The build output is `dist/`. Configure the host to serve `index.html` for client-side routes such as `/services/leak-repair`. The static deployment has no connected backend. An optional loopback-only tracking demo is included; see [TRACKING_SYSTEM.md](TRACKING_SYSTEM.md) for Node 24+, setup, staff credentials, and the local test inbox.
 
-Run the browser checks with `npm run test:e2e`. They use local Chrome on Windows when available; otherwise install Playwright Chromium with `npx playwright install chromium`. The checks cover all routes and images, keyboard navigation, the problem finder, booking flow, ZIP checker, gallery filters, chat, responsive overflow, reduced motion, and axe on every route.
+Run the browser checks with `npm run test:e2e` (Node 24+ for the new real-API tracking tests), and backend checks with `npm test --prefix server`. They use local Chrome on Windows when available; otherwise install Playwright Chromium with `npx playwright install chromium`. The checks cover all routes and images, keyboard navigation, the problem finder, booking flow, ZIP checker, gallery filters, chat, responsive overflow, reduced motion, and axe on every route.
 
 For visual checks, run `npm run build` and `npm run preview -- --port 4174`, then set `SITE_ORIGIN=http://127.0.0.1:4174` and run `npm run visual:check` in another terminal. This captures desktop and mobile screenshots and checks every route at 320, 360, 375, 390, 430, 768, 1024, 1440, and 1920 CSS pixels. The output is in `reports/visual/`.
 
@@ -36,7 +36,7 @@ For visual checks, run `npm run build` and `npm run preview -- --port 4174`, the
 - The floating accessibility launcher is replaced by an Emergency-page control. The footer Accessibility options button still opens the same settings on every route.
 - Google review cards are ready for verified data in `src/data/reviews.js`. Local development shows two clearly labeled layout samples; production shows an honest empty state until genuine reviews and source links are supplied.
 - A three-step, rule-based problem finder that recommends a possible service and flags urgent safety guidance. Optional notes move to the request form only with user consent.
-- A five-step demo request flow with field validation, progress, editing, and review. The general message form also validates fields. Neither form sends data or books a visit.
+- A five-step demo request flow with field validation, progress, editing, and review. The general message form also validates fields. The general form and unconnected booking remain demos. With the optional local request API enabled, booking persists fictional test requests and returns a tracking reference; no actual visit is booked.
 - A ZIP checker that validates U.S. format. Coverage remains unconfirmed until verified ZIP data is added in `src/data/site.js`.
 - An illustrative, filterable gallery. These are supplied concept images; no before/after project claims are made. The maintenance hub links practical notes to public sources.
 - Deterministic demo plumbing chat, available on every page. Conversation history is kept in session storage for the current tab session. It is not a live AI service.

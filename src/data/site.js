@@ -17,10 +17,10 @@ export const services = [
 ];
 
 export const homeFaqs = [
-  { q: 'How do I request a visit?', a: 'Use the demo request form to see the information a booking system would collect. It does not send a request yet; a verified business contact and backend are needed before launch.' },
+  { q: 'How do I request a visit?', a: 'Use the five-step demo request form with fictional details. When the local request server is running, you can save and track a test request. Otherwise, the form only reviews your entries. No real visit is booked.' },
   { q: 'Do you offer emergency plumbing?', a: 'The emergency page describes urgent plumbing situations. Actual emergency availability and a real dispatch number must be confirmed by the business before launch.' },
   { q: 'Can you help with homes and businesses?', a: 'This site presents both residential and commercial service categories. Confirm the company’s actual service scope and coverage before publication.' },
-  { q: 'Can I get a quote online?', a: 'The demo form can help prepare the details. It does not submit information or produce a real quote.' }
+  { q: 'Can I get a quote online?', a: 'The demo form can help prepare fictional details and, with the local request server connected, save a test request. It does not produce a real quote.' }
 ];
 
 export const servicePreparation = {

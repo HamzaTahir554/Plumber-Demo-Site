@@ -25,6 +25,9 @@ import './scroll-motion.css';
 import './creative.css';
 import './phase-two.css';
 import './project-stories.css';
+import './tracking.css';
+import TrackRequest from './pages/TrackRequest.jsx';
+import StaffRequests from './pages/StaffRequests.jsx';
 
 import Services from './pages/Services.jsx';
 import ServiceDetail from './pages/ServiceDetail.jsx';
@@ -44,6 +47,8 @@ function App() {
     <Route path="/service-area" element={<ServiceArea />} />
     <Route path="/projects" element={<ProjectGallery />} />
     <Route path="/maintenance" element={<MaintenanceHub />} />
+    <Route path="/track-request" element={<TrackRequest />} />
+    <Route path="/staff/requests" element={<StaffRequests />} />
     <Route path="/:page" element={<InfoPages />} />
   </Routes></SiteLayout></BrowserRouter>;
 }

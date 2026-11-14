@@ -35,7 +35,7 @@ export default function MobileContactBar({ pathname, menuOpen, accessOpen }) {
     update(); updateChat();
     return () => { document.removeEventListener('focusin', update); document.removeEventListener('focusout', update); observer.disconnect(); };
   }, []);
-  const shown = useful && !typing && !chatOpen && !menuOpen && !accessOpen && pathname !== '/contact';
+  const shown = useful && !typing && !chatOpen && !menuOpen && !accessOpen && !['/contact', '/track-request', '/staff/requests'].includes(pathname);
   return <nav className={`mobile-contact-bar ${shown ? 'is-visible' : ''}`} aria-label="Quick contact" aria-hidden={!shown} inert={!shown ? '' : undefined}>
     <WetPaintButton as="a" className="btn btn-primary green-action" href={verifiedPhone ? `tel:${verifiedPhone}` : '/contact#contact-details'} tabIndex={shown ? 0 : -1}><Phone size={18} aria-hidden="true" /><span>Call Now{!verifiedPhone && <small>Demo contact</small>}</span></WetPaintButton>
     <WetPaintButton className="btn btn-primary green-action" to="/contact#booking-wizard" tabIndex={shown ? 0 : -1}><CalendarCheck size={18} aria-hidden="true" />Request Service</WetPaintButton>

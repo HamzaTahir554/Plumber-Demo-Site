@@ -14,6 +14,8 @@ const bannerPositions = { services: '54% top', residential: 'center center', com
 const bannerMobilePositions = { services: '36% center', residential: '54% center', commercial: '58% center', emergency: '15% center', about: '50% center', contact: '37% center', reviews: '62% center', document: '62% center' };
 // Each route keeps the shared hero layout, but gets its own restrained entrance choreography.
 const heroMotionByPath = {
+  '/track-request': { name: 'tracking-rise', heading: 'translateY(14px)', body: 'translateX(-10px)', photo: 'scale(1.008)', delay: '25ms' },
+  '/staff/requests': { name: 'request-desk-settle', heading: 'translateY(-12px)', body: 'translateY(10px)', photo: 'scale(1.006)', delay: '35ms' },
   '/': { name: 'rise', heading: 'translateY(18px)', body: 'translateY(12px)', photo: 'scale(1.012)', delay: '0ms' },
   '/services': { name: 'sweep-left', heading: 'translateX(-18px)', body: 'translateY(14px)', photo: 'scale(1.008)', delay: '20ms' },
   '/services/leak-repair': { name: 'sweep-right', heading: 'translateX(18px)', body: 'translateY(12px)', photo: 'scale(1.016)', delay: '35ms' },

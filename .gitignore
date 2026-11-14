@@ -3,3 +3,10 @@ dist/
 test-results/
 playwright-report/
 reports/
+.env
+.env.*
+!.env.example
+server/data/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
