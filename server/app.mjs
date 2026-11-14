@@ -3,7 +3,8 @@ import { randomBytes, randomInt } from 'node:crypto';
 import { token, passwordHash, passwordMatches } from './store.mjs';
 import { statuses, canTransition } from './lifecycle.mjs';
 
-const services = ['leak-repair', 'drain-cleaning', 'water-heaters', 'toilet-fixture-repair', 'pipe-repair', 'sump-pumps', 'other'];
+import { services as catalog, canonicalService } from '../src/data/serviceCatalog.js';
+const services = [...catalog.map(service => service.slug), 'other'];
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const referencePattern = /^PS-[A-F0-9]{16}$/;
 const generic = 'If these details match a request, a verification code is available in the local test inbox. It expires in 10 minutes.';
@@ -17,6 +18,7 @@ function booking(input, now) {
   const value = {};
   for (const [key, max] of Object.entries({ service: 40, issue: 500, zip: 10, address: 160, date: 10, time: 15, name: 100, phone: 30, email: 150 })) value[key] = str(input[key] ?? '', max, key !== 'issue');
   value.email = value.email.toLowerCase();
+  value.service = canonicalService(value.service);
   if (!services.includes(value.service) || !/^[0-9]{5}(?:-[0-9]{4})?$/.test(value.zip) || !emailPattern.test(value.email) || value.name.length < 2 || value.phone.replace(/\D/g, '').length < 10 || !['morning', 'afternoon', 'evening'].includes(value.time)) fail(400, 'Check the service, contact, location, and preferred time fields.');
   const date = Date.parse(`${value.date}T12:00:00Z`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(value.date) || !Number.isFinite(date) || new Date(date).toISOString().slice(0, 10) !== value.date || date < now - 86400000 || date > now + 366 * 86400000) fail(400, 'Choose a valid preferred date within the next year.');
@@ -66,7 +68,7 @@ export async function createApp({ store, origins, deliver, now = Date.now }) {
   }
   function snapshot(row, staff = false) {
     const events = all('SELECT id,previous_status,status,created_at,message,appointment FROM events WHERE request_id=? ORDER BY id', row.id);
-    const result = { reference: row.reference, service: row.service, status: row.status, createdAt: row.created_at, updatedAt: row.updated_at, preferredDate: row.preferred_date, preferredTime: row.preferred_time, appointment: row.appointment, version: row.version, events };
+    const result = { reference: row.reference, service: canonicalService(row.service), status: row.status, createdAt: row.created_at, updatedAt: row.updated_at, preferredDate: row.preferred_date, preferredTime: row.preferred_time, appointment: row.appointment, version: row.version, events };
     if (staff) {
       result.customer = unseal(row.private_data);
       result.notes = all('SELECT body,actor,created_at FROM notes WHERE request_id=? ORDER BY id', row.id).map(note => ({ ...note, body: unseal(note.body) }));
@@ -167,9 +169,11 @@ export async function createApp({ store, origins, deliver, now = Date.now }) {
       if (path === '/api/staff/requests' && method === 'GET') {
         const { actor } = session(req, 'staff');
         const status = url.searchParams.get('status') || '', reference = (url.searchParams.get('reference') || '').toUpperCase();
+        const serviceFilter = canonicalService(url.searchParams.get('service') || '');
+        if (serviceFilter && !services.includes(serviceFilter)) fail(400, 'Invalid service filter.');
         const offset = Math.max(0, Math.min(100000, Number(url.searchParams.get('offset')) || 0));
         if ((status && !statuses.includes(status)) || reference.length > 40) fail(400, 'Invalid filter.');
-        const rows = all('SELECT reference,service,status,created_at,updated_at FROM requests WHERE (?=\'\' OR status=?) AND (?=\'\' OR reference=?) ORDER BY created_at DESC,id DESC LIMIT 51 OFFSET ?', status, status, reference, reference, offset);
+        const rows = all('SELECT reference,service,status,created_at,updated_at FROM requests WHERE (?=\'\' OR status=?) AND (?=\'\' OR reference=?) AND (?=\'\' OR service=? OR (service=\'pipe-repair\' AND ?=\'leak-repair\') OR (service=\'toilet-fixture-repair\' AND ?=\'fixture-repair\')) ORDER BY created_at DESC,id DESC LIMIT 51 OFFSET ?', status, status, reference, reference, serviceFilter, serviceFilter, serviceFilter, serviceFilter, offset);
         audit(actor.id, 'request-list-viewed');
         return reply({ requests: rows.slice(0, 50), hasMore: rows.length > 50 });
       }

@@ -1,3 +1,4 @@
+import { canonicalService } from '../data/serviceCatalog.js';
 import useRouteMotion from '../hooks/useRouteMotion.js';
 import MobileContactBar from './MobileContactBar.jsx';
 import useScrollMotion from '../hooks/useScrollMotion.js';
@@ -48,9 +49,12 @@ export default function SiteLayout({ children }) {
   }, []);
 
   useEffect(() => {
-    const service = services.find(s => location.pathname === `/services/${s.slug}`);
-    const title = service ? service.title : pageTitles[location.pathname] || 'Page not found';
-    const description = service ? service.short : `Explore ${title.toLowerCase()} at ${brand} Plumbing Services. Demo website; business details and booking must be connected before launch.`;
+    const service = services.find(s => location.pathname.startsWith('/services/') && canonicalService(location.pathname.split('/').pop()) === s.slug);
+    const title = service ? service.seoTitle : pageTitles[location.pathname] || 'Page not found';
+    const description = service ? service.metaDescription : `Explore ${title.toLowerCase()} at ${brand} Plumbing Services. Demo website; business details and booking must be connected before launch.`;
+    let canonical = document.querySelector('link[rel=canonical]');
+    if (!canonical) { canonical = document.createElement('link'); canonical.rel = 'canonical'; document.head.appendChild(canonical); }
+    canonical.href = 'https://plumber-demo-site-two.vercel.app' + (service ? '/services/' + service.slug : location.pathname);
     document.title = `${title} | ${brand} Plumbing Services`;
     document.querySelector('meta[name="description"]')?.setAttribute('content', description);
     document.querySelector('meta[property="og:title"]')?.setAttribute('content', document.title);

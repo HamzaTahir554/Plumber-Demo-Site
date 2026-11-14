@@ -1,3 +1,4 @@
+import { canonicalService } from '../data/serviceCatalog.js';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { AlertCircle, ArrowRight, Info } from 'lucide-react';
@@ -29,7 +30,7 @@ export default function RequestForm({ variant = 'appointment' }) {
 
 function GeneralRequestForm({ variant }) {
   const [params] = useSearchParams();
-  const suggested = params.get('service');
+  const suggested = canonicalService(params.get('service'));
   const [values, setValues] = useState(() => ({ ...initial, service: services.some(s => s.slug === suggested) ? suggested : '' }));
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);

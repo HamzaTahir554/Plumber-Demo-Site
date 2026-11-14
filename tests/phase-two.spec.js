@@ -61,7 +61,7 @@ test('FAQ searches answers, filters categories, resets and supports keyboard dis
   expect(await faq.locator('details').count()).toBeGreaterThan(0);
   await faq.getByRole('button', { name: 'Clear', exact: true }).click();
   await expect(search).toBeFocused();
-  await faq.getByRole('button', { name: 'Leak detection & repair', exact: true }).click();
+  await faq.getByRole('button', { name: 'Leak Detection & Pipe Repair', exact: true }).click();
   await expect(faq.locator('details')).toHaveCount(2);
   const summary = faq.locator('summary').first();
   await summary.focus(); await page.keyboard.press('Enter');
@@ -73,7 +73,7 @@ test('FAQ searches answers, filters categories, resets and supports keyboard dis
   await faq.getByRole('button', { name: 'Show all answers' }).click();
   await expect(faq.locator('details')).toHaveCount(total);
   await page.setViewportSize({width:320,height:800});
-  await faq.getByLabel('Category', {exact:true}).selectOption('Drain cleaning');
+  await faq.getByLabel('Category', {exact:true}).selectOption('Drain Cleaning & Hydro Jetting');
   await expect(faq.locator('details')).toHaveCount(2);
 });
 

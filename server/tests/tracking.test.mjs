@@ -138,3 +138,18 @@ test('unchanged or conflicting staff writes do not duplicate events', async t =>
   assert.deepEqual(results.map(result => result.status).sort(), [200, 409]);
   assert.equal(f.store.db.prepare('SELECT count(*) AS count FROM events').get().count, 2);
 });
+
+test('all ten catalog IDs persist and legacy IDs map without deleting history', async t => {
+  const { services } = await import('../../src/data/serviceCatalog.js');
+  const f = await fixture(t);
+  for (const service of services) {
+    const response = await f.submit({ service: service.slug });
+    assert.equal(response.status, 201);
+  }
+  const legacy = await f.submit({ service: 'toilet-fixture-repair' });
+  assert.equal(legacy.status, 201);
+  const cookie = await f.login();
+  const filtered = await f.api('/staff/requests?service=fixture-repair', { cookie });
+  assert.equal(filtered.data.requests.length, 2);
+  assert.equal(f.store.db.prepare('SELECT count(*) AS count FROM requests').get().count, 11);
+});

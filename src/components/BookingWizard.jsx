@@ -1,3 +1,4 @@
+import { canonicalService } from '../data/serviceCatalog.js';
 import React, { useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -39,7 +40,7 @@ export default function BookingWizard() {
   const [saved, setSaved] = useState(null), [sending, setSending] = useState(false), [sendError, setSendError] = useState('');
   const retry = useRef(null), submitting = useRef(false);
   const [params] = useSearchParams();
-  const suggested = params.get('service');
+  const suggested = canonicalService(params.get('service'));
   const carriedIssue = params.get('issue')?.slice(0, 500) || '';
   const intent = params.get('intent') === 'quote' ? 'quote' : 'service';
   const [values, setValues] = useState(() => ({ ...initial, service: services.some(item => item.slug === suggested) ? suggested : '', issue: carriedIssue }));

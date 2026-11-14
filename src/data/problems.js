@@ -1,4 +1,5 @@
-export const problems = [
+import { services, canonicalService } from './serviceCatalog.js';
+const originalProblems = [
   { id: 'leak', title: 'Water leak', service: 'leak-repair', serviceTitle: 'Leak detection & repair', question: 'Where do you notice water?', choices: ['At a faucet or fixture', 'Under a sink', 'On a wall, ceiling, or floor', 'Not sure'], icon: 'droplets' },
   { id: 'drain', title: 'Clogged drain', service: 'drain-cleaning', serviceTitle: 'Drain cleaning', question: 'How many fixtures are affected?', choices: ['One fixture', 'Several fixtures', 'A recurring backup', 'Not sure'], icon: 'waves' },
   { id: 'pressure', title: 'Low water pressure', service: 'pipe-repair', serviceTitle: 'Pipe repair assessment', question: 'Where is pressure lower than usual?', choices: ['One fixture', 'Several fixtures', 'Throughout the property', 'Not sure'], icon: 'gauge' },
@@ -8,3 +9,5 @@ export const problems = [
   { id: 'sump', title: 'Sump pump issue', service: 'sump-pumps', serviceTitle: 'Sump pump service', question: 'What is the pump doing?', choices: ['Not starting', 'Cycling or making noise', 'Water is rising', 'Not sure'], icon: 'gauge' },
   { id: 'other', title: 'Other / not sure', service: '', serviceTitle: 'Service guidance', question: 'Which area is closest?', choices: ['Kitchen', 'Bathroom', 'Basement or utility area', 'Somewhere else'], icon: 'message' }
 ];
+
+export const problems = [...originalProblems, ...[{"id": "sewer", "title": "Sewer backup", "service": "sewer-line-repair", "question": "What have you noticed?", "choices": ["Recurring backups", "Several fixtures affected", "Not sure"], "icon": "pipe"}, {"id": "disposal", "title": "Jammed disposal", "service": "garbage-disposal", "question": "What have you noticed?", "choices": ["Unusual noise", "Leaks", "Not starting"], "icon": "wrench"}, {"id": "repiping", "title": "Aging supply pipes", "service": "repiping", "question": "What have you noticed?", "choices": ["Repeated leaks", "Corrosion", "Not sure"], "icon": "pipe"}, {"id": "filtration", "title": "Hard water", "service": "water-filtration", "question": "What have you noticed?", "choices": ["Scale buildup", "Filter maintenance", "Not sure"], "icon": "droplets"}]].map(item => ({ ...item, service: canonicalService(item.service), serviceTitle: services.find(service => service.slug === canonicalService(item.service))?.title || item.serviceTitle }));

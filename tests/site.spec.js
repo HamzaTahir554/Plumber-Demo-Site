@@ -337,7 +337,7 @@ test('problem finder explains its recommendation and carries notes only with con
   await page.getByLabel('Optional details in your own words').fill('Water is dripping below the kitchen sink.');
   await page.getByRole('button', { name: 'Continue' }).click();
   await expect(page.getByText('POSSIBLE SERVICE MATCH', { exact: true })).toBeVisible();
-  await expect(page.getByRole('heading', { name: 'Leak detection & repair' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Leak Detection & Pipe Repair' })).toBeVisible();
   await page.getByRole('checkbox', { name: 'Include my optional notes in the demo request form' }).check();
   await page.getByRole('link', { name: 'Prepare a service request' }).click();
   await expect(page.locator('#booking-service')).toHaveValue('leak-repair');
