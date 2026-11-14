@@ -24,6 +24,7 @@ import './form-motion.css';
 import './scroll-motion.css';
 import './creative.css';
 import './phase-two.css';
+import './project-stories.css';
 
 import Services from './pages/Services.jsx';
 import ServiceDetail from './pages/ServiceDetail.jsx';

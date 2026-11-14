@@ -56,3 +56,38 @@ Use optimized 1200-by-800 images for the default reserved dimensions. `HotspotIm
 `verifiedPhone` in `src/data/site.js` intentionally remains null. The mobile Call Now action is labeled “Demo contact” and opens the existing contact-details section, following the previously approved demo behavior. Supply a verified international-format business number (for example, the actual E.164 value, not the sample 555 number) before enabling `tel:`. Update the displayed phone/email and other placeholder details consistently before launch.
 
 Request Service opens `/contact#booking-wizard`, the existing five-step demo. The bar hides near heroes, final CTAs/footer, interactive tools/FAQs/comparisons/hotspots, while typing, and during navigation, chat, display settings or booking. Below 680px it uses safe-area spacing and at least 46px controls; larger layouts retain the existing page actions.
+
+# Project Stories publishing requirements
+
+The homepage uses `ProjectStories` with three explicitly labeled previews from `src/data/projectStories.js`. The existing illustrative kitchen, water-heater and commercial-pipe images are not completed company projects. No project-specific challenge, work performed or outcome has been supplied. The neutral heading stays in use until every displayed record is publishable.
+
+For each genuine story, obtain permission-cleared original photographs, accurate alternative text, actual dimensions, a verified service category, an approved title/summary, the initial issue, work performed and documented outcome. Do not infer these from a picture. Supply matching same-project before/after photos only when available and approved; do not combine unrelated examples into a transformation.
+
+Replace a preview record using this shape (the bracketed descriptions are editorial requirements, not publishable copy):
+
+```js
+{
+  id: 'approved-story-id',
+  status: 'published',
+  title: '[approved project title]',
+  category: '[verified service category]',
+  summary: '[approved factual summary]',
+  photo: {
+    src: '/assets/images/projects/approved-photo.webp',
+    srcSet: '/assets/images/projects/approved-photo-640.webp 640w, /assets/images/projects/approved-photo.webp 1600w',
+    width: 1600, height: 1000,
+    alt: '[accurate image description]',
+    verified: true
+  },
+  challenge: '[documented issue and assessment]',
+  approach: '[documented work and materials]',
+  result: '[documented outcome]',
+  comparison: null // Or the existing {before, after, description} comparison shape.
+}
+```
+
+`isPublishedStory` requires published status, approved photography and all three story fields before displaying completed-work language. This is a publishing safeguard, not independent evidence verification. Keep any unverified record in preview status. The synthetic published-story fixture is test-only and excluded from the Vite production entry.
+
+The six checked-in 640/960px JPEG derivatives under `public/assets/images/gallery/` are resized copies of three supplied illustrative originals. `scripts/prepare-gallery-images.ps1` can regenerate them on Windows using System.Drawing. It preserves the original assets. Custom approved assets should supply their own `src`/`srcSet`; do not rely on the sample filename convention. Full-size images appear in the story panel; the homepage uses responsive sources, lazy loading and reserved card geometry.
+
+The existing homepage comparison component is retained beneath the story cards, and `/projects` keeps its original sample filters and comparison area. The complete searchable FAQ now lives at `/contact#faq`, below both contact forms.

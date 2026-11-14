@@ -10,7 +10,7 @@ export default function MobileContactBar({ pathname, menuOpen, accessOpen }) {
   useEffect(() => {
     setUseful(false);
     const visible = new Set();
-    const targets = [...document.querySelectorAll('.hero-banner, .request-cta, .footer, .tool-main, .faq-system, .comparison, .hotspot-feature')];
+    const targets = [...document.querySelectorAll('.hero-banner, .request-cta, .footer, .tool-main, .faq-system, .comparison, .hotspot-feature, .project-stories')];
     if (!('IntersectionObserver' in window)) return;
     let observer;
     try {

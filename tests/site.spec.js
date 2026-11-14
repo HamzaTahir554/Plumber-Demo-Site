@@ -352,7 +352,7 @@ test('booking wizard validates steps and never confirms a booking', async ({ pag
   await expect(page.getByText('Check these details:')).toBeVisible();
   await page.locator('#booking-zip').fill('12345');
   await page.getByRole('button', { name: 'Check ZIP' }).click();
-  await expect(page.getByRole('status')).toContainText('coverage has not been provided');
+  await expect(page.locator('#booking-zip-result')).toContainText('coverage has not been provided');
   await page.locator('#booking-address').fill('123 Example Street');
   await page.getByRole('button', { name: 'Next' }).click();
   await page.locator('#booking-date').fill(new Date(Date.now() + 7 * 86400000).toISOString().slice(0, 10));

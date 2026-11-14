@@ -1,3 +1,4 @@
+import { projectExamples } from '../data/projectExamples.js';
 import BeforeAfterSlider from '../components/BeforeAfterSlider.jsx';
 import { featuredComparison } from '../data/projectComparisons.js';
 import React, { useState } from 'react';
@@ -7,12 +8,8 @@ import { image } from '../data/site.js';
 import { PageHero } from '../components/Shared.jsx';
 import useReveal from '../hooks/useReveal.js';
 
-const examples = [
-  { title: 'Kitchen pipe access', category: 'Residential', image: 'service-leak-repair', alt: 'Plumber working below a kitchen sink', text: 'An illustration of the type of repair photo a verified project story might include.' },
-  { title: 'Drain service setup', category: 'Residential', image: 'service-drain-cleaning', alt: 'Plumber using a drain cable below a sink', text: 'An example service scene, not a documented customer project.' },
-  { title: 'Water heater equipment', category: 'Residential', image: 'service-water-heater', alt: 'Residential water heater and supply pipes', text: 'Equipment photography shown for layout demonstration only.' },
-  { title: 'Commercial pipe room', category: 'Commercial', image: 'commercial-pipe-system', alt: 'Commercial plumbing pipes and valves', text: 'A sample commercial image, with no project outcome claim.' }
-];
+// Shared illustrative content; no verified project claims.
+const examples = projectExamples;
 
 export default function ProjectGallery() {
   useReveal();

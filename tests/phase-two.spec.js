@@ -52,7 +52,7 @@ test('route fallback and reduced motion preserve immediate usable navigation', a
 });
 
 test('FAQ searches answers, filters categories, resets and supports keyboard disclosure', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/contact#faq');
   const faq = page.locator('.faq-system');
   const search = faq.getByRole('searchbox');
   const total = await faq.locator('details').count();

@@ -45,7 +45,7 @@ for (const [name, engine, options] of [['Chrome',chromium,{channel:'chrome'}],['
     await expect(page.locator('.craft-copy h3')).toHaveText('Materials & connections');
     await page.waitForTimeout(700); // Capture the settled category reveal.
     await page.screenshot({path:`reports/phase-two/${name}-craft-1440.png`});
-    await page.goto(origin);
+    await page.goto(origin+'/contact#faq');
     const faq = page.locator('.faq-system');
     await faq.getByRole('searchbox').fill('heater');
     await expect(faq.locator('details')).toHaveCount(2);
