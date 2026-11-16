@@ -66,7 +66,8 @@ export default function SiteLayout({ children }) {
 
   useLayoutEffect(() => {
     const header = navRef.current;
-    const update = () => document.documentElement.style.setProperty('--header-clearance', Math.ceil(header.offsetHeight + parseFloat(getComputedStyle(header).top) + 8) + 'px');
+    // The header box keeps one height in both states (only its surface floats), so this never changes on scroll.
+    const update = () => document.documentElement.style.setProperty('--header-clearance', Math.ceil(header.offsetHeight + parseFloat(getComputedStyle(header).top)) + 'px');
     const observer = new ResizeObserver(update); observer.observe(header);
     window.addEventListener('resize', update); update();
     return () => { observer.disconnect(); window.removeEventListener('resize', update); document.documentElement.style.removeProperty('--header-clearance'); };
@@ -89,10 +90,12 @@ export default function SiteLayout({ children }) {
   }, []);
 
   useEffect(() => {
-    let previous = window.scrollY > 12;
+    // Float after 80px, return below 56px; the gap stops flicker at the threshold and state only changes on crossings.
+    let previous = window.scrollY > 80;
     setHeaderScrolled(previous);
     const update = () => {
-      const next = window.scrollY > 12;
+      const y = window.scrollY;
+      const next = previous ? y > 56 : y > 80;
       if (next !== previous) { previous = next; setHeaderScrolled(next); }
     };
     window.addEventListener('scroll', update, { passive: true });

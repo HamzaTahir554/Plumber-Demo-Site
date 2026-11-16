@@ -26,6 +26,7 @@ import './creative.css';
 import './phase-two.css';
 import './project-stories.css';
 import './tracking.css';
+import './header-float.css';
 import TrackRequest from './pages/TrackRequest.jsx';
 import StaffRequests from './pages/StaffRequests.jsx';
 

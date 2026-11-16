@@ -57,7 +57,7 @@ test('navigation and button motion preserve keyboard and reduced-motion behavior
   await page.goto('/');
   await expect(page.locator('#service-submenu')).toHaveCount(0);
   await page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About' }).hover();
-  await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About' })).toHaveCSS('color', 'rgb(185, 221, 255)');
+  await expect(page.getByRole('navigation', { name: 'Main navigation' }).getByRole('link', { name: 'About' })).toHaveCSS('color', 'rgb(5, 47, 104)');
   await page.evaluate(() => window.scrollTo(0, 400));
   await expect(page.locator('.site-header')).toHaveClass(/is-scrolled/);
   await page.setViewportSize({ width: 375, height: 812 });
@@ -76,8 +76,13 @@ test('navigation and button motion preserve keyboard and reduced-motion behavior
   await expect(page.locator('.service-card').first()).toHaveCSS('transform', 'none');
 });
 
-test('floating header stays centered, clears hero copy, and keeps mobile navigation in view', async ({ page }) => {
-  for (const width of [320, 390, 768, 1440, 1920]) {
+test('full-width header floats on scroll, clears hero copy, and keeps mobile navigation in view', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  const floatingBar = () => page.locator('.site-header').evaluate(header => {
+    const ring = getComputedStyle(header, '::after');
+    return { top: parseFloat(ring.top), left: parseFloat(ring.left), right: parseFloat(ring.right), width: innerWidth - parseFloat(ring.left) - parseFloat(ring.right), opacity: ring.opacity, clip: getComputedStyle(header, '::before').clipPath };
+  });
+  for (const width of [320, 375, 430, 768, 1024, 1280, 1440, 1920]) {
     await page.setViewportSize({ width, height: 900 });
     await page.goto('/');
     await page.locator('.site-header').evaluate(header => header.getAnimations().forEach(animation => animation.finish()));
@@ -88,15 +93,27 @@ test('floating header stays centered, clears hero copy, and keeps mobile navigat
       const heading = document.querySelector('.hero-banner h1').getBoundingClientRect();
       return { headerTop: header.top, headerBottom: header.bottom, left: header.left, rightGap: innerWidth - header.right, width: header.width, heroTop: hero.top, headingTop: heading.top, overflow: document.documentElement.scrollWidth - innerWidth };
     });
-    expect(layout.headerTop, `${width}px header top`).toBe(width <= 680 ? 14 : 16);
-    expect(Math.abs(layout.left - layout.rightGap), `${width}px centered header`).toBeLessThan(1);
-    expect(layout.width, `${width}px header width`).toBeLessThanOrEqual(1320);
+    expect(layout.headerTop, `${width}px header top`).toBe(0);
+    expect(layout.left, `${width}px full-width header`).toBe(0);
+    expect(layout.rightGap, `${width}px full-width header`).toBe(0);
+    expect((await floatingBar()).clip, `${width}px flat surface`).toBe('inset(0px)');
     expect(layout.heroTop).toBeGreaterThanOrEqual(layout.headerBottom);
     expect(layout.headingTop, `${width}px hero copy`).toBeGreaterThan(layout.headerBottom + 8);
     expect(layout.overflow, `${width}px overflow`).toBeLessThanOrEqual(1);
     await page.evaluate(() => window.scrollTo(0, 500));
     await expect(page.locator('.site-header')).toHaveClass(/is-scrolled/);
-    await expect.poll(() => page.locator('.site-header').evaluate(header => header.getBoundingClientRect().top)).toBe(layout.headerTop);
+    // The header box never moves or resizes (no layout shift); its surface floats inside it.
+    const box = await page.locator('.site-header').evaluate(header => { const r = header.getBoundingClientRect(); return [r.top, r.height]; });
+    expect(box, `${width}px stable header box`).toEqual([0, layout.headerBottom]);
+    const bar = await floatingBar();
+    expect(bar.clip, `${width}px rounded floating surface`).toContain('round');
+    expect(bar.opacity).toBe('1');
+    expect(bar.top, `${width}px floating gap`).toBe(width <= 680 ? 10 : 12);
+    expect(Math.abs(bar.left - bar.right), `${width}px centered bar`).toBeLessThan(1);
+    expect(bar.left, `${width}px side spacing`).toBeGreaterThanOrEqual(width <= 680 ? 12 : 16);
+    expect(bar.width, `${width}px bar width`).toBeLessThanOrEqual(1320);
+    await page.evaluate(() => window.scrollTo(0, 0));
+    await expect(page.locator('.site-header')).not.toHaveClass(/is-scrolled/);
   }
 
   await page.setViewportSize({ width: 390, height: 844 });
@@ -313,6 +330,8 @@ test('wet paint reverses cleanly and booking and contact buttons keep working', 
   await expect.poll(() => bookingNext.evaluate(element => getComputedStyle(element, '::before').opacity)).toBe('1');
   await bookingNext.click();
   await expect(page.locator('.booking-wizard .error-summary')).toBeVisible();
+  // The error summary smooth-scrolls into view; hovering mid-scroll would carry the next button away from the pointer.
+  await expect.poll(async () => { const before = await page.evaluate(() => scrollY); await page.waitForTimeout(120); return before === await page.evaluate(() => scrollY); }).toBe(true);
   const contactSubmit = page.locator('.contact-forms form .wet-paint-button');
   await contactSubmit.hover({ position: { x: 10, y: 12 } });
   await expect.poll(() => contactSubmit.evaluate(element => getComputedStyle(element, '::before').opacity)).toBe('1');

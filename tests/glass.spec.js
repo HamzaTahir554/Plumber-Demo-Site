@@ -11,9 +11,9 @@ test('glass header and ordered process cards fit all requested widths', async ({
       const style = getComputedStyle(element);
       const rgb = value => value.match(/[\d.]+/g).map(Number);
       const composite = (front, back) => front.slice(0, 3).map((channel, index) => channel * (front[3] ?? 1) + back[index] * (1 - (front[3] ?? 1)));
-      const rgba = rgb(style.backgroundColor);
+      const surfaceColor = getComputedStyle(element, '::before').backgroundColor;
       const luminance = channels => channels.map(channel => channel / 255).map(channel => channel <= .04045 ? channel / 12.92 : ((channel + .055) / 1.055) ** 2.4).reduce((sum, channel, index) => sum + channel * [.2126, .7152, .0722][index], 0);
-      const glass = composite(rgba, [0, 0, 0]);
+      const glass = composite(rgb(surfaceColor), [0, 0, 0]);
       const contrast = ['.brand-label strong', '.primary-nav > a', '.nav-emergency'].map(selector => {
         const target = element.querySelector(selector);
         const foreground = luminance(rgb(getComputedStyle(target).color));
@@ -21,12 +21,19 @@ test('glass header and ordered process cards fit all requested widths', async ({
         const background = luminance(composite(rgb(surface.backgroundColor), glass));
         return (Math.max(background, foreground) + .05) / (Math.min(background, foreground) + .05);
       });
-      return { left: bounds.left, right: bounds.right, blur: style.backdropFilter, alpha: rgba[3], contrast };
+      return { left: bounds.left, right: bounds.right, viewTransitionName: style.viewTransitionName, surfaceBlur: getComputedStyle(element, '::before').backdropFilter, alpha: rgb(surfaceColor)[3], clip: getComputedStyle(element, '::before').clipPath, contrast };
     });
-    expect(header.left).toBeGreaterThan(0);
-    expect(header.right).toBeLessThan(width);
-    expect(header.blur).toContain('blur(14px)');
-    expect(header.alpha).toBeLessThanOrEqual(.2);
+    // At the top of the page the header is a flat, full-width bar of glossy frosted glass.
+    expect(header.left).toBe(0);
+    expect(header.right).toBe(width);
+    expect(header.surfaceBlur).toContain('blur(18px)');
+    expect(header.alpha).toBeGreaterThanOrEqual(.6);
+    expect(header.alpha).toBeLessThan(1);
+    expect(header.clip).toBe('inset(0px)');
+    // A view-transition name would make the header a backdrop root and disable the blur.
+    expect(header.viewTransitionName).toBe('none');
+    // Contrast is measured against the glass over a black backdrop, the worst case.
+    header.contrast.forEach(ratio => expect(ratio).toBeGreaterThanOrEqual(4.5));
     await expect(page.locator('.brand-label strong').first()).toHaveCSS('text-shadow', 'none');
     if (width > 900) {
       const cta = await page.locator('.nav-cta').boundingBox();
